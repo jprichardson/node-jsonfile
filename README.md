@@ -82,7 +82,7 @@ Number of spaces to indent JSON files.
 ```
 var jf = require('jsonfile');
 
-js.spaces = 2;
+jf.spaces = 2;
 
 var file = '/tmp/data.json';
 var obj = {name: 'JP'};
