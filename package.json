@@ -1,0 +1,30 @@
+{
+  "name": "jsonfile",
+  "version": "0.0.1",
+  "description": "Easily read/write JSON files.",
+  "homepage": [
+    ""
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "author": "JP Richardson <jprichardson@gmail.com>",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": ""
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "mkdirp": "~0.3.4",
+    "testutil": "~0.2.2",
+    "mocha": "~1.4.2"
+  },
+  "main": "./lib/jsonfile.js",
+  "scripts": {
+    "test": "mocha test"
+  }
+}
