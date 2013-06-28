@@ -19,9 +19,8 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "mkdirp": "~0.3.4",
-    "testutil": "~0.2.2",
-    "mocha": "~1.4.2"
+    "testutil": "~0.5.1",
+    "mocha": "*"
   },
   "main": "./lib/jsonfile.js",
   "scripts": {
