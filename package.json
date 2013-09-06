@@ -2,9 +2,6 @@
   "name": "jsonfile",
   "version": "1.0.0",
   "description": "Easily read/write JSON files.",
-  "homepage": [
-    ""
-  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:jprichardson/node-jsonfile.git"
