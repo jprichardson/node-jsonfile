@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git@github.com:jprichardson/node-jsonfile.git"
   },
-  "keywords": [],
+  "keywords": ["read", "write", "file", "json"],
   "author": "JP Richardson <jprichardson@gmail.com>",
   "licenses": [
     {
