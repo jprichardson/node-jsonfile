@@ -93,6 +93,20 @@ jf.writeFile(file, obj, function(err) { //json file has four space indenting now
 ```
 
 
+Contributions
+-------------
+
+If you contribute to this library, please don't change the version numbers in your pull request.
+
+
+### Contributors
+
+(You can add your name, or I'll add it if you forget)
+
+- [JP Richardson](https://github.com/jprichardson)
+- [Sean O'Dell](https://github.com/seanodell)
+
+
 License
 -------
 
@@ -101,9 +115,6 @@ License
 Copyright 2012-2013, JP Richardson  <jprichardson@gmail.com>
 
 
-[aboutjp]: http://about.me/jprichardson
-[twitter]: http://twitter.com/jprichardson
-[procbits]: http://procbits.com
 
 
 
