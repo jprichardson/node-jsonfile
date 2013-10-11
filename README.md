@@ -23,7 +23,7 @@ Installation
 API
 ---
 
-### readFile()
+### readFile(filename, [options], callback)
 
 ```javascript
 var jf = require('jsonfile')
@@ -36,7 +36,7 @@ js.readFile(file, function(err, obj) {
 ```
 
 
-### readFileSync()
+### readFileSync(filename, [options])
 
 ```javascript
 var jf = require('jsonfile')
@@ -48,7 +48,7 @@ console.log(util.inspect(jf.readFileSync(file)));
 ```
 
 
-### writeFile()
+### writeFile(filename, [options], callback)
 
 ```javascript
 var jf = require('jsonfile')
@@ -61,7 +61,7 @@ jf.writeFile(file, obj, function(err) {
 })
 ```
 
-### writeFileSync()
+### writeFileSync(filename, [options])
 
 ```javascript
 var jf = require('jsonfile')
