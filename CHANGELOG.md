@@ -1,3 +1,7 @@
+1.1.0 / 2013-10-11
+------------------
+* added `options` param to methods, (seanodell / #4)
+
 1.0.1 / 2013-09-05
 ------------------
 * removed `homepage` field from package.json to remove NPM warning
