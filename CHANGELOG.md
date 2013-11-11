@@ -1,3 +1,7 @@
+1.1.1 / 2013-11-11
+------------------
+* fixed catching of callback bug (ffissore / #5)
+
 1.1.0 / 2013-10-11
 ------------------
 * added `options` param to methods, (seanodell / #4)
