@@ -103,8 +103,9 @@ If you contribute to this library, please don't change the version numbers in yo
 
 (You can add your name, or I'll add it if you forget)
 
-- [JP Richardson](https://github.com/jprichardson)
-- [Sean O'Dell](https://github.com/seanodell)
+- [*] [JP Richardson](https://github.com/jprichardson)
+- [2] [Sean O'Dell](https://github.com/seanodell)
+- [1] [Federico Fissore](https://github.com/ffissore)
 
 
 License
