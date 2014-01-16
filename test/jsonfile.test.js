@@ -1,14 +1,12 @@
 var testutil = require('testutil')
-  , mkdirp = require('mkdirp')
   , jf = require('../lib/jsonfile')
   , fs = require('fs')
   , path = require('path');
 
-TEST_DIR = ''
+var TEST_DIR = ''
 
-beforeEach(function(done) {
-    TEST_DIR = testutil.generateTestPath('test-jsonfile');
-    mkdirp(TEST_DIR, done);
+beforeEach(function() {
+  TEST_DIR = testutil.createTestDir('jsonfile');
 })
 
 suite('jsonfile');
@@ -21,6 +19,16 @@ test('- readFile()', function(done) {
     jf.readFile(file, function(err, obj2) {
         F (err)
         T (obj2.name === obj.name)
+        done();
+    });
+})
+
+test('- readFile() errors', function(done) {
+    var file = path.join(TEST_DIR, 'somebrokenfile.json');
+    fs.writeFileSync(file, '{],"');
+
+    jf.readFile(file, function (err) {
+        T (err.message === 'Unexpected token ] in "' + file + '"');
         done();
     });
 })
