@@ -23,6 +23,16 @@ test('- readFile()', function(done) {
     });
 })
 
+test('- readFile() errors', function(done) {
+    var file = path.join(TEST_DIR, 'somebrokenfile.json');
+    fs.writeFileSync(file, '{],"');
+
+    jf.readFile(file, function (err) {
+        T (err.message === 'Unexpected token ] in "' + file + '"');
+        done();
+    });
+})
+
 test('- writeFile()', function(done) {
     var file = path.join(TEST_DIR, 'somefile2.json');
     var obj = {name: 'JP'};
