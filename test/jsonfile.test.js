@@ -1,14 +1,12 @@
 var testutil = require('testutil')
-  , mkdirp = require('mkdirp')
   , jf = require('../lib/jsonfile')
   , fs = require('fs')
   , path = require('path');
 
-TEST_DIR = ''
+var TEST_DIR = ''
 
-beforeEach(function(done) {
-    TEST_DIR = testutil.generateTestPath('test-jsonfile');
-    mkdirp(TEST_DIR, done);
+beforeEach(function() {
+  TEST_DIR = testutil.createTestDir('jsonfile');
 })
 
 suite('jsonfile');
