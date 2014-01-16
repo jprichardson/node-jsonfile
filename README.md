@@ -16,14 +16,14 @@ Writing `JSON.stringify()` and then `fs.writeFile()` and `JSON.parse()` with `fs
 Installation
 ------------
 
-    npm install jsonfile
+    npm install jsonfile --save
 
 
 
 API
 ---
 
-### readFile()
+### readFile(filename, [options], callback)
 
 ```javascript
 var jf = require('jsonfile')
@@ -31,12 +31,12 @@ var jf = require('jsonfile')
 
 var file = '/tmp/data.json';
 js.readFile(file, function(err, obj) {
-   console.log(util.inspect(obj)); 
+  console.log(util.inspect(obj)); 
 });
 ```
 
 
-### readFileSync()
+### readFileSync(filename, [options])
 
 ```javascript
 var jf = require('jsonfile')
@@ -48,7 +48,7 @@ console.log(util.inspect(jf.readFileSync(file)));
 ```
 
 
-### writeFile()
+### writeFile(filename, [options], callback)
 
 ```javascript
 var jf = require('jsonfile')
@@ -57,11 +57,11 @@ var file = '/tmp/data.json';
 var obj = {name: 'JP'};
 
 jf.writeFile(file, obj, function(err) {
-    console.log(err);
+  console.log(err);
 })
 ```
 
-### writeFileSync()
+### writeFileSync(filename, [options])
 
 ```javascript
 var jf = require('jsonfile')
@@ -77,27 +77,35 @@ jf.writeFileSync(file, obj);
 
 Number of spaces to indent JSON files. 
 
-**default:** 4
+**default:** 2
 
 ```
 var jf = require('jsonfile');
 
-jf.spaces = 2;
+jf.spaces = 4;
 
 var file = '/tmp/data.json';
 var obj = {name: 'JP'};
 
-jf.writeFile(file, obj, function(err) { //json file has two space indenting now
-    console.log(err);
+jf.writeFile(file, obj, function(err) { //json file has four space indenting now
+  console.log(err);
 });
 ```
 
 
-Author
-------
+Contributions
+-------------
 
-`node-jsonfile` was written by [JP Richardson][aboutjp]. You should follow him on Twitter [@jprichardson][twitter]. Also read his coding blog [Procbits][procbits]. If you write software with others, you should checkout [Gitpilot][gitpilot] to make collaboration with Git simple.
+If you contribute to this library, please don't change the version numbers in your pull request.
 
+
+### Contributors
+
+(You can add your name, or I'll add it if you forget)
+
+- [*] [JP Richardson](https://github.com/jprichardson)
+- [2] [Sean O'Dell](https://github.com/seanodell)
+- [1] [Federico Fissore](https://github.com/ffissore)
 
 
 License
@@ -105,12 +113,9 @@ License
 
 (MIT License)
 
-Copyright 2012, JP Richardson  <jprichardson@gmail.com>
+Copyright 2012-2013, JP Richardson  <jprichardson@gmail.com>
 
 
-[aboutjp]: http://about.me/jprichardson
-[twitter]: http://twitter.com/jprichardson
-[procbits]: http://procbits.com
-[gitpilot]: http://gitpilot.com
+
 
 
