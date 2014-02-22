@@ -106,6 +106,7 @@ If you contribute to this library, please don't change the version numbers in yo
 - [*] [JP Richardson](https://github.com/jprichardson)
 - [2] [Sean O'Dell](https://github.com/seanodell)
 - [1] [Federico Fissore](https://github.com/ffissore)
+- [1] [Ivan McCarthy](https://github.com/imcrthy)
 
 
 License
