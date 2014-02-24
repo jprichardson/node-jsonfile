@@ -30,7 +30,7 @@ var jf = require('jsonfile')
   , util = require('util');
 
 var file = '/tmp/data.json';
-js.readFile(file, function(err, obj) {
+jf.readFile(file, function(err, obj) {
   console.log(util.inspect(obj)); 
 });
 ```
