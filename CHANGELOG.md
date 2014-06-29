@@ -1,3 +1,9 @@
+1.2.0 / 2014-06-29
+------------------
+* removed semicolons
+* bugfix: passed `options` to `fs.readFile` and `fs.readFileSync`. This technically changes behavior, but 
+changes it according to docs. #12
+
 1.1.1 / 2013-11-11
 ------------------
 * fixed catching of callback bug (ffissore / #5)
