@@ -26,11 +26,11 @@ API
 ### readFile(filename, [options], callback)
 
 ```javascript
-var jf = require('jsonfile')
-  , util = require('util');
+var jf = require('jsonfile');
+var util = require('util');
 
 var file = '/tmp/data.json';
-js.readFile(file, function(err, obj) {
+jf.readFile(file, function(err, obj) {
   console.log(util.inspect(obj)); 
 });
 ```
@@ -39,8 +39,8 @@ js.readFile(file, function(err, obj) {
 ### readFileSync(filename, [options])
 
 ```javascript
-var jf = require('jsonfile')
-  , util = require('util');
+var jf = require('jsonfile');
+var util = require('util');
 
 var file = '/tmp/data.json';
 
@@ -106,6 +106,8 @@ If you contribute to this library, please don't change the version numbers in yo
 - [*] [JP Richardson](https://github.com/jprichardson)
 - [2] [Sean O'Dell](https://github.com/seanodell)
 - [1] [Federico Fissore](https://github.com/ffissore)
+- [1] [Ivan McCarthy](https://github.com/imcrthy)
+- [1] [Pablo Vallejo](https://github.com/PabloVallejo)
 
 
 License
@@ -113,7 +115,7 @@ License
 
 (MIT License)
 
-Copyright 2012-2013, JP Richardson  <jprichardson@gmail.com>
+Copyright 2012-2014, JP Richardson  <jprichardson@gmail.com>
 
 
 
