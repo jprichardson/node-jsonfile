@@ -37,6 +37,19 @@ test('- writeFile()', function(done) {
   })
 })
 
+test('- writeFile() adds EOL at EOF', function(done) {
+  var file = path.join(TEST_DIR, 'eol.json')
+  var obj = {name: 'JP'}
+
+  jf.writeFile(file, obj, function(err) {
+    F (err)
+    fs.readFile(file, 'utf8', function(err,data) {
+      T (data[data.length-1] === '\n')
+      done()
+    })
+  })
+})
+
 test('- readFileSync()', function(done) {
   var file = path.join(TEST_DIR, 'somefile3.json')
   var obj = {name: 'JP'}
@@ -62,3 +75,13 @@ test('- writeFileSync()', function(done) {
   done()
 })
 
+test('- writeFileSync() adds EOL at EOF', function(done) {
+  var file = path.join(TEST_DIR, 'eol-sync.json')
+  var obj = {name: 'JP'}
+
+  jf.writeFileSync(file, obj)
+
+  var data = fs.readFileSync(file, 'utf8')
+  T (data[data.length-1] === '\n')
+  done()
+})
