@@ -2,6 +2,7 @@
 ------------------
 * added `\n` to end of file on write. [#14](https://github.com/jprichardson/node-jsonfile/pull/14)
 * added `options.throws` to `readFileSync()`
+* dropped support for Node v0.8
 
 1.2.0 / 2014-06-29
 ------------------
