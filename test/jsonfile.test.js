@@ -1,7 +1,9 @@
-var testutil = require('testutil')
-var jf = require('../')
 var fs = require('fs')
 var path = require('path')
+var testutil = require('testutil')
+var jf = require('../')
+
+require('terst')
 
 var TEST_DIR = ''
 
@@ -62,6 +64,19 @@ test('- readFileSync()', function(done) {
   } catch (err) {
     done(err)
   }
+})
+
+test(' - readFileSync() / when invalid JSON and throws option set to false', function() {
+  var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+  var data = "{not valid JSON"
+  fs.writeFileSync(file, data)
+
+  THROWS(function() {
+    jf.readFileSync(file)
+  })
+
+  var obj = jf.readFileSync(file, {throws: false})
+  EQ (obj, null)
 })
 
 test('- writeFileSync()', function(done) {

@@ -6,7 +6,12 @@
     "type": "git",
     "url": "git@github.com:jprichardson/node-jsonfile.git"
   },
-  "keywords": ["read", "write", "file", "json"],
+  "keywords": [
+    "read",
+    "write",
+    "file",
+    "json"
+  ],
   "author": "JP Richardson <jprichardson@gmail.com>",
   "licenses": [
     {
@@ -16,8 +21,9 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "testutil": "~0.5.1",
-    "mocha": "*"
+    "testutil": "^0.7.0",
+    "mocha": "*",
+    "terst": "^0.2.0"
   },
   "main": "./lib/jsonfile.js",
   "scripts": {
