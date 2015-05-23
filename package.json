@@ -13,12 +13,7 @@
     "json"
   ],
   "author": "JP Richardson <jprichardson@gmail.com>",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": ""
-    }
-  ],
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "testutil": "^0.7.0",
