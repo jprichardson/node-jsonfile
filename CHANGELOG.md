@@ -1,3 +1,7 @@
+2.0.1 / 2015-05-24
+------------------
+- update license attribute https://github.com/jprichardson/node-jsonfile/pull/21
+
 2.0.0 / 2014-07-28
 ------------------
 * added `\n` to end of file on write. [#14](https://github.com/jprichardson/node-jsonfile/pull/14)
@@ -7,7 +11,7 @@
 1.2.0 / 2014-06-29
 ------------------
 * removed semicolons
-* bugfix: passed `options` to `fs.readFile` and `fs.readFileSync`. This technically changes behavior, but 
+* bugfix: passed `options` to `fs.readFile` and `fs.readFileSync`. This technically changes behavior, but
 changes it according to docs. #12
 
 1.1.1 / 2013-11-11
