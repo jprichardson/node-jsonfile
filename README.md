@@ -79,7 +79,7 @@ jf.writeFileSync(file, obj)
 
 Number of spaces to indent JSON files.
 
-**default:** 2
+**default:** `null`
 
 ```
 var jf = require('jsonfile')

@@ -98,4 +98,10 @@ describe('jsonfile', function () {
       assert.equal(data[data.length - 1], '\n')
     })
   })
+
+  describe('spaces', function () {
+    it('should default to null', function () {
+      assert.strictEqual(jf.spaces, null)
+    })
+  })
 })
