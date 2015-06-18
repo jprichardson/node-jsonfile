@@ -1,30 +1,26 @@
 var fs = require('fs')
 
-var me = module.exports
-
-me.spaces = null
-
-me.readFile = function (file, options, callback) {
+function readFile (file, options, callback) {
   if (callback == null) {
     callback = options
     options = null
   }
 
   fs.readFile(file, options, function (err, data) {
-    if (err) return callback(err, null)
+    if (err) return callback(err)
 
-    var obj = null
+    var obj
     try {
       obj = JSON.parse(data)
     } catch (err2) {
-      return callback(err2, null)
+      return callback(err2)
     }
 
     callback(null, obj)
   })
 }
 
-me.readFileSync = function (file, options) {
+function readFileSync (file, options) {
   var noThrow = options && !options.throws
 
   if (!noThrow) { // i.e. throw on invalid JSON
@@ -38,7 +34,7 @@ me.readFileSync = function (file, options) {
   }
 }
 
-me.writeFile = function (file, obj, options, callback) {
+function writeFile (file, obj, options, callback) {
   if (callback == null) {
     callback = options
     options = null
@@ -46,7 +42,7 @@ me.writeFile = function (file, obj, options, callback) {
 
   var str = ''
   try {
-    str = JSON.stringify(obj, null, me.spaces) + '\n'
+    str = JSON.stringify(obj, null, this.spaces) + '\n'
   } catch (err) {
     if (callback) return callback(err, null)
   }
@@ -54,7 +50,18 @@ me.writeFile = function (file, obj, options, callback) {
   fs.writeFile(file, str, options, callback)
 }
 
-me.writeFileSync = function (file, obj, options) {
-  var str = JSON.stringify(obj, null, me.spaces) + '\n'
-  return fs.writeFileSync(file, str, options) // not sure if fs.writeFileSync returns anything, but just in case
+function writeFileSync (file, obj, options) {
+  var str = JSON.stringify(obj, null, this.spaces) + '\n'
+  // not sure if fs.writeFileSync returns anything, but just in case
+  return fs.writeFileSync(file, str, options)
 }
+
+var jsonfile = {
+  spaces: null,
+  readFile: readFile,
+  readFileSync: readFileSync,
+  writeFile: writeFile,
+  writeFileSync: writeFileSync
+}
+
+module.exports = jsonfile
