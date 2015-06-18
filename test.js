@@ -132,26 +132,26 @@ describe('jsonfile', function () {
       })
     })
   })
-  
-  describe('+ appendFile()', function() {
-	it('should serialize the JSON and append it to file', function() {
-	  var file = path.join(TEST_DIR, 'somefile5.json')
-	  var obj = {name: 'JP'}
-	  
-	  jf.appendFile(file, obj, function(err) {
+
+  describe('+ appendFile()', function () {
+    it('should serialize the JSON and append it to file', function (done) {
+      var file = path.join(TEST_DIR, 'somefile5.json')
+      var obj = {name: 'JP'}
+
+      jf.appendFile(file, obj, function (err) {
         assert.ifError(err)
-		fs.readFile(file, 'utf8', function(err, data) {
-		  assert.ifError(err)
-		  var obj2 = JSON.parse(data)
-		  assert.equal(obj2.name, obj.name)
-		  
-		  assert.equal(data[data.length - 1], '\n')
-		  done()
-		})
-	  })
-	})
-	
-	describe('> when global spaces is set', function () {
+        fs.readFile(file, 'utf8', function (err, data) {
+          assert.ifError(err)
+          var obj2 = JSON.parse(data)
+          assert.equal(obj2.name, obj.name)
+
+          assert.equal(data[data.length - 1], '\n')
+          done()
+        })
+      })
+    })
+
+    describe('> when global spaces is set', function () {
       it('should write JSON with spacing', function (done) {
         var file = path.join(TEST_DIR, 'somefile.json')
         var obj = {name: 'JP'}
@@ -168,18 +168,18 @@ describe('jsonfile', function () {
       })
     })
   })
-  
-  describe('+ appendFileSync()', function() {
-	it('should serialize the JSON and write it to file', function() {
-	  var file = path.join(TEST_DIR, 'somefile6.json')
-	  var obj = {name: 'JP'}
-	  
-	  jf.appendFileSync(file, obj)
-	  
-	  var data = fs.readFileSync(file, 'utf8')
-	  var obj2 = JSON.parse(data)
-	  assert.equal(obj2.name, obj.name)
-	  assert.equal(data[data.length - 1], '\n')
+
+  describe('+ appendFileSync()', function () {
+    it('should serialize the JSON and write it to file', function () {
+      var file = path.join(TEST_DIR, 'somefile6.json')
+      var obj = {name: 'JP'}
+
+      jf.appendFileSync(file, obj)
+
+      var data = fs.readFileSync(file, 'utf8')
+      var obj2 = JSON.parse(data)
+      assert.equal(obj2.name, obj.name)
+      assert.equal(data[data.length - 1], '\n')
       assert.equal(data, '{"name":"JP"}\n')
     })
 
@@ -197,7 +197,6 @@ describe('jsonfile', function () {
       })
     })
   })
-  
 
   describe('spaces', function () {
     it('should default to null', function () {

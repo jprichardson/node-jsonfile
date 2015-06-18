@@ -58,15 +58,15 @@ function writeFileSync (file, obj, options) {
 
 function appendFile (file, obj, options, callback) {
   if (callback == null) {
-	callback = options
-	options = null
+    callback = options
+    options = null
   }
-	
+
   var str = ''
   try {
-	str = JSON.stringify(obj, null, this.spaces) + '\n'
+    str = JSON.stringify(obj, null, this.spaces) + '\n'
   } catch (err) {
-	if (callback) return callback(err, null)
+    if (callback) return callback(err, null)
   }
 
   fs.appendFile(file, str, options, callback)
