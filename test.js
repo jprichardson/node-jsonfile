@@ -53,6 +53,24 @@ describe('jsonfile', function () {
         })
       })
     })
+
+    describe('> when global spaces is set', function () {
+      it('should write JSON with spacing', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+        var obj = {name: 'JP'}
+        jf.spaces = 2
+        jf.writeFile(file, obj, function (err) {
+          assert.ifError(err)
+
+          var data = fs.readFileSync(file, 'utf8')
+          assert.equal(data, '{\n  "name": "JP"\n}\n')
+
+          // restore default
+          jf.spaces = null
+          done()
+        })
+      })
+    })
   })
 
   describe('+ readFileSync()', function () {
@@ -96,6 +114,22 @@ describe('jsonfile', function () {
       var obj2 = JSON.parse(data)
       assert.equal(obj2.name, obj.name)
       assert.equal(data[data.length - 1], '\n')
+      assert.equal(data, '{"name":"JP"}\n')
+    })
+
+    describe('> when global spaces is set', function () {
+      it('should write JSON with spacing', function () {
+        var file = path.join(TEST_DIR, 'somefile.json')
+        var obj = {name: 'JP'}
+        jf.spaces = 2
+        jf.writeFileSync(file, obj)
+
+        var data = fs.readFileSync(file, 'utf8')
+        assert.equal(data, '{\n  "name": "JP"\n}\n')
+
+        // restore default
+        jf.spaces = null
+      })
     })
   })
 
