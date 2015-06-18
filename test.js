@@ -1,16 +1,18 @@
+var assert = require('assert')
 var fs = require('fs')
 var os = require('os')
 var path = require('path')
 var rimraf = require('rimraf')
-var jf = require('../')
-require('terst')
+var jf = require('./')
 
 describe('jsonfile', function () {
   var TEST_DIR
 
   beforeEach(function (done) {
     TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests')
-    fs.mkdir(TEST_DIR, done)
+    rimraf(TEST_DIR, function () {
+      fs.mkdir(TEST_DIR, done)
+    })
   })
 
   afterEach(function (done) {
@@ -24,26 +26,27 @@ describe('jsonfile', function () {
       fs.writeFileSync(file, JSON.stringify(obj))
 
       jf.readFile(file, function(err, obj2) {
-        F (err)
-        T (obj2.name === obj.name)
+        assert.ifError(err)
+        assert.equal(obj2.name, obj.name)
         done()
       })
     })
   })
 
   describe('+ writeFile()', function () {
-    it('should serialize and write JSON', function () {
+    it('should serialize and write JSON', function (done) {
       var file = path.join(TEST_DIR, 'somefile2.json')
       var obj = {name: 'JP'}
 
       jf.writeFile(file, obj, function(err) {
-        F (err)
+        assert.ifError(err)
         fs.readFile(file, 'utf8', function(err,data) {
+          assert.ifError(err)
           var obj2 = JSON.parse(data)
-          T (obj2.name === obj.name)
+          assert.equal(obj2.name, obj.name)
 
           // verify EOL
-          T (data[data.length-1] === '\n')
+          assert.equal(data[data.length-1], '\n')
           done()
         })
       })
@@ -51,17 +54,16 @@ describe('jsonfile', function () {
   })
 
   describe('+ readFileSync()', function() {
-    it('should read and parse JSON', function (done) {
+    it('should read and parse JSON', function () {
       var file = path.join(TEST_DIR, 'somefile3.json')
       var obj = {name: 'JP'}
       fs.writeFileSync(file, JSON.stringify(obj))
 
       try {
         var obj2 = jf.readFileSync(file)
-        T (obj2.name === obj.name)
-        done()
+        assert.equal(obj2.name, obj.name)
       } catch (err) {
-        done(err)
+        assert(err)
       }
     })
 
@@ -71,18 +73,18 @@ describe('jsonfile', function () {
         var data = "{not valid JSON"
         fs.writeFileSync(file, data)
 
-        THROWS(function() {
+        assert.throws(function() {
           jf.readFileSync(file)
         })
 
         var obj = jf.readFileSync(file, {throws: false})
-        EQ (obj, null)
+        assert.strictEqual(obj, null)
       })
     })
   })
 
   describe('+ writeFileSync()', function () {
-    it('should serialize the JSON and write it to file', function (done) {
+    it('should serialize the JSON and write it to file', function () {
       var file = path.join(TEST_DIR, 'somefile4.json')
       var obj = {name: 'JP'}
 
@@ -90,9 +92,8 @@ describe('jsonfile', function () {
 
       var data = fs.readFileSync(file, 'utf8')
       var obj2 = JSON.parse(data)
-      T (obj2.name === obj.name)
-      T (data[data.length-1] === '\n')
-      done()
+      assert.equal(obj2.name, obj.name)
+      assert.equal(data[data.length-1], '\n')
     })
   })
 })

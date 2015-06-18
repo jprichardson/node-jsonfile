@@ -16,10 +16,8 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "*",
-    "rimraf": "^2.4.0",
-    "terst": "^0.2.0",
-    "testutil": "^0.7.0"
+    "mocha": "2.x",
+    "rimraf": "^2.4.0"
   },
   "main": "index.js",
   "scripts": {
