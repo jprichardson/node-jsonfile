@@ -4,13 +4,13 @@ var me = module.exports
 
 me.spaces = null
 
-me.readFile = function(file, options, callback) {
-  if (callback == undefined) {
+me.readFile = function (file, options, callback) {
+  if (callback == null) {
     callback = options
     options = null
   }
 
-  fs.readFile(file, options, function(err, data) {
+  fs.readFile(file, options, function (err, data) {
     if (err) return callback(err, null)
 
     var obj = null
@@ -24,28 +24,29 @@ me.readFile = function(file, options, callback) {
   })
 }
 
-me.readFileSync = function(file, options) {
+me.readFileSync = function (file, options) {
   var noThrow = options && !options.throws
 
-  if (!noThrow) //i.e. throw on invalid JSON
+  if (!noThrow) { // i.e. throw on invalid JSON
     return JSON.parse(fs.readFileSync(file, options))
-  else
+  } else {
     try {
       return JSON.parse(fs.readFileSync(file, options))
     } catch (err) {
       return null
     }
+  }
 }
 
-me.writeFile = function(file, obj, options, callback) {
-  if (callback == undefined) {
+me.writeFile = function (file, obj, options, callback) {
+  if (callback == null) {
     callback = options
     options = null
   }
 
   var str = ''
   try {
-    str = JSON.stringify(obj, null, me.spaces) + '\n';
+    str = JSON.stringify(obj, null, me.spaces) + '\n'
   } catch (err) {
     if (callback) return callback(err, null)
   }
@@ -53,7 +54,7 @@ me.writeFile = function(file, obj, options, callback) {
   fs.writeFile(file, str, options, callback)
 }
 
-me.writeFileSync = function(file, obj, options) {
-  var str = JSON.stringify(obj, null, me.spaces) + '\n';
-  return fs.writeFileSync(file, str, options) //not sure if fs.writeFileSync returns anything, but just in case
+me.writeFileSync = function (file, obj, options) {
+  var str = JSON.stringify(obj, null, me.spaces) + '\n'
+  return fs.writeFileSync(file, str, options) // not sure if fs.writeFileSync returns anything, but just in case
 }

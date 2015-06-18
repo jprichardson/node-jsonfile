@@ -17,10 +17,11 @@
   "dependencies": {},
   "devDependencies": {
     "mocha": "2.x",
-    "rimraf": "^2.4.0"
+    "rimraf": "^2.4.0",
+    "standard": "4.x"
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "standard && mocha test"
   }
 }

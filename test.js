@@ -5,6 +5,8 @@ var path = require('path')
 var rimraf = require('rimraf')
 var jf = require('./')
 
+/* global describe it beforeEach afterEach */
+
 describe('jsonfile', function () {
   var TEST_DIR
 
@@ -19,13 +21,13 @@ describe('jsonfile', function () {
     rimraf(TEST_DIR, done)
   })
 
-  describe('+ readFile()', function() {
+  describe('+ readFile()', function () {
     it('should read and parse JSON', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
       var obj = {name: 'JP'}
       fs.writeFileSync(file, JSON.stringify(obj))
 
-      jf.readFile(file, function(err, obj2) {
+      jf.readFile(file, function (err, obj2) {
         assert.ifError(err)
         assert.equal(obj2.name, obj.name)
         done()
@@ -38,22 +40,22 @@ describe('jsonfile', function () {
       var file = path.join(TEST_DIR, 'somefile2.json')
       var obj = {name: 'JP'}
 
-      jf.writeFile(file, obj, function(err) {
+      jf.writeFile(file, obj, function (err) {
         assert.ifError(err)
-        fs.readFile(file, 'utf8', function(err,data) {
+        fs.readFile(file, 'utf8', function (err, data) {
           assert.ifError(err)
           var obj2 = JSON.parse(data)
           assert.equal(obj2.name, obj.name)
 
           // verify EOL
-          assert.equal(data[data.length-1], '\n')
+          assert.equal(data[data.length - 1], '\n')
           done()
         })
       })
     })
   })
 
-  describe('+ readFileSync()', function() {
+  describe('+ readFileSync()', function () {
     it('should read and parse JSON', function () {
       var file = path.join(TEST_DIR, 'somefile3.json')
       var obj = {name: 'JP'}
@@ -70,10 +72,10 @@ describe('jsonfile', function () {
     describe('> when invalid JSON and throws set to false', function () {
       it('should return null', function () {
         var file = path.join(TEST_DIR, 'somefile4-invalid.json')
-        var data = "{not valid JSON"
+        var data = '{not valid JSON'
         fs.writeFileSync(file, data)
 
-        assert.throws(function() {
+        assert.throws(function () {
           jf.readFileSync(file)
         })
 
@@ -93,7 +95,7 @@ describe('jsonfile', function () {
       var data = fs.readFileSync(file, 'utf8')
       var obj2 = JSON.parse(data)
       assert.equal(obj2.name, obj.name)
-      assert.equal(data[data.length-1], '\n')
+      assert.equal(data[data.length - 1], '\n')
     })
   })
 })
