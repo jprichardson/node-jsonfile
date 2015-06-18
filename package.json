@@ -20,7 +20,7 @@
     "mocha": "*",
     "terst": "^0.2.0"
   },
-  "main": "./lib/jsonfile.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha test"
   }
