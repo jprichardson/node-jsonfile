@@ -3,7 +3,7 @@
 Node.js - jsonfile
 ================
 
-Easily read/write JSON files. 
+Easily read/write JSON files.
 
 
 Why?
@@ -47,7 +47,7 @@ var file = '/tmp/data.json'
 console.log(util.inspect(jf.readFileSync(file)))
 ```
 
-**options**: `throws`. Set to `false` if you don't ever want this method to throw on invalid JSON. Will return `null` instead. Defaults to `true`. Others passed directly to `fs.readFileSync`. 
+**options**: `throws`. Set to `false` if you don't ever want this method to throw on invalid JSON. Will return `null` instead. Defaults to `true`. Others passed directly to `fs.readFileSync`.
 
 
 ### writeFile(filename, [options], callback)
@@ -77,7 +77,7 @@ jf.writeFileSync(file, obj)
 
 ### spaces
 
-Number of spaces to indent JSON files. 
+Number of spaces to indent JSON files.
 
 **default:** 2
 
