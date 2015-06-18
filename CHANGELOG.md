@@ -1,3 +1,7 @@
+2.1.0 / 2015-06-xx
+------------------
+- cleanup: JavaScript Standard Style, rename files, dropped terst for assert
+
 2.0.1 / 2015-05-24
 ------------------
 - update license attribute https://github.com/jprichardson/node-jsonfile/pull/21
