@@ -1,6 +1,7 @@
-2.1.0 / 2015-06-xx
+2.1.0 / 2015-06-19
 ------------------
 - cleanup: JavaScript Standard Style, rename files, dropped terst for assert
+- methods now support JSON revivers/replacers
 
 2.0.1 / 2015-05-24
 ------------------
