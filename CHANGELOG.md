@@ -1,3 +1,7 @@
+2.1.1 / 2015-06-19
+------------------
+- fixed regressions if `null` is passed for options. See: https://github.com/jprichardson/node-jsonfile/issues/24
+
 2.1.0 / 2015-06-19
 ------------------
 - cleanup: JavaScript Standard Style, rename files, dropped terst for assert
