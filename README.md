@@ -1,9 +1,9 @@
-[![build status](https://secure.travis-ci.org/jprichardson/node-jsonfile.png)](http://travis-ci.org/jprichardson/node-jsonfile)
-
 Node.js - jsonfile
 ================
 
 Easily read/write JSON files.
+
+[![build status](https://secure.travis-ci.org/jprichardson/node-jsonfile.png)](http://travis-ci.org/jprichardson/node-jsonfile)
 
 
 Why?
@@ -25,26 +25,26 @@ API
 
 ### readFile(filename, [options], callback)
 
-```javascript
+```js
 var jf = require('jsonfile')
 var util = require('util')
 
 var file = '/tmp/data.json'
 jf.readFile(file, function(err, obj) {
-  console.log(util.inspect(obj))
+  console.dir(obj)
 })
 ```
 
 
 ### readFileSync(filename, [options])
 
-```javascript
+```js
 var jf = require('jsonfile')
 var util = require('util')
 
 var file = '/tmp/data.json'
 
-console.log(util.inspect(jf.readFileSync(file)))
+console.dir(jf.readFileSync(file))
 ```
 
 **options**: `throws`. Set to `false` if you don't ever want this method to throw on invalid JSON. Will return `null` instead. Defaults to `true`. Others passed directly to `fs.readFileSync`.
@@ -52,7 +52,7 @@ console.log(util.inspect(jf.readFileSync(file)))
 
 ### writeFile(filename, [options], callback)
 
-```javascript
+```js
 var jf = require('jsonfile')
 
 var file = '/tmp/data.json'
@@ -65,7 +65,7 @@ jf.writeFile(file, obj, function(err) {
 
 ### writeFileSync(filename, [options])
 
-```javascript
+```js
 var jf = require('jsonfile')
 
 var file = '/tmp/data.json'
@@ -81,7 +81,7 @@ Number of spaces to indent JSON files.
 
 **default:** `null`
 
-```
+```js
 var jf = require('jsonfile')
 
 jf.spaces = 4;
@@ -118,7 +118,7 @@ License
 
 (MIT License)
 
-Copyright 2012-2014, JP Richardson  <jprichardson@gmail.com>
+Copyright 2012-2015, JP Richardson  <jprichardson@gmail.com>
 
 
 
