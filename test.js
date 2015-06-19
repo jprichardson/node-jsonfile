@@ -35,6 +35,36 @@ describe('jsonfile', function () {
     })
   })
 
+  describe('+ readFileSync()', function () {
+    it('should read and parse JSON', function () {
+      var file = path.join(TEST_DIR, 'somefile3.json')
+      var obj = {name: 'JP'}
+      fs.writeFileSync(file, JSON.stringify(obj))
+
+      try {
+        var obj2 = jf.readFileSync(file)
+        assert.equal(obj2.name, obj.name)
+      } catch (err) {
+        assert(err)
+      }
+    })
+
+    describe('> when invalid JSON and throws set to false', function () {
+      it('should return null', function () {
+        var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+        var data = '{not valid JSON'
+        fs.writeFileSync(file, data)
+
+        assert.throws(function () {
+          jf.readFileSync(file)
+        })
+
+        var obj = jf.readFileSync(file, {throws: false})
+        assert.strictEqual(obj, null)
+      })
+    })
+  })
+
   describe('+ writeFile()', function () {
     it('should serialize and write JSON', function (done) {
       var file = path.join(TEST_DIR, 'somefile2.json')
@@ -69,36 +99,6 @@ describe('jsonfile', function () {
           jf.spaces = null
           done()
         })
-      })
-    })
-  })
-
-  describe('+ readFileSync()', function () {
-    it('should read and parse JSON', function () {
-      var file = path.join(TEST_DIR, 'somefile3.json')
-      var obj = {name: 'JP'}
-      fs.writeFileSync(file, JSON.stringify(obj))
-
-      try {
-        var obj2 = jf.readFileSync(file)
-        assert.equal(obj2.name, obj.name)
-      } catch (err) {
-        assert(err)
-      }
-    })
-
-    describe('> when invalid JSON and throws set to false', function () {
-      it('should return null', function () {
-        var file = path.join(TEST_DIR, 'somefile4-invalid.json')
-        var data = '{not valid JSON'
-        fs.writeFileSync(file, data)
-
-        assert.throws(function () {
-          jf.readFileSync(file)
-        })
-
-        var obj = jf.readFileSync(file, {throws: false})
-        assert.strictEqual(obj, null)
       })
     })
   })
