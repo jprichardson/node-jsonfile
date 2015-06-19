@@ -38,12 +38,12 @@ function readFileSync (file, options) {
 function writeFile (file, obj, options, callback) {
   if (callback == null) {
     callback = options
-    options = null
+    options = {}
   }
 
   var str = ''
   try {
-    str = JSON.stringify(obj, null, this.spaces) + '\n'
+    str = JSON.stringify(obj, options.replacer, this.spaces) + '\n'
   } catch (err) {
     if (callback) return callback(err, null)
   }

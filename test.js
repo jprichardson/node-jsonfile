@@ -148,6 +148,30 @@ describe('jsonfile', function () {
         })
       })
     })
+
+    describe('> when JSON replacer is set', function () {
+      it('should replace JSON', function () {
+        var file = path.join(TEST_DIR, 'somefile.json')
+        var sillyReplacer = function (k, v) {
+          if (!(v instanceof RegExp)) return v
+          return 'regex:' + v.toString()
+        }
+
+        var obj = {
+          name: 'jp',
+          reg: new RegExp(/hello/g)
+        }
+
+        jf.writeFile(file, obj, {replacer: sillyReplacer}, function (err) {
+          assert.ifError(err)
+
+          var data = JSON.parse(fs.readFileSync(file))
+          assert.strictEqual(data.name, 'jp')
+          assert.strictEqual(typeof data.reg, 'string')
+          assert.strictEqual(data.reg, 'regex:/hello/g')
+        })
+      })
+    })
   })
 
   describe('+ writeFileSync()', function () {
