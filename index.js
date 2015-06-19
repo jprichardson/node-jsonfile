@@ -21,13 +21,14 @@ function readFile (file, options, callback) {
 }
 
 function readFileSync (file, options) {
-  var noThrow = options && !options.throws
+  options = options || {}
+  var shouldThrow = 'throws' in options ? options.throw : true
 
-  if (!noThrow) { // i.e. throw on invalid JSON
-    return JSON.parse(fs.readFileSync(file, options))
+  if (shouldThrow) { // i.e. throw on invalid JSON
+    return JSON.parse(fs.readFileSync(file, options), options.reviver)
   } else {
     try {
-      return JSON.parse(fs.readFileSync(file, options))
+      return JSON.parse(fs.readFileSync(file, options), options.reviver)
     } catch (err) {
       return null
     }
