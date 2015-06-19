@@ -10,7 +10,9 @@
     "read",
     "write",
     "file",
-    "json"
+    "json",
+    "fs",
+    "fs-extra"
   ],
   "author": "JP Richardson <jprichardson@gmail.com>",
   "license": "MIT",
