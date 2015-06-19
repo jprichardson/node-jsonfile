@@ -52,7 +52,8 @@ function writeFile (file, obj, options, callback) {
 }
 
 function writeFileSync (file, obj, options) {
-  var str = JSON.stringify(obj, null, this.spaces) + '\n'
+  options = options || {}
+  var str = JSON.stringify(obj, options.replacer, this.spaces) + '\n'
   // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
 }
