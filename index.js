@@ -11,7 +11,7 @@ function readFile (file, options, callback) {
 
     var obj
     try {
-      obj = JSON.parse(data, options.reviver)
+      obj = JSON.parse(data, options ? options.reviver : null)
     } catch (err2) {
       return callback(err2)
     }
@@ -43,7 +43,7 @@ function writeFile (file, obj, options, callback) {
 
   var str = ''
   try {
-    str = JSON.stringify(obj, options.replacer, this.spaces) + '\n'
+    str = JSON.stringify(obj, options ? options.replacer : null, this.spaces) + '\n'
   } catch (err) {
     if (callback) return callback(err, null)
   }

@@ -58,6 +58,22 @@ describe('jsonfile', function () {
         })
       })
     })
+
+    describe('> when passing null and callback', function () {
+      it('should not throw an error', function () {
+        var file = path.join(TEST_DIR, 'somefile.json')
+
+        var obj = {
+          name: 'jp'
+        }
+        fs.writeFileSync(file, JSON.stringify(obj))
+
+        jf.readFile(file, null, function (err) {
+          assert.ifError(err)
+          assert.strictEqual(obj.name, 'jp')
+        })
+      })
+    })
   })
 
   describe('+ readFileSync()', function () {
@@ -169,6 +185,20 @@ describe('jsonfile', function () {
           assert.strictEqual(data.name, 'jp')
           assert.strictEqual(typeof data.reg, 'string')
           assert.strictEqual(data.reg, 'regex:/hello/g')
+        })
+      })
+    })
+
+    describe('> when passing null and callback', function () {
+      it('should not throw an error', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+
+        var obj = {
+          name: 'jp'
+        }
+        jf.writeFile(file, obj, null, function (err) {
+          assert.ifError(err)
+          done()
         })
       })
     })
