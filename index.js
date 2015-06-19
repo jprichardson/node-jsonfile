@@ -3,7 +3,7 @@ var fs = require('fs')
 function readFile (file, options, callback) {
   if (callback == null) {
     callback = options
-    options = null
+    options = {}
   }
 
   fs.readFile(file, options, function (err, data) {
@@ -11,7 +11,7 @@ function readFile (file, options, callback) {
 
     var obj
     try {
-      obj = JSON.parse(data)
+      obj = JSON.parse(data, options.reviver)
     } catch (err2) {
       return callback(err2)
     }

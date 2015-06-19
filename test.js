@@ -33,6 +33,31 @@ describe('jsonfile', function () {
         done()
       })
     })
+
+    describe('> when JSON reviver is set', function () {
+      it('should transform the JSON', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+        var sillyReviver = function (k, v) {
+          if (typeof v !== 'string') return v
+          if (v.indexOf('date:') < 0) return v
+          return new Date(v.split('date:')[1])
+        }
+
+        var obj = {
+          name: 'jp',
+          day: 'date:2015-06-19T11:41:26.815Z'
+        }
+
+        fs.writeFileSync(file, JSON.stringify(obj))
+        jf.readFile(file, {reviver: sillyReviver}, function (err, data) {
+          assert.ifError(err)
+          assert.strictEqual(data.name, 'jp')
+          assert(data.day instanceof Date)
+          assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
+          done()
+        })
+      })
+    })
   })
 
   describe('+ readFileSync()', function () {
