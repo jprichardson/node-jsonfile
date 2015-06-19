@@ -25,6 +25,9 @@ API
 
 ### readFile(filename, [options], callback)
 
+`options`: Pass in any `fs.readFile` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
+
+
 ```js
 var jf = require('jsonfile')
 var util = require('util')
@@ -38,6 +41,9 @@ jf.readFile(file, function(err, obj) {
 
 ### readFileSync(filename, [options])
 
+`options`: Pass in any `fs.readFileSync` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse). Also `throws` set to `false` if you don't ever want this method
+to throw on invalid JSON. Will return `null` instead. Defaults to `true`.
+
 ```js
 var jf = require('jsonfile')
 var util = require('util')
@@ -47,10 +53,11 @@ var file = '/tmp/data.json'
 console.dir(jf.readFileSync(file))
 ```
 
-**options**: `throws`. Set to `false` if you don't ever want this method to throw on invalid JSON. Will return `null` instead. Defaults to `true`. Others passed directly to `fs.readFileSync`.
-
 
 ### writeFile(filename, [options], callback)
+
+`options`: Pass in any `fs.writeFile` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+
 
 ```js
 var jf = require('jsonfile')
@@ -63,7 +70,10 @@ jf.writeFile(file, obj, function(err) {
 })
 ```
 
+
 ### writeFileSync(filename, [options])
+
+`options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 
 ```js
 var jf = require('jsonfile')
