@@ -1,6 +1,6 @@
 {
   "name": "jsonfile",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Easily read/write JSON files.",
   "repository": {
     "type": "git",

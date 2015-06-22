@@ -1,3 +1,7 @@
+2.1.2 / 2015-06-22
+------------------
+- fixed if passed `readFileSync(file, 'utf8')`. See: https://github.com/jprichardson/node-jsonfile/issues/25
+
 2.1.1 / 2015-06-19
 ------------------
 - fixed regressions if `null` is passed for options. See: https://github.com/jprichardson/node-jsonfile/issues/24
