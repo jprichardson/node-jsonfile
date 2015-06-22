@@ -60,7 +60,7 @@ describe('jsonfile', function () {
     })
 
     describe('> when passing null and callback', function () {
-      it('should not throw an error', function () {
+      it('should not throw an error', function (done) {
         var file = path.join(TEST_DIR, 'somefile.json')
 
         var obj = {
@@ -71,6 +71,24 @@ describe('jsonfile', function () {
         jf.readFile(file, null, function (err) {
           assert.ifError(err)
           assert.strictEqual(obj.name, 'jp')
+          done()
+        })
+      })
+    })
+
+    describe('> when passing encoding string as option', function () {
+      it('should not throw an error', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+
+        var obj = {
+          name: 'jp'
+        }
+        fs.writeFileSync(file, JSON.stringify(obj))
+
+        jf.readFile(file, 'utf8', function (err) {
+          assert.ifError(err)
+          assert.strictEqual(obj.name, 'jp')
+          done()
         })
       })
     })
@@ -124,6 +142,24 @@ describe('jsonfile', function () {
         assert.strictEqual(data.name, 'jp')
         assert(data.day instanceof Date)
         assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
+      })
+    })
+
+    describe('> when passing encoding string as option', function () {
+      it('should not throw an error', function () {
+        var file = path.join(TEST_DIR, 'somefile.json')
+
+        var obj = {
+          name: 'jp'
+        }
+        fs.writeFileSync(file, JSON.stringify(obj))
+
+        try {
+          var data = jf.readFileSync(file, 'utf8')
+        } catch (err) {
+          assert.ifError(err)
+        }
+        assert.strictEqual(data.name, 'jp')
       })
     })
   })

@@ -22,6 +22,10 @@ function readFile (file, options, callback) {
 
 function readFileSync (file, options) {
   options = options || {}
+  if (typeof options === 'string') {
+    options = {encoding: options}
+  }
+
   var shouldThrow = 'throws' in options ? options.throw : true
 
   if (shouldThrow) { // i.e. throw on invalid JSON
