@@ -65,8 +65,8 @@ var jsonfile = require('jsonfile')
 var file = '/tmp/data.json'
 var obj = {name: 'JP'}
 
-jsonfile.writeFile(file, obj, function(err) {
-  console.log(err)
+jsonfile.writeFile(file, obj, function (err) {
+  console.error(err)
 })
 ```
 
@@ -79,7 +79,7 @@ var file = '/tmp/data.json'
 var obj = {name: 'JP'}
 
 jsonfile.writeFile(file, obj, {spaces: 2}, function(err) {
-  console.log(err)
+  console.error(err)
 })
 ```
 
@@ -124,8 +124,9 @@ jsonfile.spaces = 4;
 var file = '/tmp/data.json'
 var obj = {name: 'JP'}
 
-jsonfile.writeFile(file, obj, function(err) { //json file has four space indenting now
-  console.log(err)
+// json file has four space indenting now
+jsonfile.writeFile(file, obj, function (err) {
+  console.error(err)
 })
 ```
 
