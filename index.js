@@ -62,12 +62,35 @@ function writeFileSync (file, obj, options) {
   return fs.writeFileSync(file, str, options)
 }
 
+function appendFile (file, obj, options, callback) {
+  if (callback == null) {
+    callback = options
+    options = null
+  }
+
+  var str = ''
+  try {
+    str = JSON.stringify(obj, null, this.spaces) + '\n'
+  } catch (err) {
+    if (callback) return callback(err, null)
+  }
+
+  fs.appendFile(file, str, options, callback)
+}
+
+function appendFileSync (file, obj, options) {
+  var str = JSON.stringify(obj, null, this.spaces) + '\n'
+  return fs.appendFileSync(file, str, options)
+}
+
 var jsonfile = {
   spaces: null,
   readFile: readFile,
   readFileSync: readFileSync,
   writeFile: writeFile,
-  writeFileSync: writeFileSync
+  writeFileSync: writeFileSync,
+  appendFile: appendFile,
+  appendFileSync: appendFileSync
 }
 
 module.exports = jsonfile

@@ -84,6 +84,29 @@ var obj = {name: 'JP'}
 jf.writeFileSync(file, obj)
 ```
 
+### appendFile(filename, [options], callback)
+
+```javascript
+var jf = require('jsonfile')
+
+var file = '/tmp/data.json'
+var obj = {name: 'JP'}
+
+jf.appendFile(file, obj, function(err) {
+  console.log(err)
+})
+```
+
+### appendFileSync(filename, [options])
+
+```javascript
+var jf = require('jsonfile')
+
+var file = '/tmp/data.json'
+var obj = {name: 'JP'}
+
+jf.appendFileSync(file, obj)
+```
 
 ### spaces
 
@@ -121,7 +144,7 @@ If you contribute to this library, please don't change the version numbers in yo
 - [1] [Ivan McCarthy](https://github.com/imcrthy)
 - [1] [Pablo Vallejo](https://github.com/PabloVallejo)
 - [1] [Miroslav Bajtoš](https://github.com/bajtos)
-
+- [1] [Kyle Smith](https://github.com/dragonbanshee)
 
 License
 -------
