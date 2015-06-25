@@ -1,3 +1,7 @@
+2.2.0 / 2015-06-25
+------------------
+- added `options.spaces` to `writeFile()` and `writeFileSync()`
+
 2.1.2 / 2015-06-22
 ------------------
 - fixed if passed `readFileSync(file, 'utf8')`. See: https://github.com/jprichardson/node-jsonfile/issues/25
