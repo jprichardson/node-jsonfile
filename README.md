@@ -3,7 +3,7 @@ Node.js - jsonfile
 
 Easily read/write JSON files.
 
-[![build status](https://secure.travis-ci.org/jprichardson/node-jsonfile.png)](http://travis-ci.org/jprichardson/node-jsonfile)
+[![build status](https://secure.travis-ci.org/jprichardson/node-jsonfile.svg)](http://travis-ci.org/jprichardson/node-jsonfile)
 
 
 Why?
