@@ -1,3 +1,7 @@
+2.2.1 / 2015-06-25
+------------------
+- fixed regression when passing in string as encoding for options in `writeFile()` and `writeFileSync()`. See: https://github.com/jprichardson/node-jsonfile/issues/28
+
 2.2.0 / 2015-06-25
 ------------------
 - added `options.spaces` to `writeFile()` and `writeFileSync()`
