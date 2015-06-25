@@ -42,12 +42,17 @@ function readFileSync (file, options) {
 function writeFile (file, obj, options, callback) {
   if (callback == null) {
     callback = options
-    options = {}
+    options = options || {}
   }
+
+  var spaces = options
+    ? 'spaces' in options
+    ? options.spaces : this.spaces
+    : this.spaces
 
   var str = ''
   try {
-    str = JSON.stringify(obj, options ? options.replacer : null, this.spaces) + '\n'
+    str = JSON.stringify(obj, options ? options.replacer : null, spaces) + '\n'
   } catch (err) {
     if (callback) return callback(err, null)
   }
@@ -57,7 +62,8 @@ function writeFile (file, obj, options, callback) {
 
 function writeFileSync (file, obj, options) {
   options = options || {}
-  var str = JSON.stringify(obj, options.replacer, this.spaces) + '\n'
+  var spaces = 'spaces' in options ? options.spaces : this.spaces
+  var str = JSON.stringify(obj, options.replacer, spaces) + '\n'
   // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
 }

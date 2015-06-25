@@ -238,6 +238,19 @@ describe('jsonfile', function () {
         })
       })
     })
+
+    describe('> when spaces passed as an option', function () {
+      it('should write file with spaces', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+        var obj = { name: 'jp' }
+        jf.writeFile(file, obj, {spaces: 8}, function (err) {
+          assert.ifError(err)
+          var data = fs.readFileSync(file, 'utf8')
+          assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
+          done()
+        })
+      })
+    })
   })
 
   describe('+ writeFileSync()', function () {
@@ -287,6 +300,16 @@ describe('jsonfile', function () {
         assert.strictEqual(data.name, 'jp')
         assert.strictEqual(typeof data.reg, 'string')
         assert.strictEqual(data.reg, 'regex:/hello/g')
+      })
+    })
+
+    describe('> when spaces passed as an option', function () {
+      it('should write file with spaces', function () {
+        var file = path.join(TEST_DIR, 'somefile.json')
+        var obj = { name: 'JP' }
+        jf.writeFileSync(file, obj, {spaces: 8})
+        var data = fs.readFileSync(file, 'utf8')
+        assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
       })
     })
   })

@@ -56,7 +56,7 @@ console.dir(jf.readFileSync(file))
 
 ### writeFile(filename, [options], callback)
 
-`options`: Pass in any `fs.writeFile` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+`options`: Pass in any `fs.writeFile` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces`.
 
 
 ```js
@@ -70,10 +70,23 @@ jf.writeFile(file, obj, function(err) {
 })
 ```
 
+**formatting with spaces:**
+
+```js
+var jf = require('jsonfile')
+
+var file = '/tmp/data.json'
+var obj = {name: 'JP'}
+
+jf.writeFile(file, obj, {spaces: 2}, function(err) {
+  console.log(err)
+})
+```
+
 
 ### writeFileSync(filename, [options])
 
-`options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+`options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces`.
 
 ```js
 var jf = require('jsonfile')
@@ -84,10 +97,22 @@ var obj = {name: 'JP'}
 jf.writeFileSync(file, obj)
 ```
 
+**formatting with spaces:**
+
+```js
+var jf = require('jsonfile')
+
+var file = '/tmp/data.json'
+var obj = {name: 'JP'}
+
+jf.writeFileSync(file, obj, {spaces: 2})
+```
+
+
 
 ### spaces
 
-Number of spaces to indent JSON files.
+Global configuration to set spaces to indent JSON files.
 
 **default:** `null`
 
@@ -103,6 +128,28 @@ jf.writeFile(file, obj, function(err) { //json file has four space indenting now
   console.log(err)
 })
 ```
+
+Note, it's bound to `this.spaces`. So, if you do this:
+
+```js
+var myObj = {}
+myObj.writeJsonSync = jf.writeFileSync
+// => this.spaces = null
+```
+
+Could do the following:
+
+```js
+var jf = require('jsonfile')
+jf.spaces = 4
+jf.writeFileSync(file, obj) // will have 4 spaces indentation
+
+var myCrazyObj = {spaces: 32}
+myCrazyObj.writeJsonSync = jf.writeFileSync
+myCrazyObj.writeJsonSync(file, obj) // will have 32 space indentation
+myCrazyObj.writeJsonSync(file, obj, {spaces: 2}) // will have only 2
+```
+
 
 
 Contributions
