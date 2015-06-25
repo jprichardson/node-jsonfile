@@ -202,7 +202,7 @@ describe('jsonfile', function () {
     })
 
     describe('> when JSON replacer is set', function () {
-      it('should replace JSON', function () {
+      it('should replace JSON', function (done) {
         var file = path.join(TEST_DIR, 'somefile.json')
         var sillyReplacer = function (k, v) {
           if (!(v instanceof RegExp)) return v
@@ -221,6 +221,7 @@ describe('jsonfile', function () {
           assert.strictEqual(data.name, 'jp')
           assert.strictEqual(typeof data.reg, 'string')
           assert.strictEqual(data.reg, 'regex:/hello/g')
+          done()
         })
       })
     })
@@ -228,10 +229,7 @@ describe('jsonfile', function () {
     describe('> when passing null and callback', function () {
       it('should not throw an error', function (done) {
         var file = path.join(TEST_DIR, 'somefile.json')
-
-        var obj = {
-          name: 'jp'
-        }
+        var obj = { name: 'jp' }
         jf.writeFile(file, obj, null, function (err) {
           assert.ifError(err)
           done()
@@ -247,6 +245,19 @@ describe('jsonfile', function () {
           assert.ifError(err)
           var data = fs.readFileSync(file, 'utf8')
           assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
+          done()
+        })
+      })
+    })
+
+    describe('> when passing encoding string as options', function () {
+      it('should not error', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+        var obj = { name: 'jp' }
+        jf.writeFile(file, obj, 'utf8', function (err) {
+          assert.ifError(err)
+          var data = fs.readFileSync(file, 'utf8')
+          assert.strictEqual(data, JSON.stringify(obj) + '\n')
           done()
         })
       })
@@ -310,6 +321,16 @@ describe('jsonfile', function () {
         jf.writeFileSync(file, obj, {spaces: 8})
         var data = fs.readFileSync(file, 'utf8')
         assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
+      })
+    })
+
+    describe('> when passing encoding string as options', function () {
+      it('should not error', function () {
+        var file = path.join(TEST_DIR, 'somefile6.json')
+        var obj = { name: 'jp' }
+        jf.writeFileSync(file, obj, 'utf8')
+        var data = fs.readFileSync(file, 'utf8')
+        assert.strictEqual(data, JSON.stringify(obj) + '\n')
       })
     })
   })

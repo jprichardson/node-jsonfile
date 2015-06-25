@@ -42,10 +42,10 @@ function readFileSync (file, options) {
 function writeFile (file, obj, options, callback) {
   if (callback == null) {
     callback = options
-    options = options || {}
+    options = {}
   }
 
-  var spaces = options
+  var spaces = typeof options === 'object' && options !== null
     ? 'spaces' in options
     ? options.spaces : this.spaces
     : this.spaces
@@ -62,7 +62,12 @@ function writeFile (file, obj, options, callback) {
 
 function writeFileSync (file, obj, options) {
   options = options || {}
-  var spaces = 'spaces' in options ? options.spaces : this.spaces
+
+  var spaces = typeof options === 'object' && options !== null
+    ? 'spaces' in options
+    ? options.spaces : this.spaces
+    : this.spaces
+
   var str = JSON.stringify(obj, options.replacer, spaces) + '\n'
   // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
