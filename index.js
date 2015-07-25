@@ -6,12 +6,13 @@ function readFile (file, options, callback) {
     options = {}
   }
 
+  var self = this
   fs.readFile(file, options, function (err, data) {
     if (err) return callback(err)
 
     var obj
     try {
-      obj = JSON.parse(data, options ? options.reviver : null)
+      obj = JSON.parse(self.decodeStr(data), options ? options.reviver : null)
     } catch (err2) {
       return callback(err2)
     }
@@ -29,10 +30,10 @@ function readFileSync (file, options) {
   var shouldThrow = 'throws' in options ? options.throw : true
 
   if (shouldThrow) { // i.e. throw on invalid JSON
-    return JSON.parse(fs.readFileSync(file, options), options.reviver)
+    return JSON.parse(this.decodeStr(fs.readFileSync(file, options)), options.reviver)
   } else {
     try {
-      return JSON.parse(fs.readFileSync(file, options), options.reviver)
+      return JSON.parse(this.decodeStr(fs.readFileSync(file, options)), options.reviver)
     } catch (err) {
       return null
     }
@@ -73,12 +74,22 @@ function writeFileSync (file, obj, options) {
   return fs.writeFileSync(file, str, options)
 }
 
+function decodeStr (str) {
+  if (typeof str === 'string') {
+    return unescape(str.replace(/\\u([\dA-F]{4})/gi, function (match, charCode) {
+      return String.fromCharCode(parseInt(charCode, 16))
+    }))
+  }
+  return str
+}
+
 var jsonfile = {
   spaces: null,
   readFile: readFile,
   readFileSync: readFileSync,
   writeFile: writeFile,
-  writeFileSync: writeFileSync
+  writeFileSync: writeFileSync,
+  decodeStr: decodeStr
 }
 
 module.exports = jsonfile

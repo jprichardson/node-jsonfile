@@ -92,6 +92,45 @@ describe('jsonfile', function () {
         })
       })
     })
+    describe('> when passing encoding string as option', function () {
+      it('should not throw an error', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+
+        var obj = {
+          name: 'jp'
+        }
+        fs.writeFileSync(file, JSON.stringify(obj))
+
+        jf.readFile(file, 'utf8', function (err) {
+          assert.ifError(err)
+          assert.strictEqual(obj.name, 'jp')
+          done()
+        })
+      })
+    })
+
+    describe('> when  passing through the decodeStr', function () {
+      it('should read and parse JSON', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+
+        var obj = {
+          name: '\u5fcd',
+          ruby: 'SHINOBI'
+        }
+
+        fs.writeFileSync(file, JSON.stringify(obj))
+
+        jf.readFile(file, function (err, obj) {
+          assert.ifError(err)
+          var actual = jf.decodeStr(obj)
+          var expectedOfName = '忍'
+          var expectedOfRuby = 'SHINOBI'
+          assert.equal(actual.name, expectedOfName)
+          assert.equal(actual.ruby, expectedOfRuby)
+          done()
+        })
+      })
+    })
   })
 
   describe('+ readFileSync()', function () {
@@ -160,6 +199,30 @@ describe('jsonfile', function () {
           assert.ifError(err)
         }
         assert.strictEqual(data.name, 'jp')
+      })
+    })
+
+    describe('> when passing through the decodeStr', function () {
+      it('should read and parse JSON', function (done) {
+        var file = path.join(TEST_DIR, 'somefile.json')
+
+        var obj = {
+          name: '\u5fcd',
+          ruby: 'SHINOBI'
+        }
+
+        fs.writeFileSync(file, JSON.stringify(obj))
+
+        try {
+          var actual = jf.readFileSync(file, 'utf8')
+        } catch (err) {
+          assert.ifError(err)
+        }
+        var expectedOfName = '忍'
+        var expectedOfRuby = 'SHINOBI'
+        assert.equal(actual.name, expectedOfName)
+        assert.equal(actual.ruby, expectedOfRuby)
+        done()
       })
     })
   })
@@ -340,4 +403,25 @@ describe('jsonfile', function () {
       assert.strictEqual(jf.spaces, null)
     })
   })
+
+  describe('+ decodeStr()', function () {
+    describe('> when passing decoding target type is string', function () {
+      it('should arguments type is string', function () {
+        var argument = '{ name: "\u5fcd" }'
+        var actual = jf.decodeStr(argument)
+        var expected = '{ name: "忍" }'
+        assert.equal(actual, expected)
+      })
+    })
+
+    describe('> when passing decoding target type is string', function () {
+      it('should arguments type is not string', function () {
+        var argument = 1986
+        var actual = jf.decodeStr(argument)
+        var expected = 1986
+        assert.equal(actual, expected)
+      })
+    })
+  })
+
 })
