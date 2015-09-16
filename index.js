@@ -26,7 +26,7 @@ function readFileSync (file, options) {
     options = {encoding: options}
   }
 
-  var shouldThrow = 'throws' in options ? options.throw : true
+  var shouldThrow = 'throws' in options ? options.throws : true
 
   if (shouldThrow) { // i.e. throw on invalid JSON
     return JSON.parse(fs.readFileSync(file, options), options.reviver)
