@@ -1,3 +1,8 @@
+2.2.2 / 2015-09-16
+------------------
+- split out tests into separate files
+- fixed `throws` when set to `true` in `readFileSync()`. See: https://github.com/jprichardson/node-jsonfile/pull/33
+
 2.2.1 / 2015-06-25
 ------------------
 - fixed regression when passing in string as encoding for options in `writeFile()` and `writeFileSync()`. See: https://github.com/jprichardson/node-jsonfile/issues/28
