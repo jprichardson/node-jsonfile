@@ -1,0 +1,94 @@
+var assert = require('assert')
+var fs = require('fs')
+var os = require('os')
+var path = require('path')
+var rimraf = require('rimraf')
+var jf = require('../')
+
+/* global describe it beforeEach afterEach */
+
+describe('+ readFile()', function () {
+  var TEST_DIR
+
+  beforeEach(function (done) {
+    TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests-readfile')
+    rimraf(TEST_DIR, function () {
+      fs.mkdir(TEST_DIR, done)
+    })
+  })
+
+  afterEach(function (done) {
+    rimraf(TEST_DIR, done)
+  })
+
+  it('should read and parse JSON', function (done) {
+    var file = path.join(TEST_DIR, 'somefile.json')
+    var obj = {name: 'JP'}
+    fs.writeFileSync(file, JSON.stringify(obj))
+
+    jf.readFile(file, function (err, obj2) {
+      assert.ifError(err)
+      assert.equal(obj2.name, obj.name)
+      done()
+    })
+  })
+
+  describe('> when JSON reviver is set', function () {
+    it('should transform the JSON', function (done) {
+      var file = path.join(TEST_DIR, 'somefile.json')
+      var sillyReviver = function (k, v) {
+        if (typeof v !== 'string') return v
+        if (v.indexOf('date:') < 0) return v
+        return new Date(v.split('date:')[1])
+      }
+
+      var obj = {
+        name: 'jp',
+        day: 'date:2015-06-19T11:41:26.815Z'
+      }
+
+      fs.writeFileSync(file, JSON.stringify(obj))
+      jf.readFile(file, {reviver: sillyReviver}, function (err, data) {
+        assert.ifError(err)
+        assert.strictEqual(data.name, 'jp')
+        assert(data.day instanceof Date)
+        assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
+        done()
+      })
+    })
+  })
+
+  describe('> when passing null and callback', function () {
+    it('should not throw an error', function (done) {
+      var file = path.join(TEST_DIR, 'somefile.json')
+
+      var obj = {
+        name: 'jp'
+      }
+      fs.writeFileSync(file, JSON.stringify(obj))
+
+      jf.readFile(file, null, function (err) {
+        assert.ifError(err)
+        assert.strictEqual(obj.name, 'jp')
+        done()
+      })
+    })
+  })
+
+  describe('> when passing encoding string as option', function () {
+    it('should not throw an error', function (done) {
+      var file = path.join(TEST_DIR, 'somefile.json')
+
+      var obj = {
+        name: 'jp'
+      }
+      fs.writeFileSync(file, JSON.stringify(obj))
+
+      jf.readFile(file, 'utf8', function (err) {
+        assert.ifError(err)
+        assert.strictEqual(obj.name, 'jp')
+        done()
+      })
+    })
+  })
+})
