@@ -49,6 +49,22 @@ describe('+ readFileSync()', function () {
     })
   })
 
+  describe('> when invalid JSON and throws set to true', function () {
+    it('should return null', function () {
+      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      var data = '{not valid JSON'
+      fs.writeFileSync(file, data)
+
+      assert.throws(function () {
+        jf.readFileSync(file)
+      })
+
+      assert.throws(function () {
+        jf.readFileSync(file, {throws: true})
+      })
+    })
+  })
+
   describe('> when JSON reviver is set', function () {
     it('should transform the JSON', function () {
       var file = path.join(TEST_DIR, 'somefile.json')
