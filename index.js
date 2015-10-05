@@ -28,18 +28,15 @@ function readFileSync (file, options) {
   }
 
   var shouldThrow = 'throws' in options ? options.throws : true
+  var content = fs.readFileSync(file, options)
 
-  if (shouldThrow) { // i.e. throw on invalid JSON
-    try {
-      return JSON.parse(fs.readFileSync(file, options), options.reviver)
-    } catch (err) {
+  try {
+    return JSON.parse(content, options.reviver)
+  } catch (err) {
+    if (shouldThrow) {
       err.message = file + ': ' + err.message
       throw err
-    }
-  } else {
-    try {
-      return JSON.parse(fs.readFileSync(file, options), options.reviver)
-    } catch (err) {
+    } else {
       return null
     }
   }
