@@ -13,6 +13,7 @@ function readFile (file, options, callback) {
     try {
       obj = JSON.parse(data, options ? options.reviver : null)
     } catch (err2) {
+      err2.message = file + ': ' + err2.message
       return callback(err2)
     }
 
@@ -29,7 +30,12 @@ function readFileSync (file, options) {
   var shouldThrow = 'throws' in options ? options.throws : true
 
   if (shouldThrow) { // i.e. throw on invalid JSON
-    return JSON.parse(fs.readFileSync(file, options), options.reviver)
+    try {
+      return JSON.parse(fs.readFileSync(file, options), options.reviver)
+    } catch (err) {
+      err.message = file + ': ' + err.message
+      throw err
+    }
   } else {
     try {
       return JSON.parse(fs.readFileSync(file, options), options.reviver)

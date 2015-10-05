@@ -33,6 +33,19 @@ describe('+ readFile()', function () {
     })
   })
 
+  describe('> when invalid JSON', function () {
+    it('should include the filename in the error', function (done) {
+      var file = path.join(TEST_DIR, 'somefile.json')
+      fs.writeFileSync(file, '{')
+
+      jf.readFile(file, function (err, obj2) {
+        assert(err instanceof Error)
+        assert(err.message.match(file))
+        done()
+      })
+    })
+  })
+
   describe('> when JSON reviver is set', function () {
     it('should transform the JSON', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
