@@ -34,6 +34,21 @@ describe('+ readFileSync()', function () {
     }
   })
 
+  describe('> when invalid JSON', function () {
+    it('should include the filename in the error', function () {
+      var file = path.join(TEST_DIR, 'somefile.json')
+      fs.writeFileSync(file, '{')
+
+      assert.throws(function () {
+        jf.readFileSync(file)
+      }, function (err) {
+        assert(err instanceof Error)
+        assert(err.message.match(file))
+        return true
+      })
+    })
+  })
+
   describe('> when invalid JSON and throws set to false', function () {
     it('should return null', function () {
       var file = path.join(TEST_DIR, 'somefile4-invalid.json')
