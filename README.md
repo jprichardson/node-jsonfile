@@ -23,7 +23,7 @@ Installation
 API
 ---
 
-### readFile(filename, [options], callback)
+### readFile(filename, callback, [options])
 
 `options`: Pass in any `fs.readFile` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
 
@@ -54,7 +54,7 @@ console.dir(jsonfile.readFileSync(file))
 ```
 
 
-### writeFile(filename, [options], callback)
+### writeFile(filename, obj, callback, [options])
 
 `options`: Pass in any `fs.writeFile` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces`.
 
@@ -78,13 +78,13 @@ var jsonfile = require('jsonfile')
 var file = '/tmp/data.json'
 var obj = {name: 'JP'}
 
-jsonfile.writeFile(file, obj, {spaces: 2}, function(err) {
+jsonfile.writeFile(file, obj, function(err) {
   console.error(err)
-})
+}, {spaces: 2})
 ```
 
 
-### writeFileSync(filename, [options])
+### writeFileSync(filename, obj, [options])
 
 `options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces`.
 

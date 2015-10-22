@@ -1,10 +1,7 @@
 var fs = require('fs')
 
-function readFile (file, options, callback) {
-  if (callback == null) {
-    callback = options
-    options = {}
-  }
+function readFile (file, callback, options) {
+  options = options || {}
 
   fs.readFile(file, options, function (err, data) {
     if (err) return callback(err)
@@ -42,11 +39,8 @@ function readFileSync (file, options) {
   }
 }
 
-function writeFile (file, obj, options, callback) {
-  if (callback == null) {
-    callback = options
-    options = {}
-  }
+function writeFile (file, obj, callback, options) {
+  options = options || {}
 
   var spaces = typeof options === 'object' && options !== null
     ? 'spaces' in options

@@ -70,7 +70,7 @@ describe('+ writeFile()', function () {
         reg: new RegExp(/hello/g)
       }
 
-      jf.writeFile(file, obj, {replacer: sillyReplacer}, function (err) {
+      jf.writeFile(file, obj, function (err) {
         assert.ifError(err)
 
         var data = JSON.parse(fs.readFileSync(file))
@@ -78,7 +78,7 @@ describe('+ writeFile()', function () {
         assert.strictEqual(typeof data.reg, 'string')
         assert.strictEqual(data.reg, 'regex:/hello/g')
         done()
-      })
+      }, {replacer: sillyReplacer})
     })
   })
 
@@ -86,10 +86,10 @@ describe('+ writeFile()', function () {
     it('should not throw an error', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
       var obj = { name: 'jp' }
-      jf.writeFile(file, obj, null, function (err) {
+      jf.writeFile(file, obj, function (err) {
         assert.ifError(err)
         done()
-      })
+      }, null)
     })
   })
 
@@ -97,12 +97,12 @@ describe('+ writeFile()', function () {
     it('should write file with spaces', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
       var obj = { name: 'jp' }
-      jf.writeFile(file, obj, {spaces: 8}, function (err) {
+      jf.writeFile(file, obj, function (err) {
         assert.ifError(err)
         var data = fs.readFileSync(file, 'utf8')
         assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
         done()
-      })
+      }, {spaces: 8})
     })
   })
 
@@ -110,12 +110,12 @@ describe('+ writeFile()', function () {
     it('should not error', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
       var obj = { name: 'jp' }
-      jf.writeFile(file, obj, 'utf8', function (err) {
+      jf.writeFile(file, obj, function (err) {
         assert.ifError(err)
         var data = fs.readFileSync(file, 'utf8')
         assert.strictEqual(data, JSON.stringify(obj) + '\n')
         done()
-      })
+      }, 'utf8')
     })
   })
 })
