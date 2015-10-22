@@ -40,7 +40,7 @@ describe('+ readFile()', function () {
 
       jf.readFile(file, function (err, obj2) {
         assert(err instanceof Error)
-        assert(err.message.match(file))
+        assert(err.message.match(/somefile\.json/))
         done()
       })
     })
@@ -61,13 +61,13 @@ describe('+ readFile()', function () {
       }
 
       fs.writeFileSync(file, JSON.stringify(obj))
-      jf.readFile(file, {reviver: sillyReviver}, function (err, data) {
+      jf.readFile(file, function (err, data) {
         assert.ifError(err)
         assert.strictEqual(data.name, 'jp')
         assert(data.day instanceof Date)
         assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
         done()
-      })
+      }, {reviver: sillyReviver})
     })
   })
 
@@ -80,7 +80,7 @@ describe('+ readFile()', function () {
       }
       fs.writeFileSync(file, JSON.stringify(obj))
 
-      jf.readFile(file, null, function (err) {
+      jf.readFile(file, function (err) {
         assert.ifError(err)
         assert.strictEqual(obj.name, 'jp')
         done()
@@ -97,11 +97,11 @@ describe('+ readFile()', function () {
       }
       fs.writeFileSync(file, JSON.stringify(obj))
 
-      jf.readFile(file, 'utf8', function (err) {
+      jf.readFile(file, function (err) {
         assert.ifError(err)
         assert.strictEqual(obj.name, 'jp')
         done()
-      })
+      }, 'utf8')
     })
   })
 })
