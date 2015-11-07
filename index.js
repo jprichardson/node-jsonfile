@@ -72,16 +72,52 @@ function writeFileSync (file, obj, options) {
     : this.spaces
 
   var str = JSON.stringify(obj, options.replacer, spaces) + '\n'
-  // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
 }
+
+
+function appendFile (file, obj, options, callback) {
+  if (callback == null) {
+    callback = options
+    options = {}
+  }
+
+  var spaces = typeof options === 'object' && options !== null
+    ? 'spaces' in options
+    ? options.spaces : this.spaces
+    : this.spaces
+
+  var str = ''
+  try {
+    str = JSON.stringify(obj, options ? options.replacer : null, spaces) + '\n'
+  } catch (err) {
+    if (callback) return callback(err, null)
+  }
+
+  fs.appendFile(file, str, options, callback)
+}
+
+function appendFileSync (file, obj, options) {
+  options = options || {}
+
+  var spaces = typeof options === 'object' && options !== null
+    ? 'spaces' in options
+    ? options.spaces : this.spaces
+    : this.spaces
+
+  var str = JSON.stringify(obj, options.replacer, spaces) + '\n'
+  return fs.appendFileSync(file, str, options)
+}
+
 
 var jsonfile = {
   spaces: null,
   readFile: readFile,
   readFileSync: readFileSync,
   writeFile: writeFile,
-  writeFileSync: writeFileSync
+  writeFileSync: writeFileSync,
+  appendFile: appendFile,
+  appendFileSync: appendFileSync
 }
 
 module.exports = jsonfile
