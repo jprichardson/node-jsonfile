@@ -54,7 +54,7 @@ console.dir(jsonfile.readFileSync(file))
 ```
 
 
-### writeFile(filename, [options], callback)
+### writeFile(filename, obj, [options], callback)
 
 `options`: Pass in any `fs.writeFile` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces`.
 
@@ -84,7 +84,7 @@ jsonfile.writeFile(file, obj, {spaces: 2}, function(err) {
 ```
 
 
-### writeFileSync(filename, [options])
+### writeFileSync(filename, obj, [options])
 
 `options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces`.
 
