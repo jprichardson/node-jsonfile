@@ -6,6 +6,8 @@ function readFile (file, options, callback) {
     options = {}
   }
 
+  var shouldThrow = 'throws' in options ? options.throws : true
+
   fs.readFile(file, options, function (err, data) {
     if (err) return callback(err)
 
@@ -13,8 +15,12 @@ function readFile (file, options, callback) {
     try {
       obj = JSON.parse(data, options ? options.reviver : null)
     } catch (err2) {
-      err2.message = file + ': ' + err2.message
-      return callback(err2)
+      if (shouldThrow) {
+        err2.message = file + ': ' + err2.message
+        return callback(err2)
+      } else {
+        return callback(null, null)
+      }
     }
 
     callback(null, obj)
