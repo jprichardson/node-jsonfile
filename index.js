@@ -6,7 +6,12 @@ function readFile (file, options, callback) {
     options = {}
   }
 
-  var shouldThrow = 'throws' in options ? options.throws : true
+  var shouldThrow
+  try {
+    shouldThrow = 'throws' in options ? options.throws : true
+  } catch (e) {
+    shouldThrow = true
+  }
 
   fs.readFile(file, options, function (err, data) {
     if (err) return callback(err)
