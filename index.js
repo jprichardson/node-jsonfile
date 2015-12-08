@@ -6,11 +6,19 @@ function readFile (file, options, callback) {
     options = {}
   }
 
-  var shouldThrow
-  try {
-    shouldThrow = 'throws' in options ? options.throws : true
-  } catch (e) {
-    shouldThrow = true
+  if (typeof options === 'string') {
+    options = {encoding: options}
+  }
+
+  if (options == null) {
+    options = {}
+  }
+
+  var shouldThrow = true
+  if ('errorOnFailedParse' in options) {
+    shouldThrow = options.errorOnFailedParse
+  } else if ('throws' in options) {
+    shouldThrow = options.throws
   }
 
   fs.readFile(file, options, function (err, data) {
@@ -38,7 +46,13 @@ function readFileSync (file, options) {
     options = {encoding: options}
   }
 
-  var shouldThrow = 'throws' in options ? options.throws : true
+  var shouldThrow = true
+  if ('errorOnFailedParse' in options) {
+    shouldThrow = options.errorOnFailedParse
+  } else if ('throws' in options) {
+    shouldThrow = options.throws
+  }
+
   var content = fs.readFileSync(file, options)
 
   try {
