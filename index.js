@@ -15,8 +15,8 @@ function readFile (file, options, callback) {
   }
 
   var shouldThrow = true
-  if ('errorOnFailedParse' in options) {
-    shouldThrow = options.errorOnFailedParse
+  if ('passParsingErrors' in options) {
+    shouldThrow = options.passParsingErrors
   } else if ('throws' in options) {
     shouldThrow = options.throws
   }
@@ -47,8 +47,8 @@ function readFileSync (file, options) {
   }
 
   var shouldThrow = true
-  if ('errorOnFailedParse' in options) {
-    shouldThrow = options.errorOnFailedParse
+  if ('passParsingErrors' in options) {
+    shouldThrow = options.passParsingErrors
   } else if ('throws' in options) {
     shouldThrow = options.throws
   }

@@ -46,7 +46,7 @@ describe('+ readFile()', function () {
     })
   })
 
-  describe('> when invalid JSON and errorOnFailedParse set to false', function () {
+  describe('> when invalid JSON and passParsingErrors set to false', function () {
     it('should return null and no error', function (done) {
       var file = path.join(TEST_DIR, 'somefile4-invalid.json')
       var data = '{not valid JSON'
@@ -62,7 +62,7 @@ describe('+ readFile()', function () {
         bothDone = true
       })
 
-      jf.readFile(file, {errorOnFailedParse: false}, function (err, obj2) {
+      jf.readFile(file, {passParsingErrors: false}, function (err, obj2) {
         assert.ifError(err)
         assert.strictEqual(obj2, null)
         if (bothDone) {
@@ -100,7 +100,7 @@ describe('+ readFile()', function () {
     })
   })
 
-  describe('> when invalid JSON and errorOnFailedParse set to true', function () {
+  describe('> when invalid JSON and passParsingErrors set to true', function () {
     it('should return an error', function (done) {
       var file = path.join(TEST_DIR, 'somefile4-invalid.json')
       var data = '{not valid JSON'
@@ -116,7 +116,7 @@ describe('+ readFile()', function () {
         bothDone = true
       })
 
-      jf.readFile(file, {errorOnFailedParse: true}, function (err, obj2) {
+      jf.readFile(file, {passParsingErrors: true}, function (err, obj2) {
         assert(err instanceof Error)
         assert(err.message.match(file))
         if (bothDone) {
