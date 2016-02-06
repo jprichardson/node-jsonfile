@@ -98,14 +98,29 @@ describe('+ readFileSync()', function () {
   })
 
   describe('> when invalid JSON and throws set to true', function () {
-    it('should return null', function () {
+    it('should throw an exception', function () {
       var file = path.join(TEST_DIR, 'somefile4-invalid.json')
       var data = '{not valid JSON'
       fs.writeFileSync(file, data)
 
       assert.throws(function () {
-        jf.readFileSync(file)
+        jf.readFileSync(file, {throws: true})
       })
+    })
+  })
+
+  describe('> when json file is missing and throws set to false', function () {
+    it('should return null', function () {
+      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+
+      var obj = jf.readFileSync(file, {throws: false})
+      assert.strictEqual(obj, null)
+    })
+  })
+
+  describe('> when json file is missing and throws set to true', function () {
+    it('should throw an exception', function () {
+      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
 
       assert.throws(function () {
         jf.readFileSync(file, {throws: true})
