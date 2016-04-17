@@ -1,4 +1,4 @@
-var fs = require('fs')
+var _fs = require('fs')
 
 function readFile (file, options, callback) {
   if (callback == null) {
@@ -11,6 +11,7 @@ function readFile (file, options, callback) {
   }
 
   options = options || {}
+  var fs = options.fs || _fs
 
   var shouldThrow = true
   // DO NOT USE 'passParsingErrors' THE NAME WILL CHANGE!!!, use 'throws' instead
@@ -45,6 +46,8 @@ function readFileSync (file, options) {
     options = {encoding: options}
   }
 
+  var fs = options.fs || _fs
+
   var shouldThrow = true
   // DO NOT USE 'passParsingErrors' THE NAME WILL CHANGE!!!, use 'throws' instead
   if ('passParsingErrors' in options) {
@@ -72,6 +75,8 @@ function writeFile (file, obj, options, callback) {
     callback = options
     options = {}
   }
+  options = options || {}
+  var fs = options.fs || _fs
 
   var spaces = typeof options === 'object' && options !== null
     ? 'spaces' in options
@@ -90,6 +95,7 @@ function writeFile (file, obj, options, callback) {
 
 function writeFileSync (file, obj, options) {
   options = options || {}
+  var fs = options.fs || _fs
 
   var spaces = typeof options === 'object' && options !== null
     ? 'spaces' in options

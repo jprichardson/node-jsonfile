@@ -19,6 +19,7 @@
   "dependencies": {},
   "devDependencies": {
     "mocha": "2.x",
+    "mock-fs": "^3.8.0",
     "rimraf": "^2.4.0",
     "standard": "^6.0.8"
   },
