@@ -1,3 +1,8 @@
+2.3.0 / 2016-04-16
+------------------
+- add `throws` to `readFile()`. See [#39][#39]
+- add support for any arbitrary `fs` module. Useful with [mock-fs](https://www.npmjs.com/package/mock-fs)
+
 2.2.3 / 2015-10-14
 ------------------
 - include file name in parse error. See: https://github.com/jprichardson/node-jsonfile/pull/34
