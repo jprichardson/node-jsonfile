@@ -19,7 +19,7 @@ Writing `JSON.stringify()` and then `fs.writeFile()` and `JSON.parse()` with `fs
 Installation
 ------------
 
-    npm install jsonfile --save
+    npm install --save jsonfile
 
 
 
@@ -122,7 +122,7 @@ Global configuration to set spaces to indent JSON files.
 ```js
 var jsonfile = require('jsonfile')
 
-jsonfile.spaces = 4;
+jsonfile.spaces = 4
 
 var file = '/tmp/data.json'
 var obj = {name: 'JP'}
