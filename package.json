@@ -24,6 +24,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "standard && mocha"
+    "lint": "standard",
+    "test": "npm run lint && npm run standard",
+    "unit": "mocha"
   }
 }
