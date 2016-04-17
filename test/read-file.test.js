@@ -35,12 +35,13 @@ describe('+ readFile()', function () {
 
   describe('> when invalid JSON', function () {
     it('should include the filename in the error', function (done) {
-      var file = path.join(TEST_DIR, 'somefile.json')
+      var fn = 'somefile.json'
+      var file = path.join(TEST_DIR, fn)
       fs.writeFileSync(file, '{')
 
       jf.readFile(file, function (err, obj2) {
         assert(err instanceof Error)
-        assert(err.message.match(file))
+        assert(err.message.match(fn))
         done()
       })
     })
