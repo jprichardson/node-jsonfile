@@ -43,6 +43,8 @@ describe('+ readFileSync()', function () {
         jf.readFileSync(file)
       }, function (err) {
         assert(err instanceof Error)
+        console.log(file)
+        console.log(err.message)
         assert(err.message.match(file))
         return true
       })
