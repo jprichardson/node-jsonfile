@@ -6,6 +6,21 @@ function readFile (file, options, callback) {
     options = {}
   }
 
+  if (typeof options === 'string') {
+    options = {encoding: options}
+  }
+
+  if (options == null) {
+    options = {}
+  }
+
+  var shouldThrow = true
+  if ('passParsingErrors' in options) {
+    shouldThrow = options.passParsingErrors
+  } else if ('throws' in options) {
+    shouldThrow = options.throws
+  }
+
   fs.readFile(file, options, function (err, data) {
     if (err) return callback(err)
 
@@ -13,8 +28,12 @@ function readFile (file, options, callback) {
     try {
       obj = JSON.parse(data, options ? options.reviver : null)
     } catch (err2) {
-      err2.message = file + ': ' + err2.message
-      return callback(err2)
+      if (shouldThrow) {
+        err2.message = file + ': ' + err2.message
+        return callback(err2)
+      } else {
+        return callback(null, null)
+      }
     }
 
     callback(null, obj)
@@ -27,7 +46,13 @@ function readFileSync (file, options) {
     options = {encoding: options}
   }
 
-  var shouldThrow = 'throws' in options ? options.throws : true
+  var shouldThrow = true
+  if ('passParsingErrors' in options) {
+    shouldThrow = options.passParsingErrors
+  } else if ('throws' in options) {
+    shouldThrow = options.throws
+  }
+
   var content = fs.readFileSync(file, options)
 
   try {

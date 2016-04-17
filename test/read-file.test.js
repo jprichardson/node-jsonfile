@@ -46,6 +46,114 @@ describe('+ readFile()', function () {
     })
   })
 
+  describe('> when invalid JSON and passParsingErrors set to false', function () {
+    it('should return null and no error', function (done) {
+      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      var data = '{not valid JSON'
+      var bothDone = false
+      fs.writeFileSync(file, data)
+
+      jf.readFile(file, function (err, obj2) {
+        assert(err instanceof Error)
+        assert(err.message.match(file))
+        if (bothDone) {
+          done()
+        }
+        bothDone = true
+      })
+
+      jf.readFile(file, {passParsingErrors: false}, function (err, obj2) {
+        assert.ifError(err)
+        assert.strictEqual(obj2, null)
+        if (bothDone) {
+          done()
+        }
+        bothDone = true
+      })
+    })
+  })
+
+  describe('> when invalid JSON and throws set to false', function () {
+    it('should return null and no error', function (done) {
+      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      var data = '{not valid JSON'
+      var bothDone = false
+      fs.writeFileSync(file, data)
+
+      jf.readFile(file, function (err, obj2) {
+        assert(err instanceof Error)
+        assert(err.message.match(file))
+        if (bothDone) {
+          done()
+        }
+        bothDone = true
+      })
+
+      jf.readFile(file, {throws: false}, function (err, obj2) {
+        assert.ifError(err)
+        assert.strictEqual(obj2, null)
+        if (bothDone) {
+          done()
+        }
+        bothDone = true
+      })
+    })
+  })
+
+  describe('> when invalid JSON and passParsingErrors set to true', function () {
+    it('should return an error', function (done) {
+      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      var data = '{not valid JSON'
+      var bothDone = false
+      fs.writeFileSync(file, data)
+
+      jf.readFile(file, function (err, obj2) {
+        assert(err instanceof Error)
+        assert(err.message.match(file))
+        if (bothDone) {
+          done()
+        }
+        bothDone = true
+      })
+
+      jf.readFile(file, {passParsingErrors: true}, function (err, obj2) {
+        assert(err instanceof Error)
+        assert(err.message.match(file))
+        if (bothDone) {
+          done()
+        }
+        bothDone = true
+      })
+    })
+  })
+
+  describe('> when invalid JSON and throws set to true', function () {
+    it('should return an error', function (done) {
+      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      var data = '{not valid JSON'
+      var bothDone = false
+      fs.writeFileSync(file, data)
+
+      jf.readFile(file, function (err, obj2) {
+        assert(err instanceof Error)
+        assert(err.message.match(file))
+        if (bothDone) {
+          done()
+        }
+        bothDone = true
+      })
+
+      jf.readFile(file, {throws: true}, function (err, obj2) {
+        assert(err instanceof Error)
+        assert(err.message.match(file))
+        if (bothDone) {
+          done()
+        }
+        bothDone = true
+      })
+    })
+  })
+
   describe('> when JSON reviver is set', function () {
     it('should transform the JSON', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
