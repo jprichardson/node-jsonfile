@@ -122,7 +122,7 @@ describe('+ readFile()', function () {
 
       jf.readFile(file, {throws: true}, function (err, obj2) {
         assert(err instanceof Error)
-        assert(err.message.match(file))
+        assert(err.message.match(fn))
         if (bothDone) {
           done()
         }
@@ -150,7 +150,7 @@ describe('+ readFile()', function () {
 
       jf.readFile(file, {throws: true}, function (err, obj2) {
         assert(err instanceof Error)
-        assert(err.message.match(file))
+        assert(err.message.match(fn))
         if (bothDone) {
           done()
         }
