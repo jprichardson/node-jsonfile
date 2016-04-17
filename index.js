@@ -10,11 +10,10 @@ function readFile (file, options, callback) {
     options = {encoding: options}
   }
 
-  if (options == null) {
-    options = {}
-  }
+  options = options || {}
 
   var shouldThrow = true
+  // DO NOT USE 'passParsingErrors' THE NAME WILL CHANGE!!!, use 'throws' instead
   if ('passParsingErrors' in options) {
     shouldThrow = options.passParsingErrors
   } else if ('throws' in options) {
@@ -47,6 +46,7 @@ function readFileSync (file, options) {
   }
 
   var shouldThrow = true
+  // DO NOT USE 'passParsingErrors' THE NAME WILL CHANGE!!!, use 'throws' instead
   if ('passParsingErrors' in options) {
     shouldThrow = options.passParsingErrors
   } else if ('throws' in options) {

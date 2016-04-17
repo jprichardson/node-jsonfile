@@ -28,7 +28,9 @@ API
 
 ### readFile(filename, [options], callback)
 
-`options`: Pass in any `fs.readFile` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
+`options` (`object`, default `undefined`): Pass in any `fs.readFile` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
+  - `throws` (`boolean`, default: `true`). If `JSON.parse` throws an error, pass this error to the callback.
+  If `false`, returns `null` for the object.
 
 
 ```js
@@ -42,8 +44,9 @@ jsonfile.readFile(file, function(err, obj) {
 
 ### readFileSync(filename, [options])
 
-`options`: Pass in any `fs.readFileSync` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse). Also `throws` set to `false` if you don't ever want this method
-to throw on invalid JSON. Will return `null` instead. Defaults to `true`.
+`options` (`object`, default `undefined`): Pass in any `fs.readFileSync` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse). 
+- `throws` (`boolean`, default: `true`). If `JSON.parse` throws an error, throw the error.
+If `false`, returns `null` for the object.
 
 ```js
 var jsonfile = require('jsonfile')
