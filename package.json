@@ -20,12 +20,12 @@
   "devDependencies": {
     "mocha": "2.x",
     "rimraf": "^2.4.0",
-    "standard": "4.x"
+    "standard": "^6.0.8"
   },
   "main": "index.js",
   "scripts": {
     "lint": "standard",
-    "test": "npm run lint && npm run standard",
+    "test": "npm run lint && npm run unit",
     "unit": "mocha"
   }
 }
