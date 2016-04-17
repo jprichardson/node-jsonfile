@@ -33,8 +33,6 @@ API
 
 ```js
 var jsonfile = require('jsonfile')
-var util = require('util')
-
 var file = '/tmp/data.json'
 jsonfile.readFile(file, function(err, obj) {
   console.dir(obj)
@@ -49,8 +47,6 @@ to throw on invalid JSON. Will return `null` instead. Defaults to `true`.
 
 ```js
 var jsonfile = require('jsonfile')
-var util = require('util')
-
 var file = '/tmp/data.json'
 
 console.dir(jsonfile.readFileSync(file))
