@@ -231,4 +231,17 @@ describe('+ readFile()', function () {
       })
     })
   })
+
+  describe('> w/ BOM', function () {
+    it('should properly parse', function (done) {
+      var file = path.join(TEST_DIR, 'file-bom.json')
+      var obj = { name: 'JP' }
+      fs.writeFileSync(file, '\uFEFF' + JSON.stringify(obj))
+      jf.readFile(file, function (err, data) {
+        assert.ifError(err)
+        assert.deepEqual(obj, data)
+        done()
+      })
+    })
+  })
 })

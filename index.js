@@ -24,6 +24,8 @@ function readFile (file, options, callback) {
   fs.readFile(file, options, function (err, data) {
     if (err) return callback(err)
 
+    data = stripBom(data)
+
     var obj
     try {
       obj = JSON.parse(data, options ? options.reviver : null)
@@ -57,6 +59,7 @@ function readFileSync (file, options) {
   }
 
   var content = fs.readFileSync(file, options)
+  content = stripBom(content)
 
   try {
     return JSON.parse(content, options.reviver)
@@ -105,6 +108,13 @@ function writeFileSync (file, obj, options) {
   var str = JSON.stringify(obj, options.replacer, spaces) + '\n'
   // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
+}
+
+function stripBom (content) {
+  // we do this because JSON.parse would convert it to a utf8 string if encoding wasn't specified
+  if (Buffer.isBuffer(content)) content = content.toString('utf8')
+  content = content.replace(/^\uFEFF/, '')
+  return content
 }
 
 var jsonfile = {

@@ -162,4 +162,14 @@ describe('+ readFileSync()', function () {
       assert.deepEqual(dataOut, dataIn)
     })
   })
+
+  describe('> w/ BOM', function () {
+    it('should properly parse', function () {
+      var file = path.join(TEST_DIR, 'file-bom.json')
+      var obj = { name: 'JP' }
+      fs.writeFileSync(file, '\uFEFF' + JSON.stringify(obj))
+      var data = jf.readFileSync(file)
+      assert.deepEqual(obj, data)
+    })
+  })
 })
