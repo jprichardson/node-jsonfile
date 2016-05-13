@@ -1,3 +1,7 @@
+2.3.1 / 2016-05-13
+------------------
+- fix to support BOM. [#45][#45]
+
 2.3.0 / 2016-04-16
 ------------------
 - add `throws` to `readFile()`. See [#39][#39]
@@ -70,6 +74,7 @@ changes it according to docs. [#12][#12]
 ------------------
 * Initial release.
 
+[#45]: https://github.com/jprichardson/node-jsonfile/issues/45    "Reading of UTF8-encoded (w/ BOM) files fails"
 [#44]: https://github.com/jprichardson/node-jsonfile/issues/44    "Extra characters in written file"
 [#43]: https://github.com/jprichardson/node-jsonfile/issues/43    "Prettyfy json when written to file"
 [#42]: https://github.com/jprichardson/node-jsonfile/pull/42      "Moved fs.readFileSync within the try/catch"
