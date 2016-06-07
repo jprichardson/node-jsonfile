@@ -12,13 +12,13 @@ describe('jsonfile', function () {
 
   beforeEach(function (done) {
     TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests')
-    rimraf(TEST_DIR, function () {
-      fs.mkdir(TEST_DIR, done)
-    })
+    rimraf.sync(TEST_DIR)
+    fs.mkdir(TEST_DIR, done)
   })
 
   afterEach(function (done) {
-    rimraf(TEST_DIR, done)
+    rimraf.sync(TEST_DIR)
+    done()
   })
 
   describe('spaces', function () {
