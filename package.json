@@ -17,6 +17,9 @@
   "author": "JP Richardson <jprichardson@gmail.com>",
   "license": "MIT",
   "dependencies": {},
+  "optionalDependencies": {
+    "graceful-fs": "^4.1.6"
+  },
   "devDependencies": {
     "mocha": "2.x",
     "mock-fs": "^3.8.0",
