@@ -1,3 +1,8 @@
+2.4.0 / 2016-09-15
+------------------
+### Changed
+- added optional support for `graceful-fs` [#62]
+
 2.3.1 / 2016-05-13
 ------------------
 - fix to support BOM. [#45][#45]
