@@ -1,4 +1,9 @@
-var _fs = require('fs')
+var _fs
+try {
+  _fs = require('graceful-fs')
+} catch (_) {
+  _fs = require('fs')
+}
 
 function readFile (file, options, callback) {
   if (callback == null) {
