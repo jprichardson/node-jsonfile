@@ -115,6 +115,50 @@ function writeFileSync (file, obj, options) {
   return fs.writeFileSync(file, str, options)
 }
 
+function appendFile (file, obj, options, callback) {
+  if (callback == null) {
+    callback = options
+    options = {}
+  }
+  options = options || {}
+  var fs = options.fs || _fs
+
+  var spaces = typeof options === 'object' && options !== null
+    ? 'spaces' in options
+    ? options.spaces : this.spaces
+    : this.spaces
+
+  readFile(file, function (err, content) {
+    if (err) return callback(err)
+
+    var str = ''
+    try {
+      str = JSON.stringify(Object.assign(content, obj), options ? options.replacer : null, spaces) + '\n'
+    } catch (err) {
+      if (callback) return callback(err, null)
+    }
+
+    fs.writeFile(file, str, options, callback)
+  })
+}
+
+function appendFileSync (file, obj, options) {
+  options = options || {}
+  var fs = options.fs || _fs
+
+  var spaces = typeof options === 'object' && options !== null
+    ? 'spaces' in options
+    ? options.spaces : this.spaces
+    : this.spaces
+
+  try {
+    var str = JSON.stringify(Object.assign(readFileSync(file), obj), options.replacer, spaces) + '\n'
+    return fs.writeFileSync(file, str, options)
+  } catch (err) {
+    throw err
+  }
+}
+
 function stripBom (content) {
   // we do this because JSON.parse would convert it to a utf8 string if encoding wasn't specified
   if (Buffer.isBuffer(content)) content = content.toString('utf8')
@@ -127,7 +171,9 @@ var jsonfile = {
   readFile: readFile,
   readFileSync: readFileSync,
   writeFile: writeFile,
-  writeFileSync: writeFileSync
+  writeFileSync: writeFileSync,
+  appendFile: appendFile,
+  appendFileSync: appendFileSync
 }
 
 module.exports = jsonfile
