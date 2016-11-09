@@ -102,7 +102,7 @@ describe('+ appendFile()', function () {
 
       jf.appendFile(file, dataToAppend, null, function (err) {
         assert.ifError(err)
-        fs.readFile(file, 'utf8', (err, data) => {
+        fs.readFile(file, 'utf8', function (err, data) {
           assert.ifError(err)
           assert.deepStrictEqual(data, afterAppend)
           done()
