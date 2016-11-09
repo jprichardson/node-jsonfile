@@ -148,7 +148,7 @@ function appendFile (file, obj, options, callback) {
 
     try {
       var srckeys = Object.keys(src)
-      Object.keys(obj).forEach((k) => {
+      Object.keys(obj).forEach(function (k) {
         if (srckeys.indexOf(k) === -1 && !src.hasOwnProperty(k)) {
           src[k] = obj[k]
         }
@@ -186,7 +186,7 @@ function appendFileSync (file, obj, options) {
   try {
     src = readFileSync(file)
     var srckeys = Object.keys(src)
-    Object.keys(obj).forEach((k) => {
+    Object.keys(obj).forEach(function (k) {
       if (srckeys.indexOf(k) === -1 && !src.hasOwnProperty(k)) {
         src[k] = obj[k]
       }
