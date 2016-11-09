@@ -37,7 +37,7 @@ describe('+ appendFile()', function () {
         assert.equal(obj2.name, obj.name)
         assert.equal(obj2.email, 'updemail@some.com')
         assert.equal(obj2.colors.length, 4)
-        assert.deepStrictEqual(data, afterAppend)
+        assert.strictEqual(data, afterAppend)
         assert.equal(data[data.length - 1], '\n')
         done()
       })
@@ -57,7 +57,7 @@ describe('+ appendFile()', function () {
       jf.appendFile(file, dataToAppend, function (err) {
         assert.ifError(err)
         var data = fs.readFileSync(file, 'utf8')
-        assert.deepStrictEqual(data, afterAppend)
+        assert.strictEqual(data, afterAppend)
         jf.spaces = null
         done()
       })
@@ -104,7 +104,7 @@ describe('+ appendFile()', function () {
         assert.ifError(err)
         fs.readFile(file, 'utf8', function (err, data) {
           assert.ifError(err)
-          assert.deepStrictEqual(data, afterAppend)
+          assert.strictEqual(data, afterAppend)
           done()
         })
       })
@@ -122,7 +122,7 @@ describe('+ appendFile()', function () {
       jf.appendFile(file, dataToAppend, {spaces: 8}, function (err) {
         assert.ifError(err)
         var data = fs.readFileSync(file, 'utf8')
-        assert.deepStrictEqual(data, afterAppend)
+        assert.strictEqual(data, afterAppend)
         done()
       })
     })
@@ -140,7 +140,7 @@ describe('+ appendFile()', function () {
       jf.appendFile(file, dataToAppend, 'utf8', function (err) {
         assert.ifError(err)
         var data = fs.readFileSync(file, 'utf8')
-        assert.deepStrictEqual(data, afterAppend)
+        assert.strictEqual(data, afterAppend)
         done()
       })
     })

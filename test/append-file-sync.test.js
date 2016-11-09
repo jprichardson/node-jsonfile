@@ -36,7 +36,7 @@ describe('+ appendFileSync()', function () {
     assert.equal(obj2.name, obj.name)
     assert.equal(obj2.email, 'updemail@some.com')
     assert.equal(obj2.colors.length, 4)
-    assert.deepStrictEqual(data, afterAppend)
+    assert.strictEqual(data, afterAppend)
   })
 
   describe('> when global spaces is set', function () {
@@ -51,7 +51,7 @@ describe('+ appendFileSync()', function () {
       jf.appendFileSync(file, dataToAppend)
 
       var data = fs.readFileSync(file, 'utf8')
-      assert.deepStrictEqual(data, afterAppend)
+      assert.strictEqual(data, afterAppend)
       jf.spaces = null
     })
   })
@@ -90,7 +90,7 @@ describe('+ appendFileSync()', function () {
 
       jf.appendFileSync(file, dataToAppend, {spaces: 8})
       var data = fs.readFileSync(file, 'utf8')
-      assert.deepStrictEqual(data, afterAppend)
+      assert.strictEqual(data, afterAppend)
       jf.spaces = null
     })
   })
@@ -106,7 +106,7 @@ describe('+ appendFileSync()', function () {
 
       jf.appendFileSync(file, dataToAppend, 'utf8')
       var data = fs.readFileSync(file, 'utf8')
-      assert.deepStrictEqual(data, afterAppend)
+      assert.strictEqual(data, afterAppend)
     })
   })
 })
