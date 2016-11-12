@@ -122,12 +122,106 @@ function stripBom (content) {
   return content
 }
 
+function appendFile (file, obj, options, callback) {
+  if (callback == null) {
+    callback = options
+    options = {}
+  }
+  options = options || {}
+  var fs = options.fs || _fs
+
+  var spaces = typeof options === 'object' && options !== null
+    ? 'spaces' in options
+    ? options.spaces : this.spaces
+    : this.spaces
+
+  // check if the file already contains data
+  readFile(file, function (err, src) {
+    if (err) {
+      if (err.code === 'ENOENT') {
+        var str = JSON.stringify(obj, options.replacer, spaces) + '\n'
+        fs.writeFile(file, str, options, callback)
+      } else {
+        if (callback) return callback(err, null)
+      }
+    }
+
+    try {
+      var srckeys = Object.keys(src)
+      Object.keys(obj).forEach(function (k) {
+        if (srckeys.indexOf(k) === -1 && !src.hasOwnProperty(k)) {
+          src[k] = obj[k]
+        }
+        if (srckeys.indexOf(k) !== -1) {
+          if (Array.isArray(src[k]) && Array.isArray(obj[k])) {
+            src[k] = src[k].concat(obj[k])
+          }
+          if (!Array.isArray(src[k]) && typeof src[k] === 'object') {
+            src[k] = Object.assign(src[k], obj[k])
+          }
+          if (!Array.isArray(src[k]) && typeof src[k] !== 'object') {
+            src[k] = obj[k]
+          }
+        }
+      })
+      src = JSON.stringify(src, options ? options.replacer : null, spaces) + '\n'
+    } catch (err) {
+      if (callback) return callback(err, null)
+    }
+
+    fs.writeFile(file, src, options, callback)
+  })
+}
+
+function appendFileSync (file, obj, options) {
+  options = options || {}
+  var fs = options.fs || _fs
+
+  var spaces = typeof options === 'object' && options !== null
+    ? 'spaces' in options
+    ? options.spaces : this.spaces
+    : this.spaces
+
+  var src
+  try {
+    src = readFileSync(file)
+    var srckeys = Object.keys(src)
+    Object.keys(obj).forEach(function (k) {
+      if (srckeys.indexOf(k) === -1 && !src.hasOwnProperty(k)) {
+        src[k] = obj[k]
+      }
+      if (srckeys.indexOf(k) !== -1) {
+        if (Array.isArray(src[k]) && Array.isArray(obj[k])) {
+          src[k] = src[k].concat(obj[k])
+        }
+        if (!Array.isArray(src[k]) && typeof src[k] === 'object') {
+          src[k] = Object.assign(src[k], obj[k])
+        }
+        if (!Array.isArray(src[k]) && typeof src[k] !== 'object') {
+          src[k] = obj[k]
+        }
+      }
+    })
+    src = JSON.stringify(src, options.replacer, spaces) + '\n'
+    return fs.writeFileSync(file, src, options)
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      src = JSON.stringify(obj, options.replacer, spaces) + '\n'
+      return fs.writeFileSync(file, src, options)
+    } else {
+      throw err
+    }
+  }
+}
+
 var jsonfile = {
   spaces: null,
   readFile: readFile,
   readFileSync: readFileSync,
   writeFile: writeFile,
-  writeFileSync: writeFileSync
+  writeFileSync: writeFileSync,
+  appendFile: appendFile,
+  appendFileSync: appendFileSync
 }
 
 module.exports = jsonfile
