@@ -85,6 +85,20 @@ jsonfile.writeFile(file, obj, {spaces: 2}, function(err) {
 })
 ```
 
+**appending to an existing JSON file:**
+
+You can use `fs.writeFile` option `{flag: 'a'}` to achieve this.
+
+```js
+var jsonfile = require('jsonfile')
+
+var file = '/tmp/mayAlreadyExistedData.json'
+var obj = {name: 'JP'}
+
+jsonfile.writeFile(file, obj, {flag: 'a'}, function (err) {
+  console.error(err)
+})
+```
 
 ### writeFileSync(filename, obj, [options])
 
@@ -110,7 +124,18 @@ var obj = {name: 'JP'}
 jsonfile.writeFileSync(file, obj, {spaces: 2})
 ```
 
+**appending to an existing JSON file:**
 
+You can use `fs.writeFileSync` option `{flag: 'a'}` to achieve this.
+
+```js
+var jsonfile = require('jsonfile')
+
+var file = '/tmp/mayAlreadyExistedData.json'
+var obj = {name: 'JP'}
+
+jsonfile.writeFileSync(file, obj, {flag: 'a'})
+```
 
 ### spaces
 
