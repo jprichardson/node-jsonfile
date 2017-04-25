@@ -44,9 +44,8 @@ jsonfile.readFile(file, function(err, obj) {
 
 ### readFileSync(filename, [options])
 
-`options` (`object`, default `undefined`): Pass in any `fs.readFileSync` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse). 
-- `throws` (`boolean`, default: `true`). If `JSON.parse` throws an error, throw the error.
-If `false`, returns `null` for the object.
+`options` (`object`, default `undefined`): Pass in any `fs.readFileSync` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
+- `throws` (`boolean`, default: `true`). If an error is encountered reading or parsing the file, throw the error. If `false`, returns `null` for the object.
 
 ```js
 var jsonfile = require('jsonfile')
