@@ -1,6 +1,5 @@
 var assert = require('assert')
 var fs = require('fs')
-var mockfs = require('mock-fs')
 var os = require('os')
 var path = require('path')
 var rimraf = require('rimraf')
@@ -214,19 +213,6 @@ describe('+ readFile()', function () {
       jf.readFile(file, 'utf8', function (err) {
         assert.ifError(err)
         assert.strictEqual(obj.name, 'jp')
-        done()
-      })
-    })
-  })
-
-  describe('mockfs', function () {
-    it('should read from a mockfs', function (done) {
-      var mfs = mockfs.fs()
-      var dataOut = {name: 'JP'}
-      mfs.writeFileSync('test.json', JSON.stringify(dataOut), 'utf8')
-      jf.readFile('test.json', { fs: mfs }, function (err, dataIn) {
-        assert.ifError(err)
-        assert.deepEqual(dataOut, dataIn)
         done()
       })
     })

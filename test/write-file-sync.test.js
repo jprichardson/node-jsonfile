@@ -1,6 +1,5 @@
 var assert = require('assert')
 var fs = require('fs')
-var mockfs = require('mock-fs')
 var os = require('os')
 var path = require('path')
 var rimraf = require('rimraf')
@@ -88,17 +87,6 @@ describe('+ writeFileSync()', function () {
       jf.writeFileSync(file, obj, 'utf8')
       var data = fs.readFileSync(file, 'utf8')
       assert.strictEqual(data, JSON.stringify(obj) + '\n')
-    })
-  })
-
-  describe('mockfs', function () {
-    it('should write to mockfs', function () {
-      var mfs = mockfs.fs()
-      var dataOut = { name: 'JP' }
-      var file = 'somefile.json'
-      jf.writeFileSync(file, dataOut, { fs: mfs })
-      var dataIn = JSON.parse(mfs.readFileSync(file, 'utf8'))
-      assert.deepEqual(dataOut, dataIn)
     })
   })
 })
