@@ -118,4 +118,22 @@ describe('+ writeFile()', function () {
       })
     })
   })
+
+  // Prevent https://github.com/jprichardson/node-jsonfile/issues/81 from happening
+  describe("> when callback isn't passed & can't serialize", function () {
+    it('should not write an empty file', function (done) {
+      this.slow(1100)
+      var file = path.join(TEST_DIR, 'somefile.json')
+      var obj1 = { name: 'JP' }
+      var obj2 = { person: obj1 }
+      obj1.circular = obj2
+
+      jf.writeFile(file, obj1)
+
+      setTimeout(function () {
+        assert(!fs.existsSync(file))
+        done()
+      }, 1000)
+    })
+  })
 })
