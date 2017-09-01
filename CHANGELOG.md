@@ -94,7 +94,7 @@ changes it according to docs. [#12][#12]
 [#43]: https://github.com/jprichardson/node-jsonfile/issues/43    "Prettyfy json when written to file"
 [#42]: https://github.com/jprichardson/node-jsonfile/pull/42      "Moved fs.readFileSync within the try/catch"
 [#41]: https://github.com/jprichardson/node-jsonfile/issues/41    "Linux: Hidden file not working"
-[#40]: https://github.com/jprichardson/node-jsonfile/issues/40    "autocreate folder doesnt work from Path-value"
+[#40]: https://github.com/jprichardson/node-jsonfile/issues/40    "autocreate folder doesn't work from Path-value"
 [#39]: https://github.com/jprichardson/node-jsonfile/pull/39      "Add `throws` option for readFile (async)"
 [#38]: https://github.com/jprichardson/node-jsonfile/pull/38      "Update README.md writeFile[Sync] signature"
 [#37]: https://github.com/jprichardson/node-jsonfile/pull/37      "support append file"
