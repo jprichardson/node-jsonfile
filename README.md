@@ -57,7 +57,7 @@ console.dir(jsonfile.readFileSync(file))
 
 ### writeFile(filename, obj, [options], callback)
 
-`options`: Pass in any `fs.writeFile` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces`.
+`options`: Pass in any `fs.writeFile` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces` and override `EOL` string.
 
 
 ```js
@@ -84,6 +84,19 @@ jsonfile.writeFile(file, obj, {spaces: 2}, function(err) {
 })
 ```
 
+**overriding EOL:**
+
+```js
+var jsonfile = require('jsonfile')
+
+var file = '/tmp/data.json'
+var obj = {name: 'JP'}
+
+jsonfile.writeFile(file, obj, {spaces: 2, EOL: '\r\n'}, function(err) {
+  console.error(err)
+})
+```
+
 **appending to an existing JSON file:**
 
 You can use `fs.writeFile` option `{flag: 'a'}` to achieve this.
@@ -101,7 +114,7 @@ jsonfile.writeFile(file, obj, {flag: 'a'}, function (err) {
 
 ### writeFileSync(filename, obj, [options])
 
-`options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces`.
+`options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces` and override `EOL` string.
 
 ```js
 var jsonfile = require('jsonfile')
@@ -121,6 +134,17 @@ var file = '/tmp/data.json'
 var obj = {name: 'JP'}
 
 jsonfile.writeFileSync(file, obj, {spaces: 2})
+```
+
+**overriding EOL:**
+
+```js
+var jsonfile = require('jsonfile')
+
+var file = '/tmp/data.json'
+var obj = {name: 'JP'}
+
+jsonfile.writeFileSync(file, obj, {spaces: 2, EOL: '\r\n'})
 ```
 
 **appending to an existing JSON file:**

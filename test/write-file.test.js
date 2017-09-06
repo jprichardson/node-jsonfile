@@ -104,6 +104,17 @@ describe('+ writeFile()', function () {
         done()
       })
     })
+
+    it('should use EOL override', function (done) {
+      var file = path.join(TEST_DIR, 'somefile.json')
+      var obj = { name: 'jp' }
+      jf.writeFile(file, obj, {spaces: 2, EOL: '***'}, function (err) {
+        assert.ifError(err)
+        var data = fs.readFileSync(file, 'utf8')
+        assert.strictEqual(data, '{***  "name": "jp"***}***')
+        done()
+      })
+    })
   })
 
   describe('> when passing encoding string as options', function () {

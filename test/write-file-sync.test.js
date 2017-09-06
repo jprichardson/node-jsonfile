@@ -78,6 +78,14 @@ describe('+ writeFileSync()', function () {
       var data = fs.readFileSync(file, 'utf8')
       assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
     })
+
+    it('should use EOL override', function () {
+      var file = path.join(TEST_DIR, 'somefile.json')
+      var obj = { name: 'JP' }
+      jf.writeFileSync(file, obj, {spaces: 2, EOL: '***'})
+      var data = fs.readFileSync(file, 'utf8')
+      assert.strictEqual(data, '{***  "name": "JP"***}***')
+    })
   })
 
   describe('> when passing encoding string as options', function () {
