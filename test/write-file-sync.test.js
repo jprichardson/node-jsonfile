@@ -47,6 +47,20 @@ describe('+ writeFileSync()', function () {
       // restore default
       jf.spaces = null
     })
+
+    it('still uses global when context lost', function () {
+      var file = path.join(TEST_DIR, 'somefile.json')
+      var obj = {name: 'JP'}
+      jf.spaces = 2
+      var writeFileSync = jf.writeFileSync
+      writeFileSync(file, obj)
+
+      var data = fs.readFileSync(file, 'utf8')
+      assert.equal(data, '{\n  "name": "JP"\n}\n')
+
+      // restore default
+      jf.spaces = null
+    })
   })
 
   describe('> when JSON replacer is set', function () {
