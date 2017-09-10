@@ -77,6 +77,26 @@ function readFileSync (file, options) {
   }
 }
 
+function stringify (obj, options) {
+  // `jsonfile` and not `this` because people might destructure
+  // and use `writeFile` instead of `fs.writeFile`, in which case
+  // `this` would be `undefined`
+  var spaces = jsonfile.spaces
+  var EOL = '\n'
+  if (typeof options === 'object' && options !== null) {
+    if (options.spaces) {
+      spaces = options.spaces
+    }
+    if (options.EOL) {
+      EOL = options.EOL
+    }
+  }
+
+  var str = JSON.stringify(obj, options ? options.replacer : null, spaces)
+
+  return str.replace(/\n/g, EOL) + EOL
+}
+
 function writeFile (file, obj, options, callback) {
   if (callback == null) {
     callback = options
@@ -85,14 +105,9 @@ function writeFile (file, obj, options, callback) {
   options = options || {}
   var fs = options.fs || _fs
 
-  var spaces = typeof options === 'object' && options !== null
-    ? 'spaces' in options
-    ? options.spaces : this.spaces
-    : this.spaces
-
   var str = ''
   try {
-    str = JSON.stringify(obj, options ? options.replacer : null, spaces) + '\n'
+    str = stringify(obj, options)
   } catch (err) {
     // Need to return whether a callback was passed or not
     if (callback) callback(err, null)
@@ -106,12 +121,7 @@ function writeFileSync (file, obj, options) {
   options = options || {}
   var fs = options.fs || _fs
 
-  var spaces = typeof options === 'object' && options !== null
-    ? 'spaces' in options
-    ? options.spaces : this.spaces
-    : this.spaces
-
-  var str = JSON.stringify(obj, options.replacer, spaces) + '\n'
+  var str = stringify(obj, options)
   // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
 }
