@@ -39,41 +39,6 @@ describe('+ writeFile()', function () {
     })
   })
 
-  describe('> when global spaces is set', function () {
-    it('should write JSON with spacing', function (done) {
-      var file = path.join(TEST_DIR, 'somefile.json')
-      var obj = {name: 'JP'}
-      jf.spaces = 2
-      jf.writeFile(file, obj, function (err) {
-        assert.ifError(err)
-
-        var data = fs.readFileSync(file, 'utf8')
-        assert.equal(data, '{\n  "name": "JP"\n}\n')
-
-        // restore default
-        jf.spaces = null
-        done()
-      })
-    })
-
-    it('still uses global when context lost', function (done) {
-      var file = path.join(TEST_DIR, 'somefile.json')
-      var obj = {name: 'JP'}
-      jf.spaces = 2
-      var writeFile = jf.writeFile
-      writeFile(file, obj, function (err) {
-        assert.ifError(err)
-
-        var data = fs.readFileSync(file, 'utf8')
-        assert.equal(data, '{\n  "name": "JP"\n}\n')
-
-        // restore default
-        jf.spaces = null
-        done()
-      })
-    })
-  })
-
   describe('> when JSON replacer is set', function () {
     it('should replace JSON', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')

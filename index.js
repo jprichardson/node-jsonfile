@@ -78,10 +78,7 @@ function readFileSync (file, options) {
 }
 
 function stringify (obj, options) {
-  // `jsonfile` and not `this` because people might destructure
-  // and use `writeFile` instead of `fs.writeFile`, in which case
-  // `this` would be `undefined`
-  var spaces = jsonfile.spaces
+  var spaces
   var EOL = '\n'
   if (typeof options === 'object' && options !== null) {
     if (options.spaces) {
@@ -134,7 +131,6 @@ function stripBom (content) {
 }
 
 var jsonfile = {
-  spaces: null,
   readFile: readFile,
   readFileSync: readFileSync,
   writeFile: writeFile,
