@@ -50,21 +50,6 @@ describe('+ readFileSync()', function () {
     })
   })
 
-  describe('> when invalid JSON and passParsingErrors set to false', function () {
-    it('should return null', function () {
-      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
-      var data = '{not valid JSON'
-      fs.writeFileSync(file, data)
-
-      assert.throws(function () {
-        jf.readFileSync(file)
-      })
-
-      var obj = jf.readFileSync(file, {passParsingErrors: false})
-      assert.strictEqual(obj, null)
-    })
-  })
-
   describe('> when invalid JSON and throws set to false', function () {
     it('should return null', function () {
       var file = path.join(TEST_DIR, 'somefile4-invalid.json')
@@ -77,22 +62,6 @@ describe('+ readFileSync()', function () {
 
       var obj = jf.readFileSync(file, {throws: false})
       assert.strictEqual(obj, null)
-    })
-  })
-
-  describe('> when invalid JSON and passParsingErrors set to true', function () {
-    it('should return null', function () {
-      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
-      var data = '{not valid JSON'
-      fs.writeFileSync(file, data)
-
-      assert.throws(function () {
-        jf.readFileSync(file)
-      })
-
-      assert.throws(function () {
-        jf.readFileSync(file, {throws: true})
-      })
     })
   })
 

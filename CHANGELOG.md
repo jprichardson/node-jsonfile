@@ -1,4 +1,5 @@
 - **BREAKING:** Remove global `spaces` option.
+- Remove undocumented `passParsingErrors` option.
 - Added `EOL` override option to `writeFile` when using `spaces`. [#89]
 
 3.0.1 / 2017-07-05
