@@ -1,4 +1,5 @@
 - **BREAKING:** Remove global `spaces` option.
+- **BREAKING:** Drop support for Node 0.10, 0.12, and io.js.
 - Remove undocumented `passParsingErrors` option.
 - Added `EOL` override option to `writeFile` when using `spaces`. [#89]
 
