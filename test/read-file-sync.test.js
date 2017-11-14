@@ -146,11 +146,11 @@ describe('+ readFileSync()', function () {
     })
   })
 
-    describe('> w/ comments', function () {
+  describe('> w/ comments', function () {
     it('should properly parse', function () {
       var file = path.join(TEST_DIR, 'file-comment.json')
       var obj = { name: 'JP' }
-      fs.writeFileSync(file, JSON.stringify(obj) + "//unnecessary comments")
+      fs.writeFileSync(file, JSON.stringify(obj) + '//unnecessary comments')
       var data = jf.readFileSync(file)
       assert.deepEqual(obj, data)
     })
