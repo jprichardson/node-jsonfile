@@ -16,7 +16,9 @@
   ],
   "author": "JP Richardson <jprichardson@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "strip-json-comments": "^2.0.1"
+  },
   "optionalDependencies": {
     "graceful-fs": "^4.1.6"
   },

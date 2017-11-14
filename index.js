@@ -4,6 +4,7 @@ try {
 } catch (_) {
   _fs = require('fs')
 }
+const stripJsonComments = require('strip-json-comments')
 
 function readFile (file, options, callback) {
   if (callback == null) {
@@ -26,7 +27,7 @@ function readFile (file, options, callback) {
   fs.readFile(file, options, function (err, data) {
     if (err) return callback(err)
 
-    data = stripBom(data)
+    data = stripJsonComments(stripBom(data))
 
     var obj
     try {
@@ -59,7 +60,7 @@ function readFileSync (file, options) {
 
   try {
     var content = fs.readFileSync(file, options)
-    content = stripBom(content)
+    content = stripJsonComments(stripBom(content))
     return JSON.parse(content, options.reviver)
   } catch (err) {
     if (shouldThrow) {
