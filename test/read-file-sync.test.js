@@ -154,5 +154,5 @@ describe('+ readFileSync()', function () {
       var data = jf.readFileSync(file)
       assert.deepEqual(obj, data)
     })
-  })  
+  })
 })
