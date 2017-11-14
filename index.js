@@ -4,7 +4,7 @@ try {
 } catch (_) {
   _fs = require('fs')
 }
-const jsmin = require('jsmin').jsmin
+const stripJsonComments = require('strip-json-comments')
 
 function readFile (file, options, callback) {
   if (callback == null) {
@@ -27,7 +27,7 @@ function readFile (file, options, callback) {
   fs.readFile(file, options, function (err, data) {
     if (err) return callback(err)
 
-    data = jsmin(stripBom(data))
+    data = stripJsonComments(stripBom(data))
 
     var obj
     try {
@@ -60,7 +60,7 @@ function readFileSync (file, options) {
 
   try {
     var content = fs.readFileSync(file, options)
-    content = jsmin(stripBom(content))
+    content = stripJsonComments(stripBom(content))
     return JSON.parse(content, options.reviver)
   } catch (err) {
     if (shouldThrow) {
