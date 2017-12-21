@@ -18,10 +18,9 @@ Writing `JSON.stringify()` and then `fs.writeFile()` and `JSON.parse()` with `fs
 
 Installation
 ------------
-
-    npm install --save jsonfile
-
-
+```sh
+npm install --save jsonfile
+```
 
 API
 ---
