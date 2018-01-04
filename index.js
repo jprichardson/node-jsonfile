@@ -5,8 +5,17 @@ try {
   _fs = require('fs')
 }
 
+var writeFilePromisified = function (fs, file, str, options) {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(file, str, options, function (err) {
+      if (err) return reject(err)
+      resolve()
+    })
+  })
+}
+
 function readFile (file, options, callback) {
-  if (callback == null) {
+  if (callback == null && typeof options === 'function') {
     callback = options
     options = {}
   }
@@ -23,24 +32,26 @@ function readFile (file, options, callback) {
     shouldThrow = options.throws
   }
 
-  fs.readFile(file, options, function (err, data) {
-    if (err) return callback(err)
+  return new Promise(function (resolve, reject) {
+    fs.readFile(file, options, function (err, data) {
+      if (err) return callback ? callback(err) : reject(err)
 
-    data = stripBom(data)
+      data = stripBom(data)
 
-    var obj
-    try {
-      obj = JSON.parse(data, options ? options.reviver : null)
-    } catch (err2) {
-      if (shouldThrow) {
-        err2.message = file + ': ' + err2.message
-        return callback(err2)
-      } else {
-        return callback(null, null)
+      var obj
+      try {
+        obj = JSON.parse(data, options ? options.reviver : null)
+      } catch (err2) {
+        if (shouldThrow) {
+          err2.message = file + ': ' + err2.message
+          return callback ? callback(err2) : reject(err2)
+        } else {
+          return callback ? callback(null, null) : resolve()
+        }
       }
-    }
 
-    callback(null, obj)
+      return callback ? callback(null, obj) : resolve(obj)
+    })
   })
 }
 
@@ -89,7 +100,7 @@ function stringify (obj, options) {
 }
 
 function writeFile (file, obj, options, callback) {
-  if (callback == null) {
+  if (callback == null && typeof options === 'function') {
     callback = options
     options = {}
   }
@@ -100,12 +111,11 @@ function writeFile (file, obj, options, callback) {
   try {
     str = stringify(obj, options)
   } catch (err) {
-    // Need to return whether a callback was passed or not
-    if (callback) callback(err, null)
-    return
+    return callback ? callback(err, null) : Promise.reject(err)
   }
 
-  fs.writeFile(file, str, options, callback)
+  if (callback) fs.writeFile(file, str, options, callback)
+  else return writeFilePromisified(fs, file, str, options)
 }
 
 function writeFileSync (file, obj, options) {
