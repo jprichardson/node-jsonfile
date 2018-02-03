@@ -7,7 +7,7 @@ try {
 
 var writeFilePromisified = function (fs, file, str, options) {
   return new Promise(function (resolve, reject) {
-    fs.readFile(file, str, options, function (err) {
+    fs.writeFile(file, str, options, function (err) {
       if (err) return reject(err)
       resolve()
     })
@@ -32,7 +32,7 @@ function readFile (file, options, callback) {
     shouldThrow = options.throws
   }
 
-  return new Promise(function (resolve, reject) {
+  var ps = new Promise(function (resolve, reject) {
     fs.readFile(file, options, function (err, data) {
       if (err) return callback ? callback(err) : reject(err)
 
@@ -53,6 +53,9 @@ function readFile (file, options, callback) {
       return callback ? callback(null, obj) : resolve(obj)
     })
   })
+
+  if (callback) ps.then()
+  else return ps
 }
 
 function readFileSync (file, options) {
