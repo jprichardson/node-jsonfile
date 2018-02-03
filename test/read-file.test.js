@@ -341,7 +341,7 @@ describe('+ readFile() **Promise**', function () {
       }
       fs.writeFileSync(file, JSON.stringify(obj))
 
-      jf.readFile(file, 'utf83')
+      jf.readFile(file, 'utf8')
         .then((obj2) => assert.strictEqual(obj2.name, 'jp'))
         .catch((err) => assert.ifError(err))
         .then(done)
