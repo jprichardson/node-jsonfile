@@ -1,3 +1,6 @@
+
+var atomic = require('write-file-atomic')
+
 var _fs
 try {
   _fs = require('graceful-fs')
@@ -88,6 +91,35 @@ function stringify (obj, options) {
   return str.replace(/\n/g, EOL) + EOL
 }
 
+function atomicWriteFile (file, obj, options, callback) {
+  if (callback == null) {
+    callback = options
+    options = {}
+  }
+  options = options || {}
+  var fs = options.fs || _fs
+
+  var str = ''
+  try {
+    str = stringify(obj, options)
+  } catch (err) {
+    // Need to return whether a callback was passed or not
+    if (callback) callback(err, null)
+    return
+  }
+
+  atomic(file, str, options, callback)
+}
+
+function atomicWriteFileSync (file, obj, options) {
+  options = options || {}
+  var fs = options.fs || _fs
+
+  var str = stringify(obj, options)
+  // not sure if fs.writeFileSync returns anything, but just in case
+  return atomic.sync(file, str, options)
+}
+
 function writeFile (file, obj, options, callback) {
   if (callback == null) {
     callback = options
@@ -128,7 +160,9 @@ var jsonfile = {
   readFile: readFile,
   readFileSync: readFileSync,
   writeFile: writeFile,
-  writeFileSync: writeFileSync
+  writeFileSync: writeFileSync,
+  atomicWriteFile: atomicWriteFile,
+  atomicWriteFileSync: atomicWriteFileSync
 }
 
 module.exports = jsonfile

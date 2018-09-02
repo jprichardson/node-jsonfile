@@ -23,7 +23,8 @@
   "devDependencies": {
     "mocha": "2.x",
     "rimraf": "^2.4.0",
-    "standard": "^10.0.3"
+    "standard": "^10.0.3",
+    "write-file-atomic": "^2.3.0"
   },
   "main": "index.js",
   "files": [
