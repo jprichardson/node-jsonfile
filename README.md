@@ -112,6 +112,10 @@ jsonfile.writeFile(file, obj, {flag: 'a'}, function (err) {
 })
 ```
 
+### atomicWriteFile(filename, obj, [options], callback)
+
+Same as `writeFile()` but uses atomic save.
+
 ### writeFileSync(filename, obj, [options])
 
 `options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces` and override `EOL` string.
@@ -159,6 +163,10 @@ var obj = {name: 'JP'}
 
 jsonfile.writeFileSync(file, obj, {flag: 'a'})
 ```
+
+### atomicWriteFileSync(filename, obj, [options])
+
+Same as `writeFileSync()` but uses atomic save.
 
 License
 -------
