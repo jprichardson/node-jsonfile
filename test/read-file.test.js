@@ -23,7 +23,7 @@ describe('+ readFile()', function () {
 
   it('should read and parse JSON', function (done) {
     var file = path.join(TEST_DIR, 'somefile.json')
-    var obj = {name: 'JP'}
+    var obj = { name: 'JP' }
     fs.writeFileSync(file, JSON.stringify(obj))
 
     jf.readFile(file, function (err, obj2) {
@@ -64,7 +64,7 @@ describe('+ readFile()', function () {
         bothDone = true
       })
 
-      jf.readFile(file, {throws: false}, function (err, obj2) {
+      jf.readFile(file, { throws: false }, function (err, obj2) {
         assert.ifError(err)
         assert.strictEqual(obj2, null)
         if (bothDone) {
@@ -92,7 +92,7 @@ describe('+ readFile()', function () {
         bothDone = true
       })
 
-      jf.readFile(file, {throws: true}, function (err, obj2) {
+      jf.readFile(file, { throws: true }, function (err, obj2) {
         assert(err instanceof Error)
         assert(err.message.match(fn))
         if (bothDone) {
@@ -118,7 +118,7 @@ describe('+ readFile()', function () {
       }
 
       fs.writeFileSync(file, JSON.stringify(obj))
-      jf.readFile(file, {reviver: sillyReviver}, function (err, data) {
+      jf.readFile(file, { reviver: sillyReviver }, function (err, data) {
         assert.ifError(err)
         assert.strictEqual(data.name, 'jp')
         assert(data.day instanceof Date)

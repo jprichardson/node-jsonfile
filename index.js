@@ -4,15 +4,16 @@ try {
 } catch (_) {
   _fs = require('fs')
 }
+const universalify = require('universalify')
 
-function readFile (file, options, callback) {
+function readFileWithCallback (file, options, callback) {
   if (callback == null) {
     callback = options
     options = {}
   }
 
   if (typeof options === 'string') {
-    options = {encoding: options}
+    options = { encoding: options }
   }
 
   options = options || {}
@@ -44,10 +45,12 @@ function readFile (file, options, callback) {
   })
 }
 
+const readFile = universalify.fromCallback(readFileWithCallback)
+
 function readFileSync (file, options) {
   options = options || {}
   if (typeof options === 'string') {
-    options = {encoding: options}
+    options = { encoding: options }
   }
 
   var fs = options.fs || _fs
@@ -88,7 +91,7 @@ function stringify (obj, options) {
   return str.replace(/\n/g, EOL) + EOL
 }
 
-function writeFile (file, obj, options, callback) {
+function writeFileWithCallback (file, obj, options, callback) {
   if (callback == null) {
     callback = options
     options = {}
@@ -107,6 +110,8 @@ function writeFile (file, obj, options, callback) {
 
   fs.writeFile(file, str, options, callback)
 }
+
+const writeFile = universalify.fromCallback(writeFileWithCallback)
 
 function writeFileSync (file, obj, options) {
   options = options || {}

@@ -23,7 +23,7 @@ describe('+ writeFileSync()', function () {
 
   it('should serialize the JSON and write it to file', function () {
     var file = path.join(TEST_DIR, 'somefile4.json')
-    var obj = {name: 'JP'}
+    var obj = { name: 'JP' }
 
     jf.writeFileSync(file, obj)
 
@@ -47,7 +47,7 @@ describe('+ writeFileSync()', function () {
         reg: new RegExp(/hello/g)
       }
 
-      jf.writeFileSync(file, obj, {replacer: sillyReplacer})
+      jf.writeFileSync(file, obj, { replacer: sillyReplacer })
       var data = JSON.parse(fs.readFileSync(file))
       assert.strictEqual(data.name, 'jp')
       assert.strictEqual(typeof data.reg, 'string')
@@ -59,7 +59,7 @@ describe('+ writeFileSync()', function () {
     it('should write file with spaces', function () {
       var file = path.join(TEST_DIR, 'somefile.json')
       var obj = { name: 'JP' }
-      jf.writeFileSync(file, obj, {spaces: 8})
+      jf.writeFileSync(file, obj, { spaces: 8 })
       var data = fs.readFileSync(file, 'utf8')
       assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
     })
@@ -67,7 +67,7 @@ describe('+ writeFileSync()', function () {
     it('should use EOL override', function () {
       var file = path.join(TEST_DIR, 'somefile.json')
       var obj = { name: 'JP' }
-      jf.writeFileSync(file, obj, {spaces: 2, EOL: '***'})
+      jf.writeFileSync(file, obj, { spaces: 2, EOL: '***' })
       var data = fs.readFileSync(file, 'utf8')
       assert.strictEqual(data, '{***  "name": "JP"***}***')
     })
