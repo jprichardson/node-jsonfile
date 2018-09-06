@@ -40,7 +40,16 @@ jsonfile.readFile(file, function(err, obj) {
   console.dir(obj)
 })
 ```
+### readFile(filename, [options]) : Promise
+A promisified version of readFile.
 
+```js
+var jsonfile = require('jsonfile')
+var file = '/tmp/data.json'
+jsonfile.readFile(file)
+  .then(obj => console.dir(obj)))
+  .catch(error => console.log(error));
+```
 
 ### readFileSync(filename, [options])
 
@@ -70,6 +79,25 @@ jsonfile.writeFile(file, obj, function (err) {
   console.error(err)
 })
 ```
+
+
+### writeFile(filename, obj, [options]) : Promise
+
+A promisified version of readFile.
+
+```js
+var jsonfile = require('jsonfile')
+
+var file = '/tmp/data.json'
+var obj = {name: 'JP'}
+
+jsonfile.writeFile(file, obj)
+  .then(res => {
+    console.log("Write complete");
+  })
+  .catch(error => console.log(error));
+```
+
 
 **formatting with spaces:**
 
