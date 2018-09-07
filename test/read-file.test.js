@@ -69,7 +69,6 @@ describe('+ readFile()', function () {
 
     it('should reject the promise with filename in error', function (done) {
       jf.readFile(file)
-        .then(data => {})
         .catch(err => {
           assert(err instanceof Error)
           assert(err.message.match(fn))
@@ -157,8 +156,7 @@ describe('+ readFile()', function () {
     })
 
     it('should reject the promise', function (done) {
-      jf.readFile(file)
-        .then(data => { })
+      jf.readFile(file, { throws: true })
         .catch(err => {
           assert(err instanceof Error)
           assert(err.message.match(fn))
@@ -208,7 +206,7 @@ describe('+ readFile()', function () {
     })
   })
 
-  describe('> when passing null and callback', function () {
+  describe('> when passing null as options and callback / promise', function () {
     var file, obj
 
     beforeEach(function (done) {

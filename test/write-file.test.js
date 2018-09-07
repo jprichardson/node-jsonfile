@@ -107,7 +107,7 @@ describe('+ writeFile()', function () {
     })
   })
 
-  describe('> when passing null and callback', function () {
+  describe('> when passing null as options and callback', function () {
     it('should not throw an error', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
       var obj = { name: 'jp' }
@@ -118,7 +118,7 @@ describe('+ writeFile()', function () {
     })
   })
 
-  describe('> when passing null and No callback', function () {
+  describe('> when passing null as options and No callback', function () {
     it('should not throw an error', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
       var obj = { name: 'jp' }
@@ -235,7 +235,6 @@ describe('+ writeFile()', function () {
       obj1.circular = obj2
 
       jf.writeFile(file, obj1)
-        .then(res => {})
         .catch(err => {
           assert.ifError(err)
         })
