@@ -40,8 +40,8 @@ jsonfile.readFile(file, function(err, obj) {
   console.dir(obj)
 })
 ```
-### readFile(filename, [options]) : Promise
-A promisified version of readFile.
+
+You can also use this method with promises. The readFile() method will return a promise if you do not pass a callback function.
 
 ```js
 var jsonfile = require('jsonfile')
@@ -79,11 +79,7 @@ jsonfile.writeFile(file, obj, function (err) {
   console.error(err)
 })
 ```
-
-
-### writeFile(filename, obj, [options]) : Promise
-
-A promisified version of readFile.
+Or use with promises as follows:
 
 ```js
 var jsonfile = require('jsonfile')
