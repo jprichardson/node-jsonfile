@@ -1,3 +1,10 @@
+5.0.0 / 2018-09-08
+------------------
+
+- **BREAKING:** Drop Node 4 support
+- **BREAKING:** If no callback is passed to an asynchronous method, a promise is now returned ([#109](https://github.com/jprichardson/node-jsonfile/pull/109))
+- Cleanup docs
+
 4.0.0 / 2017-07-12
 ------------------
 
