@@ -23,7 +23,7 @@ describe('+ readFileSync()', function () {
 
   it('should read and parse JSON', function () {
     var file = path.join(TEST_DIR, 'somefile3.json')
-    var obj = {name: 'JP'}
+    var obj = { name: 'JP' }
     fs.writeFileSync(file, JSON.stringify(obj))
 
     try {
@@ -60,7 +60,7 @@ describe('+ readFileSync()', function () {
         jf.readFileSync(file)
       })
 
-      var obj = jf.readFileSync(file, {throws: false})
+      var obj = jf.readFileSync(file, { throws: false })
       assert.strictEqual(obj, null)
     })
   })
@@ -72,7 +72,7 @@ describe('+ readFileSync()', function () {
       fs.writeFileSync(file, data)
 
       assert.throws(function () {
-        jf.readFileSync(file, {throws: true})
+        jf.readFileSync(file, { throws: true })
       })
     })
   })
@@ -81,7 +81,7 @@ describe('+ readFileSync()', function () {
     it('should return null', function () {
       var file = path.join(TEST_DIR, 'somefile4-invalid.json')
 
-      var obj = jf.readFileSync(file, {throws: false})
+      var obj = jf.readFileSync(file, { throws: false })
       assert.strictEqual(obj, null)
     })
   })
@@ -91,7 +91,7 @@ describe('+ readFileSync()', function () {
       var file = path.join(TEST_DIR, 'somefile4-invalid.json')
 
       assert.throws(function () {
-        jf.readFileSync(file, {throws: true})
+        jf.readFileSync(file, { throws: true })
       })
     })
   })
@@ -111,7 +111,7 @@ describe('+ readFileSync()', function () {
       }
 
       fs.writeFileSync(file, JSON.stringify(obj))
-      var data = jf.readFileSync(file, {reviver: sillyReviver})
+      var data = jf.readFileSync(file, { reviver: sillyReviver })
       assert.strictEqual(data.name, 'jp')
       assert(data.day instanceof Date)
       assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')

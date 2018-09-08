@@ -41,6 +41,15 @@ jsonfile.readFile(file, function(err, obj) {
 })
 ```
 
+You can also use this method with promises. The readFile() method will return a promise if you do not pass a callback function.
+
+```js
+var jsonfile = require('jsonfile')
+var file = '/tmp/data.json'
+jsonfile.readFile(file)
+  .then(obj => console.dir(obj)))
+  .catch(error => console.log(error));
+```
 
 ### readFileSync(filename, [options])
 
@@ -70,6 +79,21 @@ jsonfile.writeFile(file, obj, function (err) {
   console.error(err)
 })
 ```
+Or use with promises as follows:
+
+```js
+var jsonfile = require('jsonfile')
+
+var file = '/tmp/data.json'
+var obj = {name: 'JP'}
+
+jsonfile.writeFile(file, obj)
+  .then(res => {
+    console.log("Write complete");
+  })
+  .catch(error => console.log(error));
+```
+
 
 **formatting with spaces:**
 

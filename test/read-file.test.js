@@ -23,7 +23,7 @@ describe('+ readFile()', function () {
 
   it('should read and parse JSON', function (done) {
     var file = path.join(TEST_DIR, 'somefile.json')
-    var obj = {name: 'JP'}
+    var obj = { name: 'JP' }
     fs.writeFileSync(file, JSON.stringify(obj))
 
     jf.readFile(file, function (err, obj2) {
@@ -33,27 +33,63 @@ describe('+ readFile()', function () {
     })
   })
 
-  describe('> when invalid JSON', function () {
-    it('should include the filename in the error', function (done) {
-      var fn = 'somefile.json'
-      var file = path.join(TEST_DIR, fn)
-      fs.writeFileSync(file, '{')
+  it('should resolve a promise with parsed JSON', function (done) {
+    var file = path.join(TEST_DIR, 'somefile.json')
+    var obj = { name: 'JP' }
+    fs.writeFileSync(file, JSON.stringify(obj))
 
+    jf.readFile(file)
+      .then((data) => {
+        assert.equal(data.name, obj.name)
+        done()
+      })
+      .catch(err => {
+        assert.ifError(err)
+        done()
+      })
+  })
+
+  describe('> when invalid JSON', function () {
+    var fn, file
+
+    beforeEach(function (done) {
+      fn = 'somefile.json'
+      file = path.join(TEST_DIR, fn)
+      fs.writeFileSync(file, '{')
+      done()
+    })
+
+    it('should include the filename in the error', function (done) {
       jf.readFile(file, function (err, obj2) {
         assert(err instanceof Error)
         assert(err.message.match(fn))
         done()
       })
     })
+
+    it('should reject the promise with filename in error', function (done) {
+      jf.readFile(file)
+        .catch(err => {
+          assert(err instanceof Error)
+          assert(err.message.match(fn))
+          done()
+        })
+    })
   })
 
   describe('> when invalid JSON and throws set to false', function () {
-    it('should return null and no error', function (done) {
-      var fn = 'somefile4-invalid.json'
-      var file = path.join(TEST_DIR, fn)
+    var fn, file
+
+    beforeEach(function (done) {
+      fn = 'somefile4-invalid.json'
+      file = path.join(TEST_DIR, fn)
       var data = '{not valid JSON'
-      var bothDone = false
       fs.writeFileSync(file, data)
+      done()
+    })
+
+    it('should return null and no error', function (done) {
+      var bothDone = false
 
       jf.readFile(file, function (err, obj2) {
         assert(err instanceof Error)
@@ -64,7 +100,7 @@ describe('+ readFile()', function () {
         bothDone = true
       })
 
-      jf.readFile(file, {throws: false}, function (err, obj2) {
+      jf.readFile(file, { throws: false }, function (err, obj2) {
         assert.ifError(err)
         assert.strictEqual(obj2, null)
         if (bothDone) {
@@ -73,16 +109,33 @@ describe('+ readFile()', function () {
         bothDone = true
       })
     })
+
+    it('should resolve the promise with null as data', function (done) {
+      jf.readFile(file, { throws: false })
+        .then(data => {
+          assert.strictEqual(data, null)
+          done()
+        })
+        .catch(err => {
+          assert.ifError(err)
+          done()
+        })
+    })
   })
 
   describe('> when invalid JSON and throws set to true', function () {
-    it('should return an error', function (done) {
-      var fn = 'somefile4-invalid.json'
-      var file = path.join(TEST_DIR, fn)
-      var data = '{not valid JSON'
-      var bothDone = false
-      fs.writeFileSync(file, data)
+    var fn, file
 
+    beforeEach(function (done) {
+      fn = 'somefile4-invalid.json'
+      file = path.join(TEST_DIR, fn)
+      var data = '{not valid JSON'
+      fs.writeFileSync(file, data)
+      done()
+    })
+
+    it('should return an error', function (done) {
+      var bothDone = false
       jf.readFile(file, function (err, obj2) {
         assert(err instanceof Error)
         assert(err.message.match(fn))
@@ -92,7 +145,7 @@ describe('+ readFile()', function () {
         bothDone = true
       })
 
-      jf.readFile(file, {throws: true}, function (err, obj2) {
+      jf.readFile(file, { throws: true }, function (err, obj2) {
         assert(err instanceof Error)
         assert(err.message.match(fn))
         if (bothDone) {
@@ -101,24 +154,36 @@ describe('+ readFile()', function () {
         bothDone = true
       })
     })
+
+    it('should reject the promise', function (done) {
+      jf.readFile(file, { throws: true })
+        .catch(err => {
+          assert(err instanceof Error)
+          assert(err.message.match(fn))
+          done()
+        })
+    })
   })
 
   describe('> when JSON reviver is set', function () {
-    it('should transform the JSON', function (done) {
-      var file = path.join(TEST_DIR, 'somefile.json')
-      var sillyReviver = function (k, v) {
+    var file, sillyReviver
+
+    beforeEach(function (done) {
+      file = path.join(TEST_DIR, 'somefile.json')
+      sillyReviver = function (k, v) {
         if (typeof v !== 'string') return v
         if (v.indexOf('date:') < 0) return v
         return new Date(v.split('date:')[1])
       }
 
-      var obj = {
-        name: 'jp',
-        day: 'date:2015-06-19T11:41:26.815Z'
-      }
+      var obj = { name: 'jp', day: 'date:2015-06-19T11:41:26.815Z' }
 
       fs.writeFileSync(file, JSON.stringify(obj))
-      jf.readFile(file, {reviver: sillyReviver}, function (err, data) {
+      done()
+    })
+
+    it('should transform the JSON', function (done) {
+      jf.readFile(file, { reviver: sillyReviver }, function (err, data) {
         assert.ifError(err)
         assert.strictEqual(data.name, 'jp')
         assert(data.day instanceof Date)
@@ -126,9 +191,22 @@ describe('+ readFile()', function () {
         done()
       })
     })
+
+    it('should resolve the promise with transformed JSON', function (done) {
+      jf.readFile(file, { reviver: sillyReviver })
+        .then(data => {
+          assert.strictEqual(data.name, 'jp')
+          assert(data.day instanceof Date)
+          assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
+          done()
+        }).catch(err => {
+          assert.ifError(err)
+          done()
+        })
+    })
   })
 
-  describe('> when passing null and callback', function () {
+  describe('> when passing null as options and callback', function () {
     it('should not throw an error', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
 
@@ -145,8 +223,8 @@ describe('+ readFile()', function () {
     })
   })
 
-  describe('> when passing encoding string as option', function () {
-    it('should not throw an error', function (done) {
+  describe('> when passing null as options and expecting a promise', function () {
+    it('should resolve the promise', function (done) {
       var file = path.join(TEST_DIR, 'somefile.json')
 
       var obj = {
@@ -154,24 +232,80 @@ describe('+ readFile()', function () {
       }
       fs.writeFileSync(file, JSON.stringify(obj))
 
+      jf.readFile(file, null)
+        .then(data => {
+          assert.strictEqual(data.name, obj.name)
+          done()
+        })
+        .catch(err => {
+          assert.ifError(err)
+          done()
+        })
+    })
+  })
+
+  describe('> when passing encoding string as option', function () {
+    var file, obj
+
+    beforeEach(function (done) {
+      file = path.join(TEST_DIR, 'somefile.json')
+
+      obj = {
+        name: 'jp'
+      }
+      fs.writeFileSync(file, JSON.stringify(obj))
+      done()
+    })
+
+    it('should not throw an error', function (done) {
       jf.readFile(file, 'utf8', function (err) {
         assert.ifError(err)
         assert.strictEqual(obj.name, 'jp')
         done()
       })
     })
+
+    it('should resolve the promise', function (done) {
+      jf.readFile(file, 'utf8')
+        .then(data => {
+          assert.strictEqual(data.name, obj.name)
+          done()
+        })
+        .catch(err => {
+          assert.ifError(err)
+          done()
+        })
+    })
   })
 
   describe('> w/ BOM', function () {
-    it('should properly parse', function (done) {
-      var file = path.join(TEST_DIR, 'file-bom.json')
-      var obj = { name: 'JP' }
+    var file, obj
+
+    beforeEach(function (done) {
+      file = path.join(TEST_DIR, 'file-bom.json')
+      obj = { name: 'JP' }
       fs.writeFileSync(file, '\uFEFF' + JSON.stringify(obj))
+      done()
+    })
+
+    it('should properly parse', function (done) {
       jf.readFile(file, function (err, data) {
         assert.ifError(err)
         assert.deepEqual(obj, data)
         done()
       })
+    })
+
+    it('should resolve the promise with parsed JSON', function (done) {
+      jf.readFile(file)
+        .then(data => {
+          assert.deepEqual(data, obj)
+          done()
+        })
+        .catch(err => {
+          assert.ifError(err)
+          done()
+        })
     })
   })
 })
