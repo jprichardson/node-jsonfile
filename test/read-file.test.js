@@ -206,28 +206,32 @@ describe('+ readFile()', function () {
     })
   })
 
-  describe('> when passing null as options and callback / promise', function () {
-    var file, obj
+  describe('> when passing null as options and callback', function () {
+    it('should not throw an error', function (done) {
+      var file = path.join(TEST_DIR, 'somefile.json')
 
-    beforeEach(function (done) {
-      file = path.join(TEST_DIR, 'somefile.json')
-
-      obj = {
+      var obj = {
         name: 'jp'
       }
       fs.writeFileSync(file, JSON.stringify(obj))
-      done()
-    })
 
-    it('should not throw an error', function (done) {
       jf.readFile(file, null, function (err) {
         assert.ifError(err)
         assert.strictEqual(obj.name, 'jp')
         done()
       })
     })
+  })
 
+  describe('> when passing null as options and expecting a promise', function () {
     it('should resolve the promise', function (done) {
+      var file = path.join(TEST_DIR, 'somefile.json')
+
+      var obj = {
+        name: 'jp'
+      }
+      fs.writeFileSync(file, JSON.stringify(obj))
+
       jf.readFile(file, null)
         .then(data => {
           assert.strictEqual(data.name, obj.name)
