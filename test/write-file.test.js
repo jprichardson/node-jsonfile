@@ -236,13 +236,10 @@ describe('+ writeFile()', function () {
 
       jf.writeFile(file, obj1)
         .catch(err => {
-          assert.ifError(err)
+          assert(err)
+          assert(!fs.existsSync(file))
+          done()
         })
-
-      setTimeout(function () {
-        assert(!fs.existsSync(file))
-        done()
-      }, 1000)
     })
   })
 })
