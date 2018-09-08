@@ -1,48 +1,48 @@
-var assert = require('assert')
-var fs = require('fs')
-var os = require('os')
-var path = require('path')
-var rimraf = require('rimraf')
-var jf = require('../')
+const assert = require('assert')
+const fs = require('fs')
+const os = require('os')
+const path = require('path')
+const rimraf = require('rimraf')
+const jf = require('../')
 
 /* global describe it beforeEach afterEach */
 
-describe('+ readFileSync()', function () {
-  var TEST_DIR
+describe('+ readFileSync()', () => {
+  let TEST_DIR
 
-  beforeEach(function (done) {
+  beforeEach((done) => {
     TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests-readfile-sync')
     rimraf.sync(TEST_DIR)
     fs.mkdir(TEST_DIR, done)
   })
 
-  afterEach(function (done) {
+  afterEach((done) => {
     rimraf.sync(TEST_DIR)
     done()
   })
 
-  it('should read and parse JSON', function () {
-    var file = path.join(TEST_DIR, 'somefile3.json')
-    var obj = { name: 'JP' }
+  it('should read and parse JSON', () => {
+    const file = path.join(TEST_DIR, 'somefile3.json')
+    const obj = { name: 'JP' }
     fs.writeFileSync(file, JSON.stringify(obj))
 
     try {
-      var obj2 = jf.readFileSync(file)
-      assert.equal(obj2.name, obj.name)
+      const obj2 = jf.readFileSync(file)
+      assert.strictEqual(obj2.name, obj.name)
     } catch (err) {
       assert(err)
     }
   })
 
-  describe('> when invalid JSON', function () {
-    it('should include the filename in the error', function () {
-      var fn = 'somefile.json'
-      var file = path.join(TEST_DIR, fn)
+  describe('> when invalid JSON', () => {
+    it('should include the filename in the error', () => {
+      const fn = 'somefile.json'
+      const file = path.join(TEST_DIR, fn)
       fs.writeFileSync(file, '{')
 
-      assert.throws(function () {
+      assert.throws(() => {
         jf.readFileSync(file)
-      }, function (err) {
+      }, (err) => {
         assert(err instanceof Error)
         assert(err.message.match(fn))
         return true
@@ -50,85 +50,86 @@ describe('+ readFileSync()', function () {
     })
   })
 
-  describe('> when invalid JSON and throws set to false', function () {
-    it('should return null', function () {
-      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
-      var data = '{not valid JSON'
+  describe('> when invalid JSON and throws set to false', () => {
+    it('should return null', () => {
+      const file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      const data = '{not valid JSON'
       fs.writeFileSync(file, data)
 
-      assert.throws(function () {
+      assert.throws(() => {
         jf.readFileSync(file)
       })
 
-      var obj = jf.readFileSync(file, { throws: false })
+      const obj = jf.readFileSync(file, { throws: false })
       assert.strictEqual(obj, null)
     })
   })
 
-  describe('> when invalid JSON and throws set to true', function () {
-    it('should throw an exception', function () {
-      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
-      var data = '{not valid JSON'
+  describe('> when invalid JSON and throws set to true', () => {
+    it('should throw an exception', () => {
+      const file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      const data = '{not valid JSON'
       fs.writeFileSync(file, data)
 
-      assert.throws(function () {
+      assert.throws(() => {
         jf.readFileSync(file, { throws: true })
       })
     })
   })
 
-  describe('> when json file is missing and throws set to false', function () {
-    it('should return null', function () {
-      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+  describe('> when json file is missing and throws set to false', () => {
+    it('should return null', () => {
+      const file = path.join(TEST_DIR, 'somefile4-invalid.json')
 
-      var obj = jf.readFileSync(file, { throws: false })
+      const obj = jf.readFileSync(file, { throws: false })
       assert.strictEqual(obj, null)
     })
   })
 
-  describe('> when json file is missing and throws set to true', function () {
-    it('should throw an exception', function () {
-      var file = path.join(TEST_DIR, 'somefile4-invalid.json')
+  describe('> when json file is missing and throws set to true', () => {
+    it('should throw an exception', () => {
+      const file = path.join(TEST_DIR, 'somefile4-invalid.json')
 
-      assert.throws(function () {
+      assert.throws(() => {
         jf.readFileSync(file, { throws: true })
       })
     })
   })
 
-  describe('> when JSON reviver is set', function () {
-    it('should transform the JSON', function () {
-      var file = path.join(TEST_DIR, 'somefile.json')
-      var sillyReviver = function (k, v) {
+  describe('> when JSON reviver is set', () => {
+    it('should transform the JSON', () => {
+      const file = path.join(TEST_DIR, 'somefile.json')
+      const sillyReviver = function (k, v) {
         if (typeof v !== 'string') return v
         if (v.indexOf('date:') < 0) return v
         return new Date(v.split('date:')[1])
       }
 
-      var obj = {
+      const obj = {
         name: 'jp',
         day: 'date:2015-06-19T11:41:26.815Z'
       }
 
       fs.writeFileSync(file, JSON.stringify(obj))
-      var data = jf.readFileSync(file, { reviver: sillyReviver })
+      const data = jf.readFileSync(file, { reviver: sillyReviver })
       assert.strictEqual(data.name, 'jp')
       assert(data.day instanceof Date)
       assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
     })
   })
 
-  describe('> when passing encoding string as option', function () {
-    it('should not throw an error', function () {
-      var file = path.join(TEST_DIR, 'somefile.json')
+  describe('> when passing encoding string as option', () => {
+    it('should not throw an error', () => {
+      const file = path.join(TEST_DIR, 'somefile.json')
 
-      var obj = {
+      const obj = {
         name: 'jp'
       }
       fs.writeFileSync(file, JSON.stringify(obj))
 
+      let data
       try {
-        var data = jf.readFileSync(file, 'utf8')
+        data = jf.readFileSync(file, 'utf8')
       } catch (err) {
         assert.ifError(err)
       }
@@ -136,13 +137,13 @@ describe('+ readFileSync()', function () {
     })
   })
 
-  describe('> w/ BOM', function () {
-    it('should properly parse', function () {
-      var file = path.join(TEST_DIR, 'file-bom.json')
-      var obj = { name: 'JP' }
-      fs.writeFileSync(file, '\uFEFF' + JSON.stringify(obj))
-      var data = jf.readFileSync(file)
-      assert.deepEqual(obj, data)
+  describe('> w/ BOM', () => {
+    it('should properly parse', () => {
+      const file = path.join(TEST_DIR, 'file-bom.json')
+      const obj = { name: 'JP' }
+      fs.writeFileSync(file, `\uFEFF${JSON.stringify(obj)}`)
+      const data = jf.readFileSync(file)
+      assert.deepStrictEqual(obj, data)
     })
   })
 })

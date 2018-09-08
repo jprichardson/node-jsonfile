@@ -1,4 +1,4 @@
-var _fs
+let _fs
 try {
   _fs = require('graceful-fs')
 } catch (_) {
@@ -17,24 +17,24 @@ function readFileWithCallback (file, options, callback) {
   }
 
   options = options || {}
-  var fs = options.fs || _fs
+  const fs = options.fs || _fs
 
-  var shouldThrow = true
+  let shouldThrow = true
   if ('throws' in options) {
     shouldThrow = options.throws
   }
 
-  fs.readFile(file, options, function (err, data) {
+  fs.readFile(file, options, (err, data) => {
     if (err) return callback(err)
 
     data = stripBom(data)
 
-    var obj
+    let obj
     try {
       obj = JSON.parse(data, options ? options.reviver : null)
     } catch (err2) {
       if (shouldThrow) {
-        err2.message = file + ': ' + err2.message
+        err2.message = `${file}: ${err2.message}`
         return callback(err2)
       } else {
         return callback(null, null)
@@ -53,20 +53,20 @@ function readFileSync (file, options) {
     options = { encoding: options }
   }
 
-  var fs = options.fs || _fs
+  const fs = options.fs || _fs
 
-  var shouldThrow = true
+  let shouldThrow = true
   if ('throws' in options) {
     shouldThrow = options.throws
   }
 
   try {
-    var content = fs.readFileSync(file, options)
+    let content = fs.readFileSync(file, options)
     content = stripBom(content)
     return JSON.parse(content, options.reviver)
   } catch (err) {
     if (shouldThrow) {
-      err.message = file + ': ' + err.message
+      err.message = `${file}: ${err.message}`
       throw err
     } else {
       return null
@@ -75,8 +75,8 @@ function readFileSync (file, options) {
 }
 
 function stringify (obj, options) {
-  var spaces
-  var EOL = '\n'
+  let spaces
+  let EOL = '\n'
   if (typeof options === 'object' && options !== null) {
     if (options.spaces) {
       spaces = options.spaces
@@ -86,7 +86,7 @@ function stringify (obj, options) {
     }
   }
 
-  var str = JSON.stringify(obj, options ? options.replacer : null, spaces)
+  const str = JSON.stringify(obj, options ? options.replacer : null, spaces)
 
   return str.replace(/\n/g, EOL) + EOL
 }
@@ -97,15 +97,13 @@ function writeFileWithCallback (file, obj, options, callback) {
     options = {}
   }
   options = options || {}
-  var fs = options.fs || _fs
+  const fs = options.fs || _fs
 
-  var str = ''
+  let str = ''
   try {
     str = stringify(obj, options)
   } catch (err) {
-    // Need to return whether a callback was passed or not
-    if (callback) callback(err, null)
-    return
+    return callback(err, null)
   }
 
   fs.writeFile(file, str, options, callback)
@@ -115,9 +113,9 @@ const writeFile = universalify.fromCallback(writeFileWithCallback)
 
 function writeFileSync (file, obj, options) {
   options = options || {}
-  var fs = options.fs || _fs
+  const fs = options.fs || _fs
 
-  var str = stringify(obj, options)
+  const str = stringify(obj, options)
   // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
 }
@@ -129,11 +127,11 @@ function stripBom (content) {
   return content
 }
 
-var jsonfile = {
-  readFile: readFile,
-  readFileSync: readFileSync,
-  writeFile: writeFile,
-  writeFileSync: writeFileSync
+const jsonfile = {
+  readFile,
+  readFileSync,
+  writeFile,
+  writeFileSync
 }
 
 module.exports = jsonfile

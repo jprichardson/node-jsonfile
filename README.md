@@ -34,21 +34,22 @@ API
 
 
 ```js
-var jsonfile = require('jsonfile')
-var file = '/tmp/data.json'
-jsonfile.readFile(file, function(err, obj) {
+const jsonfile = require('jsonfile')
+const file = '/tmp/data.json'
+jsonfile.readFile(file, function (err, obj) {
+  if (err) console.error(err)
   console.dir(obj)
 })
 ```
 
-You can also use this method with promises. The readFile() method will return a promise if you do not pass a callback function.
+You can also use this method with promises. The `readFile` method will return a promise if you do not pass a callback function.
 
 ```js
-var jsonfile = require('jsonfile')
-var file = '/tmp/data.json'
+const jsonfile = require('jsonfile')
+const file = '/tmp/data.json'
 jsonfile.readFile(file)
-  .then(obj => console.dir(obj)))
-  .catch(error => console.log(error));
+  .then(obj => console.dir(obj))
+  .catch(error => console.error(error))
 ```
 
 ### readFileSync(filename, [options])
@@ -57,8 +58,8 @@ jsonfile.readFile(file)
 - `throws` (`boolean`, default: `true`). If an error is encountered reading or parsing the file, throw the error. If `false`, returns `null` for the object.
 
 ```js
-var jsonfile = require('jsonfile')
-var file = '/tmp/data.json'
+const jsonfile = require('jsonfile')
+const file = '/tmp/data.json'
 
 console.dir(jsonfile.readFileSync(file))
 ```
@@ -70,69 +71,69 @@ console.dir(jsonfile.readFileSync(file))
 
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/data.json'
-var obj = {name: 'JP'}
+const file = '/tmp/data.json'
+const obj = { name: 'JP' }
 
 jsonfile.writeFile(file, obj, function (err) {
-  console.error(err)
+  if (err) console.error(err)
 })
 ```
 Or use with promises as follows:
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/data.json'
-var obj = {name: 'JP'}
+const file = '/tmp/data.json'
+const obj = { name: 'JP' }
 
 jsonfile.writeFile(file, obj)
   .then(res => {
-    console.log("Write complete");
+    console.log('Write complete')
   })
-  .catch(error => console.log(error));
+  .catch(error => console.error(error))
 ```
 
 
 **formatting with spaces:**
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/data.json'
-var obj = {name: 'JP'}
+const file = '/tmp/data.json'
+const obj = { name: 'JP' }
 
-jsonfile.writeFile(file, obj, {spaces: 2}, function(err) {
-  console.error(err)
+jsonfile.writeFile(file, obj, { spaces: 2 }, function (err) {
+  if (err) console.error(err)
 })
 ```
 
 **overriding EOL:**
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/data.json'
-var obj = {name: 'JP'}
+const file = '/tmp/data.json'
+const obj = { name: 'JP' }
 
-jsonfile.writeFile(file, obj, {spaces: 2, EOL: '\r\n'}, function(err) {
-  console.error(err)
+jsonfile.writeFile(file, obj, { spaces: 2, EOL: '\r\n' }, function (err) {
+  if (err) console.error(err)
 })
 ```
 
 **appending to an existing JSON file:**
 
-You can use `fs.writeFile` option `{flag: 'a'}` to achieve this.
+You can use `fs.writeFile` option `{ flag: 'a' }` to achieve this.
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/mayAlreadyExistedData.json'
-var obj = {name: 'JP'}
+const file = '/tmp/mayAlreadyExistedData.json'
+const obj = { name: 'JP' }
 
-jsonfile.writeFile(file, obj, {flag: 'a'}, function (err) {
-  console.error(err)
+jsonfile.writeFile(file, obj, { flag: 'a' }, function (err) {
+  if (err) console.error(err)
 })
 ```
 
@@ -141,10 +142,10 @@ jsonfile.writeFile(file, obj, {flag: 'a'}, function (err) {
 `options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces` and override `EOL` string.
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/data.json'
-var obj = {name: 'JP'}
+const file = '/tmp/data.json'
+const obj = { name: 'JP' }
 
 jsonfile.writeFileSync(file, obj)
 ```
@@ -152,36 +153,36 @@ jsonfile.writeFileSync(file, obj)
 **formatting with spaces:**
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/data.json'
-var obj = {name: 'JP'}
+const file = '/tmp/data.json'
+const obj = { name: 'JP' }
 
-jsonfile.writeFileSync(file, obj, {spaces: 2})
+jsonfile.writeFileSync(file, obj, { spaces: 2 })
 ```
 
 **overriding EOL:**
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/data.json'
-var obj = {name: 'JP'}
+const file = '/tmp/data.json'
+const obj = { name: 'JP' }
 
-jsonfile.writeFileSync(file, obj, {spaces: 2, EOL: '\r\n'})
+jsonfile.writeFileSync(file, obj, { spaces: 2, EOL: '\r\n' })
 ```
 
 **appending to an existing JSON file:**
 
-You can use `fs.writeFileSync` option `{flag: 'a'}` to achieve this.
+You can use `fs.writeFileSync` option `{ flag: 'a' }` to achieve this.
 
 ```js
-var jsonfile = require('jsonfile')
+const jsonfile = require('jsonfile')
 
-var file = '/tmp/mayAlreadyExistedData.json'
-var obj = {name: 'JP'}
+const file = '/tmp/mayAlreadyExistedData.json'
+const obj = { name: 'JP' }
 
-jsonfile.writeFileSync(file, obj, {flag: 'a'})
+jsonfile.writeFileSync(file, obj, { flag: 'a' })
 ```
 
 License
