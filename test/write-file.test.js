@@ -30,10 +30,10 @@ describe('+ writeFile()', function () {
       fs.readFile(file, 'utf8', function (err, data) {
         assert.ifError(err)
         var obj2 = JSON.parse(data)
-        assert.equal(obj2.name, obj.name)
+        assert.strictEqual(obj2.name, obj.name)
 
         // verify EOL
-        assert.equal(data[data.length - 1], '\n')
+        assert.strictEqual(data[data.length - 1], '\n')
         done()
       })
     })
@@ -48,10 +48,10 @@ describe('+ writeFile()', function () {
         fs.readFile(file, 'utf8', function (err, data) {
           assert.ifError(err)
           var obj2 = JSON.parse(data)
-          assert.equal(obj2.name, obj.name)
+          assert.strictEqual(obj2.name, obj.name)
 
           // verify EOL
-          assert.equal(data[data.length - 1], '\n')
+          assert.strictEqual(data[data.length - 1], '\n')
           done()
         })
       })

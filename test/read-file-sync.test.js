@@ -28,7 +28,7 @@ describe('+ readFileSync()', function () {
 
     try {
       var obj2 = jf.readFileSync(file)
-      assert.equal(obj2.name, obj.name)
+      assert.strictEqual(obj2.name, obj.name)
     } catch (err) {
       assert(err)
     }
@@ -142,7 +142,7 @@ describe('+ readFileSync()', function () {
       var obj = { name: 'JP' }
       fs.writeFileSync(file, '\uFEFF' + JSON.stringify(obj))
       var data = jf.readFileSync(file)
-      assert.deepEqual(obj, data)
+      assert.deepStrictEqual(obj, data)
     })
   })
 })

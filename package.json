@@ -23,9 +23,9 @@
     "graceful-fs": "^4.1.6"
   },
   "devDependencies": {
-    "mocha": "2.x",
+    "mocha": "^5.2.0",
     "rimraf": "^2.4.0",
-    "standard": "^10.0.3"
+    "standard": "^12.0.1"
   },
   "main": "index.js",
   "files": [

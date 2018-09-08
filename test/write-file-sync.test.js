@@ -29,9 +29,9 @@ describe('+ writeFileSync()', function () {
 
     var data = fs.readFileSync(file, 'utf8')
     var obj2 = JSON.parse(data)
-    assert.equal(obj2.name, obj.name)
-    assert.equal(data[data.length - 1], '\n')
-    assert.equal(data, '{"name":"JP"}\n')
+    assert.strictEqual(obj2.name, obj.name)
+    assert.strictEqual(data[data.length - 1], '\n')
+    assert.strictEqual(data, '{"name":"JP"}\n')
   })
 
   describe('> when JSON replacer is set', function () {

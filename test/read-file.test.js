@@ -28,7 +28,7 @@ describe('+ readFile()', function () {
 
     jf.readFile(file, function (err, obj2) {
       assert.ifError(err)
-      assert.equal(obj2.name, obj.name)
+      assert.strictEqual(obj2.name, obj.name)
       done()
     })
   })
@@ -40,7 +40,7 @@ describe('+ readFile()', function () {
 
     jf.readFile(file)
       .then((data) => {
-        assert.equal(data.name, obj.name)
+        assert.strictEqual(data.name, obj.name)
         done()
       })
       .catch(err => {
@@ -291,7 +291,7 @@ describe('+ readFile()', function () {
     it('should properly parse', function (done) {
       jf.readFile(file, function (err, data) {
         assert.ifError(err)
-        assert.deepEqual(obj, data)
+        assert.deepStrictEqual(obj, data)
         done()
       })
     })
@@ -299,7 +299,7 @@ describe('+ readFile()', function () {
     it('should resolve the promise with parsed JSON', function (done) {
       jf.readFile(file)
         .then(data => {
-          assert.deepEqual(data, obj)
+          assert.deepStrictEqual(data, obj)
           done()
         })
         .catch(err => {
