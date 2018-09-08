@@ -1,35 +1,35 @@
-var assert = require('assert')
-var fs = require('fs')
-var os = require('os')
-var path = require('path')
-var rimraf = require('rimraf')
-var jf = require('../')
+const assert = require('assert')
+const fs = require('fs')
+const os = require('os')
+const path = require('path')
+const rimraf = require('rimraf')
+const jf = require('../')
 
 /* global describe it beforeEach afterEach */
 
-describe('+ writeFile()', function () {
-  var TEST_DIR
+describe('+ writeFile()', () => {
+  let TEST_DIR
 
-  beforeEach(function (done) {
+  beforeEach((done) => {
     TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests-writefile')
     rimraf.sync(TEST_DIR)
     fs.mkdir(TEST_DIR, done)
   })
 
-  afterEach(function (done) {
+  afterEach((done) => {
     rimraf.sync(TEST_DIR)
     done()
   })
 
-  it('should serialize and write JSON', function (done) {
-    var file = path.join(TEST_DIR, 'somefile2.json')
-    var obj = { name: 'JP' }
+  it('should serialize and write JSON', (done) => {
+    const file = path.join(TEST_DIR, 'somefile2.json')
+    const obj = { name: 'JP' }
 
-    jf.writeFile(file, obj, function (err) {
+    jf.writeFile(file, obj, (err) => {
       assert.ifError(err)
-      fs.readFile(file, 'utf8', function (err, data) {
+      fs.readFile(file, 'utf8', (err, data) => {
         assert.ifError(err)
-        var obj2 = JSON.parse(data)
+        const obj2 = JSON.parse(data)
         assert.strictEqual(obj2.name, obj.name)
 
         // verify EOL
@@ -39,15 +39,15 @@ describe('+ writeFile()', function () {
     })
   })
 
-  it('should write JSON, resolve promise', function (done) {
-    var file = path.join(TEST_DIR, 'somefile2.json')
-    var obj = { name: 'JP' }
+  it('should write JSON, resolve promise', (done) => {
+    const file = path.join(TEST_DIR, 'somefile2.json')
+    const obj = { name: 'JP' }
 
     jf.writeFile(file, obj)
       .then(res => {
-        fs.readFile(file, 'utf8', function (err, data) {
+        fs.readFile(file, 'utf8', (err, data) => {
           assert.ifError(err)
-          var obj2 = JSON.parse(data)
+          const obj2 = JSON.parse(data)
           assert.strictEqual(obj2.name, obj.name)
 
           // verify EOL
@@ -61,14 +61,14 @@ describe('+ writeFile()', function () {
       })
   })
 
-  describe('> when JSON replacer is set', function () {
-    var file, sillyReplacer, obj
+  describe('> when JSON replacer is set', () => {
+    let file, sillyReplacer, obj
 
-    beforeEach(function (done) {
+    beforeEach((done) => {
       file = path.join(TEST_DIR, 'somefile.json')
       sillyReplacer = function (k, v) {
         if (!(v instanceof RegExp)) return v
-        return 'regex:' + v.toString()
+        return `regex:${v.toString()}`
       }
 
       obj = {
@@ -79,11 +79,11 @@ describe('+ writeFile()', function () {
       done()
     })
 
-    it('should replace JSON', function (done) {
-      jf.writeFile(file, obj, { replacer: sillyReplacer }, function (err) {
+    it('should replace JSON', (done) => {
+      jf.writeFile(file, obj, { replacer: sillyReplacer }, (err) => {
         assert.ifError(err)
 
-        var data = JSON.parse(fs.readFileSync(file))
+        const data = JSON.parse(fs.readFileSync(file))
         assert.strictEqual(data.name, 'jp')
         assert.strictEqual(typeof data.reg, 'string')
         assert.strictEqual(data.reg, 'regex:/hello/g')
@@ -91,10 +91,10 @@ describe('+ writeFile()', function () {
       })
     })
 
-    it('should replace JSON, resolve promise', function (done) {
+    it('should replace JSON, resolve promise', (done) => {
       jf.writeFile(file, obj, { replacer: sillyReplacer })
         .then(res => {
-          var data = JSON.parse(fs.readFileSync(file))
+          const data = JSON.parse(fs.readFileSync(file))
           assert.strictEqual(data.name, 'jp')
           assert.strictEqual(typeof data.reg, 'string')
           assert.strictEqual(data.reg, 'regex:/hello/g')
@@ -107,21 +107,21 @@ describe('+ writeFile()', function () {
     })
   })
 
-  describe('> when passing null as options and callback', function () {
-    it('should not throw an error', function (done) {
-      var file = path.join(TEST_DIR, 'somefile.json')
-      var obj = { name: 'jp' }
-      jf.writeFile(file, obj, null, function (err) {
+  describe('> when passing null as options and callback', () => {
+    it('should not throw an error', (done) => {
+      const file = path.join(TEST_DIR, 'somefile.json')
+      const obj = { name: 'jp' }
+      jf.writeFile(file, obj, null, (err) => {
         assert.ifError(err)
         done()
       })
     })
   })
 
-  describe('> when passing null as options and No callback', function () {
-    it('should not throw an error', function (done) {
-      var file = path.join(TEST_DIR, 'somefile.json')
-      var obj = { name: 'jp' }
+  describe('> when passing null as options and No callback', () => {
+    it('should not throw an error', (done) => {
+      const file = path.join(TEST_DIR, 'somefile.json')
+      const obj = { name: 'jp' }
       jf.writeFile(file, obj, null)
         .then(res => {
           done()
@@ -133,28 +133,28 @@ describe('+ writeFile()', function () {
     })
   })
 
-  describe('> when spaces passed as an option', function () {
-    var file, obj
-    beforeEach(function (done) {
+  describe('> when spaces passed as an option', () => {
+    let file, obj
+    beforeEach((done) => {
       file = path.join(TEST_DIR, 'somefile.json')
       obj = { name: 'jp' }
       done()
     })
 
-    it('should write file with spaces', function (done) {
-      jf.writeFile(file, obj, { spaces: 8 }, function (err) {
+    it('should write file with spaces', (done) => {
+      jf.writeFile(file, obj, { spaces: 8 }, (err) => {
         assert.ifError(err)
-        var data = fs.readFileSync(file, 'utf8')
-        assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
+        const data = fs.readFileSync(file, 'utf8')
+        assert.strictEqual(data, `${JSON.stringify(obj, null, 8)}\n`)
         done()
       })
     })
 
-    it('should write file with spaces, resolve the promise', function (done) {
+    it('should write file with spaces, resolve the promise', (done) => {
       jf.writeFile(file, obj, { spaces: 8 })
         .then(res => {
-          var data = fs.readFileSync(file, 'utf8')
-          assert.strictEqual(data, JSON.stringify(obj, null, 8) + '\n')
+          const data = fs.readFileSync(file, 'utf8')
+          assert.strictEqual(data, `${JSON.stringify(obj, null, 8)}\n`)
           done()
         })
         .catch(err => {
@@ -164,27 +164,27 @@ describe('+ writeFile()', function () {
     })
   })
 
-  describe('> when spaces, EOL are passed as options', function () {
-    var file, obj
-    beforeEach(function (done) {
+  describe('> when spaces, EOL are passed as options', () => {
+    let file, obj
+    beforeEach((done) => {
       file = path.join(TEST_DIR, 'somefile.json')
       obj = { name: 'jp' }
       done()
     })
 
-    it('should use EOL override', function (done) {
-      jf.writeFile(file, obj, { spaces: 2, EOL: '***' }, function (err) {
+    it('should use EOL override', (done) => {
+      jf.writeFile(file, obj, { spaces: 2, EOL: '***' }, (err) => {
         assert.ifError(err)
-        var data = fs.readFileSync(file, 'utf8')
+        const data = fs.readFileSync(file, 'utf8')
         assert.strictEqual(data, '{***  "name": "jp"***}***')
         done()
       })
     })
 
-    it('should use EOL override, resolve the promise', function (done) {
+    it('should use EOL override, resolve the promise', (done) => {
       jf.writeFile(file, obj, { spaces: 2, EOL: '***' })
         .then(res => {
-          var data = fs.readFileSync(file, 'utf8')
+          const data = fs.readFileSync(file, 'utf8')
           assert.strictEqual(data, '{***  "name": "jp"***}***')
           done()
         })
@@ -194,28 +194,28 @@ describe('+ writeFile()', function () {
         })
     })
   })
-  describe('> when passing encoding string as options', function () {
-    var file, obj
-    beforeEach(function (done) {
+  describe('> when passing encoding string as options', () => {
+    let file, obj
+    beforeEach((done) => {
       file = path.join(TEST_DIR, 'somefile.json')
       obj = { name: 'jp' }
       done()
     })
 
-    it('should not error', function (done) {
-      jf.writeFile(file, obj, 'utf8', function (err) {
+    it('should not error', (done) => {
+      jf.writeFile(file, obj, 'utf8', (err) => {
         assert.ifError(err)
-        var data = fs.readFileSync(file, 'utf8')
-        assert.strictEqual(data, JSON.stringify(obj) + '\n')
+        const data = fs.readFileSync(file, 'utf8')
+        assert.strictEqual(data, `${JSON.stringify(obj)}\n`)
         done()
       })
     })
 
-    it('should not error, resolve the promise', function (done) {
+    it('should not error, resolve the promise', (done) => {
       jf.writeFile(file, obj, 'utf8')
         .then(res => {
-          var data = fs.readFileSync(file, 'utf8')
-          assert.strictEqual(data, JSON.stringify(obj) + '\n')
+          const data = fs.readFileSync(file, 'utf8')
+          assert.strictEqual(data, `${JSON.stringify(obj)}\n`)
           done()
         })
         .catch(err => {
@@ -226,12 +226,12 @@ describe('+ writeFile()', function () {
   })
 
   // Prevent https://github.com/jprichardson/node-jsonfile/issues/81 from happening
-  describe("> when callback isn't passed & can't serialize", function () {
+  describe("> when callback isn't passed & can't serialize", () => {
     it('should not write an empty file, should reject the promise', function (done) {
       this.slow(1100)
-      var file = path.join(TEST_DIR, 'somefile.json')
-      var obj1 = { name: 'JP' }
-      var obj2 = { person: obj1 }
+      const file = path.join(TEST_DIR, 'somefile.json')
+      const obj1 = { name: 'JP' }
+      const obj2 = { person: obj1 }
       obj1.circular = obj2
 
       jf.writeFile(file, obj1)
