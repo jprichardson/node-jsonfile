@@ -26,9 +26,16 @@ Installation
 API
 ---
 
+* [`readFile(filename, [options], callback)`](#readfilefilename-options-callback)
+* [`readFileSync(filename, [options])`](#readfilesyncfilename-options)
+* [`writeFile(filename, obj, [options], callback)`](#writefilefilename-obj-options-callback)
+* [`writeFileSync(filename, obj, [options])`](#writefilesyncfilename-obj-options)
+
+----
+
 ### readFile(filename, [options], callback)
 
-`options` (`object`, default `undefined`): Pass in any `fs.readFile` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
+`options` (`object`, default `undefined`): Pass in any [`fs.readFile`](https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback) options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
   - `throws` (`boolean`, default: `true`). If `JSON.parse` throws an error, pass this error to the callback.
   If `false`, returns `null` for the object.
 
@@ -52,9 +59,11 @@ jsonfile.readFile(file)
   .catch(error => console.error(error))
 ```
 
+----
+
 ### readFileSync(filename, [options])
 
-`options` (`object`, default `undefined`): Pass in any `fs.readFileSync` options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
+`options` (`object`, default `undefined`): Pass in any [`fs.readFileSync`](https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options) options or set `reviver` for a [JSON reviver](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse).
 - `throws` (`boolean`, default: `true`). If an error is encountered reading or parsing the file, throw the error. If `false`, returns `null` for the object.
 
 ```js
@@ -64,10 +73,11 @@ const file = '/tmp/data.json'
 console.dir(jsonfile.readFileSync(file))
 ```
 
+----
 
 ### writeFile(filename, obj, [options], callback)
 
-`options`: Pass in any `fs.writeFile` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces` and override `EOL` string.
+`options`: Pass in any [`fs.writeFile`](https://nodejs.org/api/fs.html#fs_fs_writefile_file_data_options_callback) options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces` and override `EOL` string.
 
 
 ```js
@@ -137,9 +147,11 @@ jsonfile.writeFile(file, obj, { flag: 'a' }, function (err) {
 })
 ```
 
+----
+
 ### writeFileSync(filename, obj, [options])
 
-`options`: Pass in any `fs.writeFileSync` options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces` and override `EOL` string.
+`options`: Pass in any [`fs.writeFileSync`](https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options) options or set `replacer` for a [JSON replacer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). Can also pass in `spaces` and override `EOL` string.
 
 ```js
 const jsonfile = require('jsonfile')
