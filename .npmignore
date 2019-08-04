@@ -1,0 +1,11 @@
+.nyc_output/
+.vscode/
+coverage/
+node_modules/
+src/
+.travis.yml
+*.log
+.idea
+package-lock.json
+tsconfig.json
+tslint.json

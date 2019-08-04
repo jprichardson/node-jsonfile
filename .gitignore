@@ -1,2 +1,8 @@
+.nyc_output/
+.vscode/
+coverage/
+dist/
 node_modules/
-/.project
+*.log
+.idea
+package-lock.json
