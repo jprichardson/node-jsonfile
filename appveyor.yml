@@ -14,6 +14,7 @@ install:
   # install modules
   - npm config set loglevel warn
   - npm install --silent
+  - npm run build
 
 # Post-install test scripts.
 test_script:
