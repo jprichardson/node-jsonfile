@@ -1,9 +1,9 @@
-import * as assert from 'assert'
-import * as fs from 'fs'
-import * as os from 'os'
-import * as path from 'path'
-import * as rimraf from 'rimraf'
-import * as jf from '../'
+const assert = require('assert')
+const fs = require('fs')
+const os = require('os')
+const path = require('path')
+const rimraf = require('rimraf')
+const jf = require('../')
 
 /* global describe it beforeEach afterEach */
 
@@ -48,7 +48,7 @@ describe('+ writeFileSync()', () => {
       }
 
       jf.writeFileSync(file, obj, { replacer: sillyReplacer })
-      const data = JSON.parse(fs.readFileSync(file) as any)
+      const data = JSON.parse(fs.readFileSync(file))
       assert.strictEqual(data.name, 'jp')
       assert.strictEqual(typeof data.reg, 'string')
       assert.strictEqual(data.reg, 'regex:/hello/g')

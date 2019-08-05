@@ -41,7 +41,7 @@
   ],
   "scripts": {
     "test": "npm run lint && npm run unit",
-    "unit": "mocha --recursive --require ts-node/register \"test/**/*.test.ts\"",
+    "unit": "mocha --recursive  --require ts-node/register \"test/**/*.test.ts\" --watch",
     "prepack": "npm run build",
     "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc -p tsconfig.json",

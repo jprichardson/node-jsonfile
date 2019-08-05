@@ -1,9 +1,9 @@
-import * as assert from 'assert'
-import * as fs from 'fs'
-import * as os from 'os'
-import * as path from 'path'
-import * as rimraf from 'rimraf'
-import * as jf from '../index'
+const assert = require('assert')
+const fs = require('fs')
+const os = require('os')
+const path = require('path')
+const rimraf = require('rimraf')
+const jf = require('../')
 
 /* global describe it beforeEach afterEach */
 
