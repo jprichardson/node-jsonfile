@@ -107,8 +107,8 @@ function writeFileWithCallback (
     options
   const fs = optionsObj.fs || _fs
 
-  Result<string, NodeJS.ErrnoException>( 
-    () => stringify(obj, optionsObj) 
+  Result<string, NodeJS.ErrnoException>(
+    () => stringify(obj, optionsObj)
   )
     .bind(
       str => fs.writeFile(file, str, optionsObj, callback),

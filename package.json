@@ -40,8 +40,7 @@
     "dist/index.js"
   ],
   "scripts": {
-    "test": "npm run lint && npm run unit",
-    "unit": "mocha --recursive --require ts-node/register \"test/**/*.test.ts\"",
+    "test": "mocha --recursive --require ts-node/register \"test/**/*.test.ts\"",
     "prepack": "npm run build",
     "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc -p tsconfig.json",
