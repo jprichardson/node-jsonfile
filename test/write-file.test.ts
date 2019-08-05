@@ -1,9 +1,9 @@
-const assert = require('assert')
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
-const rimraf = require('rimraf')
-const jf = require('../')
+import * as assert from 'assert'
+import * as fs from 'fs'
+import * as os from 'os'
+import * as path from 'path'
+import * as rimraf from 'rimraf'
+import * as jf from '../index'
 
 /* global describe it beforeEach afterEach */
 
@@ -83,7 +83,7 @@ describe('+ writeFile()', () => {
       jf.writeFile(file, obj, { replacer: sillyReplacer }, (err) => {
         assert.ifError(err)
 
-        const data = JSON.parse(fs.readFileSync(file))
+        const data = JSON.parse(fs.readFileSync(file) as any)
         assert.strictEqual(data.name, 'jp')
         assert.strictEqual(typeof data.reg, 'string')
         assert.strictEqual(data.reg, 'regex:/hello/g')
@@ -94,7 +94,7 @@ describe('+ writeFile()', () => {
     it('should replace JSON, resolve promise', (done) => {
       jf.writeFile(file, obj, { replacer: sillyReplacer })
         .then(res => {
-          const data = JSON.parse(fs.readFileSync(file))
+          const data = JSON.parse(fs.readFileSync(file) as any)
           assert.strictEqual(data.name, 'jp')
           assert.strictEqual(typeof data.reg, 'string')
           assert.strictEqual(data.reg, 'regex:/hello/g')
@@ -230,8 +230,8 @@ describe('+ writeFile()', () => {
     it('should not write an empty file, should reject the promise', function (done) {
       this.slow(1100)
       const file = path.join(TEST_DIR, 'somefile.json')
-      const obj1 = { name: 'JP' }
-      const obj2 = { person: obj1 }
+      const obj1: any = { name: 'JP' }
+      const obj2: any = { person: obj1 }
       obj1.circular = obj2
 
       jf.writeFile(file, obj1)
