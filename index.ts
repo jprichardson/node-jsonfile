@@ -37,13 +37,13 @@ export type JSON = {
 
 function readFileWithCallback(
     file: string,
-    options: Options | string | CallBack | null,
+    options?: Options | string | CallBack | null,
     callback: CallBack = options as CallBack
 ) {
   const optionsObj = typeof options === 'string' ?
     { encoding: options }
     :
-      isCallback(options) || options === null ?
+      isCallback(options) || !options ?
         {}
       :
         options
@@ -98,13 +98,15 @@ function readFileSync (file: string, options: Options | string = {}) {
 function writeFileWithCallback (
   file: string,
   obj: any,
-  options: Options & StringificationOptions | null | CallBack = {},
+  options: Options & StringificationOptions | null | string | CallBack = {},
   callback: CallBack = options as CallBack
 ) {
-  const optionsObj = options === null || isCallback(options) ?
-    {}
-    :
-    options
+  const optionsObj = typeof options === "string" ?
+    { encoding: options }
+    : options === null || isCallback(options) ?
+      {}
+      :
+      options
   const fs = optionsObj.fs || _fs
 
   Result<string, NodeJS.ErrnoException>(
@@ -119,7 +121,7 @@ function writeFileWithCallback (
     )
 }
 
-function writeFileSync (file: string, obj: any, options: Options & StringificationOptions | string = {}) {
+function writeFileSync(file: string, obj: any, options: Options & StringificationOptions | string = {}) {
   const optionsObj = typeof options === 'string' ?
     { encoding: options }
     :
@@ -156,8 +158,56 @@ function stripBom (content: string | Buffer) {
 
 // *** Export ***
 
-const readFile = universalify.fromCallback(readFileWithCallback)
-const writeFile = universalify.fromCallback(writeFileWithCallback)
+function readFile(
+  file: string
+): Promise<JSON>
+function readFile(
+  file: string,
+  options?: Options | string | null
+): Promise<JSON>
+function readFile(
+  file: string,
+  options?: CallBack
+): void
+function readFile(
+  file: string,
+  options: Options | string | null,
+  callback: CallBack
+): void
+function readFile(...args: any[]) {
+  return universalify.fromCallback(readFileWithCallback)(...args)
+}
+
+function writeFile(
+  file: string,
+  obj: any
+): Promise<JSON>
+function writeFile(
+  file: string,
+  obj: any,
+  options: CallBack
+ ): void
+ function writeFile(
+  file: string,
+  obj: any,
+  options: Options & StringificationOptions | string | null
+ ): Promise<void>
+ function writeFile(
+  file: string,
+  obj: any,
+  options: Options & StringificationOptions | string | null,
+  callback: null
+ ): Promise<void>
+ function writeFile(
+  file: string,
+  obj: any,
+  options: Options & StringificationOptions | string | null,
+  callback: CallBack
+ ): void
+
+ function writeFile(...args: any[]) {
+   return universalify.fromCallback(writeFileWithCallback)(...args)
+ }
 
 export {
   readFile,

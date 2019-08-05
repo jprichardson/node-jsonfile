@@ -26,7 +26,7 @@ describe('+ readFile()', () => {
     const obj = { name: 'JP' }
     fs.writeFileSync(file, JSON.stringify(obj))
 
-    jf.readFile(file, (err, obj2) => {
+    jf.readFile(file, (err, obj2: any) => {
       assert.ifError(err)
       assert.strictEqual(obj2.name, obj.name)
       done()
@@ -145,7 +145,7 @@ describe('+ readFile()', () => {
         bothDone = true
       })
 
-      jf.readFile(file, { throws: true }, (err, obj2) => {
+      jf.readFile(file, { throws: true }, (err: any, obj2) => {
         assert(err instanceof Error)
         assert(err.message.match(fn))
         if (bothDone) {
@@ -183,11 +183,13 @@ describe('+ readFile()', () => {
     })
 
     it('should transform the JSON', (done) => {
-      jf.readFile(file, { reviver: sillyReviver }, (err, data) => {
+      jf.readFile(file, { reviver: sillyReviver }, (err, data: any) => {
         assert.ifError(err)
         assert.strictEqual(data.name, 'jp')
-        assert(data.day instanceof Date)
-        assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
+        if (data.day instanceof Date)
+          assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
+        else
+          throw "data.day is not instance of Date"
         done()
       })
     })
@@ -196,8 +198,10 @@ describe('+ readFile()', () => {
       jf.readFile(file, { reviver: sillyReviver })
         .then(data => {
           assert.strictEqual(data.name, 'jp')
-          assert(data.day instanceof Date)
-          assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
+          if (data.day instanceof Date)
+            assert.strictEqual(data.day.toISOString(), '2015-06-19T11:41:26.815Z')
+          else
+            throw "data.day is not instance of Date"
           done()
         }).catch(err => {
           assert.ifError(err)
