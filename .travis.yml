@@ -4,10 +4,16 @@ node_js:
   - "6"
   - "8"
   - "10"
-matrix:
+
+install:
+  - npm install
+  - npm run build
+  
+jobs:
   include:
-    - node_js: "10"
-      env: TEST_SUITE=lint
-env:
-  - TEST_SUITE=unit
-script: npm run-script $TEST_SUITE
+    - stage: Lint
+      script: npm run lint
+    - stage: Build
+      script: npm run build
+    - stage: Test
+      script: npm run unit
