@@ -8,39 +8,55 @@ try {
 }
 
 import * as universalify from 'universalify'
-import { Result, Success } from "amonad"
+import { Result } from "amonad"
 
 type fs = typeof fs
 
-type Options = {
+export type Options = {
   encoding?: string | null;
   flag?: string;
   fs?: fs
   throws?: boolean,
   reviver?: (this: any, key: string, value: any) => any
 }
+export type StringificationOptions = {
+  spaces?: string | number | undefined,
+  EOL?: string,
+  replacer?: (this: any, key: string, value: any) => any
+}
 
 type CallBack =
   (err?: NodeJS.ErrnoException | null, obj?: JSON | null) => void
 type Primitives =
   string | number | boolean | symbol
-type JSON = {
+export type JSON = {
   [P in keyof any]: Primitives | JSON
 }
 
-function readFileWithCallback (file: string, options: Options | string = {}, callback: CallBack = () => {}) {
+// *** Public API ***
+
+function readFileWithCallback(
+    file: string,
+    options: Options | string | CallBack | null,
+    callback: CallBack = options as CallBack
+) {
   const optionsObj = typeof options === 'string' ?
     { encoding: options }
     :
-    options
+      isCallback(options) || options === null ?
+        {}
+      :
+        options
   const fs: fs = optionsObj.fs || _fs
   const shouldThrow: boolean = optionsObj.throws !== undefined ? optionsObj.throws : true
 
-  fs.readFile(file, options, (err, data) => {
+  fs.readFile(file, optionsObj, (err, data) => {
     if (err)
       return callback(err)
 
-    Result<JSON, NodeJS.ErrnoException >(() => JSON.parse(stripBom(data), optionsObj.reviver))
+    Result<JSON, NodeJS.ErrnoException >(
+      () => JSON.parse(stripBom(data), optionsObj.reviver)
+    )
       .bind(
         obj => callback( null, obj ),
         err2 => {
@@ -55,8 +71,6 @@ function readFileWithCallback (file: string, options: Options | string = {}, cal
       )
   })
 }
-
-const readFile = universalify.fromCallback(readFileWithCallback)
 
 function readFileSync (file: string, options: Options | string = {}) {
   const optionsObj = typeof options === 'string' ?
@@ -81,10 +95,46 @@ function readFileSync (file: string, options: Options | string = {}) {
   }
 }
 
-type StringificationOptions = {
-  spaces?: string | number | undefined,
-  EOL?: string,
-  replacer?: (this: any, key: string, value: any) => any
+function writeFileWithCallback (
+  file: string,
+  obj: any,
+  options: Options & StringificationOptions | null | CallBack = {},
+  callback: CallBack = options as CallBack
+) {
+  const optionsObj = options === null || isCallback(options) ?
+    {}
+    :
+    options
+  const fs = optionsObj.fs || _fs
+
+  Result<string, NodeJS.ErrnoException>( 
+    () => stringify(obj, optionsObj) 
+  )
+    .bind(
+      str => fs.writeFile(file, str, optionsObj, callback),
+      err => {
+        callback(err, null)
+        throw err
+      }
+    )
+}
+
+function writeFileSync (file: string, obj: any, options: Options & StringificationOptions | string = {}) {
+  const optionsObj = typeof options === 'string' ?
+    { encoding: options }
+    :
+    options
+  const fs = optionsObj.fs || _fs
+
+  const str = stringify(obj, optionsObj)
+  // not sure if fs.writeFileSync returns anything, but just in case
+  return fs.writeFileSync(file, str, options)
+}
+
+// *** Support function ***
+
+function isCallback( value: any ): value is CallBack {
+  return typeof value === 'function'
 }
 
 function stringify(obj: any, options: StringificationOptions = {}) {
@@ -95,36 +145,6 @@ function stringify(obj: any, options: StringificationOptions = {}) {
   return str.replace(/\n/g, EOL) + EOL
 }
 
-function writeFileWithCallback (
-  file: string,
-  obj: any, options: Options & StringificationOptions = {},
-  callback: CallBack = () => {}
-) {
-  const fs = options.fs || _fs
-
-  Result<string, NodeJS.ErrnoException>( () => stringify(obj, options) )
-    .bind(
-      undefined,
-      err => {
-        callback(err, null)
-        return Success("")
-      }
-    )
-    .bind(
-      str => fs.writeFile(file, str, options, callback)
-    )
-}
-
-const writeFile = universalify.fromCallback(writeFileWithCallback)
-
-function writeFileSync (file: string, obj: any, options: Options & StringificationOptions = {}) {
-  const fs = options.fs || _fs
-
-  const str = stringify(obj, options)
-  // not sure if fs.writeFileSync returns anything, but just in case
-  return fs.writeFileSync(file, str, options)
-}
-
 function stripBom (content: string | Buffer) {
   // we do this because JSON.parse would convert it to a utf8 string if encoding wasn't specified
   const file = Buffer.isBuffer(content) ?
@@ -133,6 +153,11 @@ function stripBom (content: string | Buffer) {
     content
   return file.replace(/^\uFEFF/, '')
 }
+
+// *** Export ***
+
+const readFile = universalify.fromCallback(readFileWithCallback)
+const writeFile = universalify.fromCallback(writeFileWithCallback)
 
 export {
   readFile,
