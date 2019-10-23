@@ -1,7 +1,9 @@
 Node.js - jsonfile
 ================
 
-Easily read/write JSON files in Node.js. _Note: this module cannot be used in the browser._
+Easily read/write JSON files in Node.js. _Notes_:
+* This module cannot be used in the browser.
+* Uses JSON.stringify, which can [run out of memory](https://github.com/nodejs/node/issues/13465). If the data you need to write is large, consider using a streaming JSON writer, such as @mbostock's [json-write](https://www.npmjs.com/package/json-write).
 
 [![npm Package](https://img.shields.io/npm/v/jsonfile.svg?style=flat-square)](https://www.npmjs.org/package/jsonfile)
 [![build status](https://secure.travis-ci.org/jprichardson/node-jsonfile.svg)](http://travis-ci.org/jprichardson/node-jsonfile)
