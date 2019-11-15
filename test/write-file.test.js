@@ -1,28 +1,20 @@
 const assert = require('assert')
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
-const rimraf = require('rimraf')
-const jf = require('../')
+const { Volume, createFsFromVolume } = require('memfs')
+const { JsonFile } = require('../')
 
-/* global describe it beforeEach afterEach */
+/* global describe it beforeEach */
 
 describe('+ writeFile()', () => {
-  let TEST_DIR
+  let jf
+  let fs
 
-  beforeEach((done) => {
-    TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests-writefile')
-    rimraf.sync(TEST_DIR)
-    fs.mkdir(TEST_DIR, done)
-  })
-
-  afterEach((done) => {
-    rimraf.sync(TEST_DIR)
-    done()
+  beforeEach(() => {
+    fs = createFsFromVolume(new Volume())
+    jf = new JsonFile(fs)
   })
 
   it('should serialize and write JSON', (done) => {
-    const file = path.join(TEST_DIR, 'somefile2.json')
+    const file = '/somefile2.json'
     const obj = { name: 'JP' }
 
     jf.writeFile(file, obj, (err) => {
@@ -40,7 +32,7 @@ describe('+ writeFile()', () => {
   })
 
   it('should write JSON, resolve promise', (done) => {
-    const file = path.join(TEST_DIR, 'somefile2.json')
+    const file = '/somefile2.json'
     const obj = { name: 'JP' }
 
     jf.writeFile(file, obj)
@@ -65,7 +57,7 @@ describe('+ writeFile()', () => {
     let file, sillyReplacer, obj
 
     beforeEach((done) => {
-      file = path.join(TEST_DIR, 'somefile.json')
+      file = '/somefile.json'
       sillyReplacer = function (k, v) {
         if (!(v instanceof RegExp)) return v
         return `regex:${v.toString()}`
@@ -109,7 +101,7 @@ describe('+ writeFile()', () => {
 
   describe('> when passing null as options and callback', () => {
     it('should not throw an error', (done) => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
       const obj = { name: 'jp' }
       jf.writeFile(file, obj, null, (err) => {
         assert.ifError(err)
@@ -120,7 +112,7 @@ describe('+ writeFile()', () => {
 
   describe('> when passing null as options and No callback', () => {
     it('should not throw an error', (done) => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
       const obj = { name: 'jp' }
       jf.writeFile(file, obj, null)
         .then(res => {
@@ -136,7 +128,7 @@ describe('+ writeFile()', () => {
   describe('> when spaces passed as an option', () => {
     let file, obj
     beforeEach((done) => {
-      file = path.join(TEST_DIR, 'somefile.json')
+      file = '/somefile.json'
       obj = { name: 'jp' }
       done()
     })
@@ -167,7 +159,7 @@ describe('+ writeFile()', () => {
   describe('> when spaces, EOL are passed as options', () => {
     let file, obj
     beforeEach((done) => {
-      file = path.join(TEST_DIR, 'somefile.json')
+      file = '/somefile.json'
       obj = { name: 'jp' }
       done()
     })
@@ -197,7 +189,7 @@ describe('+ writeFile()', () => {
   describe('> when passing encoding string as options', () => {
     let file, obj
     beforeEach((done) => {
-      file = path.join(TEST_DIR, 'somefile.json')
+      file = '/somefile.json'
       obj = { name: 'jp' }
       done()
     })
@@ -229,7 +221,7 @@ describe('+ writeFile()', () => {
   describe("> when callback isn't passed & can't serialize", () => {
     it('should not write an empty file, should reject the promise', function (done) {
       this.slow(1100)
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
       const obj1 = { name: 'JP' }
       const obj2 = { person: obj1 }
       obj1.circular = obj2

@@ -22,6 +22,37 @@ Installation
     npm install --save jsonfile
 
 
+Usage
+-----
+
+Use the default export of `jsonfile` to work with the real on-disk file system.
+
+```js
+const jsonfile = require('jsonfile')
+jsonfile.readFile('/real/disk/location.json', (err, obj) => {
+  if (err) console.error(err)
+  console.dir(obj)
+})
+```
+
+**Advanced Usage**
+
+Use the attached `JsonFile` constructor to create unique instances of the API.
+This is mostly useful when you want to use a virtual or mock filesystem instead of the real filesystem.
+
+The `JsonFile` constructor takes one argument: the underlying `fs` object to use.
+The supplied `fs` must be drop-in compatible with Node's `fs` object.
+Packages like [`memfs`](https://npmjs.com/package/memfs) and [`unionfs`](https://npmjs.com/package/unionfs) would work.
+
+```js
+const memfs = require('memfs')
+const jsonfile = require('jsonfile')
+const jf = new jsonfile.JsonFile(memfs)
+jf.writeFileSync('/virtual.json', { not: 'a real file' });
+jf.readFile('/virtual.json', (err, obj) => {
+  obj.not === 'a real file'
+})
+```
 
 API
 ---

@@ -1,28 +1,20 @@
 const assert = require('assert')
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
-const rimraf = require('rimraf')
-const jf = require('../')
+const { Volume, createFsFromVolume } = require('memfs')
+const { JsonFile } = require('../')
 
-/* global describe it beforeEach afterEach */
+/* global describe it beforeEach */
 
 describe('+ readFileSync()', () => {
-  let TEST_DIR
+  let jf
+  let fs
 
-  beforeEach((done) => {
-    TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests-readfile-sync')
-    rimraf.sync(TEST_DIR)
-    fs.mkdir(TEST_DIR, done)
-  })
-
-  afterEach((done) => {
-    rimraf.sync(TEST_DIR)
-    done()
+  beforeEach(() => {
+    fs = createFsFromVolume(new Volume())
+    jf = new JsonFile(fs)
   })
 
   it('should read and parse JSON', () => {
-    const file = path.join(TEST_DIR, 'somefile3.json')
+    const file = '/somefile3.json'
     const obj = { name: 'JP' }
     fs.writeFileSync(file, JSON.stringify(obj))
 
@@ -36,23 +28,25 @@ describe('+ readFileSync()', () => {
 
   describe('> when invalid JSON', () => {
     it('should include the filename in the error', () => {
-      const fn = 'somefile.json'
-      const file = path.join(TEST_DIR, fn)
+      const file = '/somefile.json'
       fs.writeFileSync(file, '{')
 
-      assert.throws(() => {
-        jf.readFileSync(file)
-      }, (err) => {
-        assert(err instanceof Error)
-        assert(err.message.match(fn))
-        return true
-      })
+      assert.throws(
+        () => {
+          jf.readFileSync(file)
+        },
+        err => {
+          assert(err instanceof Error)
+          assert(err.message.match(file))
+          return true
+        }
+      )
     })
   })
 
   describe('> when invalid JSON and throws set to false', () => {
     it('should return null', () => {
-      const file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      const file = '/somefile4-invalid.json'
       const data = '{not valid JSON'
       fs.writeFileSync(file, data)
 
@@ -67,7 +61,7 @@ describe('+ readFileSync()', () => {
 
   describe('> when invalid JSON and throws set to true', () => {
     it('should throw an exception', () => {
-      const file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      const file = '/somefile4-invalid.json'
       const data = '{not valid JSON'
       fs.writeFileSync(file, data)
 
@@ -79,7 +73,7 @@ describe('+ readFileSync()', () => {
 
   describe('> when json file is missing and throws set to false', () => {
     it('should return null', () => {
-      const file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      const file = '/somefile4-invalid.json'
 
       const obj = jf.readFileSync(file, { throws: false })
       assert.strictEqual(obj, null)
@@ -88,7 +82,7 @@ describe('+ readFileSync()', () => {
 
   describe('> when json file is missing and throws set to true', () => {
     it('should throw an exception', () => {
-      const file = path.join(TEST_DIR, 'somefile4-invalid.json')
+      const file = '/somefile4-invalid.json'
 
       assert.throws(() => {
         jf.readFileSync(file, { throws: true })
@@ -98,7 +92,7 @@ describe('+ readFileSync()', () => {
 
   describe('> when JSON reviver is set', () => {
     it('should transform the JSON', () => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
       const sillyReviver = function (k, v) {
         if (typeof v !== 'string') return v
         if (v.indexOf('date:') < 0) return v
@@ -120,7 +114,7 @@ describe('+ readFileSync()', () => {
 
   describe('> when passing encoding string as option', () => {
     it('should not throw an error', () => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
 
       const obj = {
         name: 'jp'
@@ -139,7 +133,7 @@ describe('+ readFileSync()', () => {
 
   describe('> w/ BOM', () => {
     it('should properly parse', () => {
-      const file = path.join(TEST_DIR, 'file-bom.json')
+      const file = '/fake.hypercolor'
       const obj = { name: 'JP' }
       fs.writeFileSync(file, `\uFEFF${JSON.stringify(obj)}`)
       const data = jf.readFileSync(file)

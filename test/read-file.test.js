@@ -1,28 +1,22 @@
-const assert = require('assert')
-const fs = require('fs')
-const os = require('os')
 const path = require('path')
-const rimraf = require('rimraf')
-const jf = require('../')
+const assert = require('assert')
+const { Volume, createFsFromVolume } = require('memfs')
+const { JsonFile } = require('../')
 
-/* global describe it beforeEach afterEach */
+/* global describe it beforeEach */
 
 describe('+ readFile()', () => {
-  let TEST_DIR
+  const TEST_DIR = '/'
+  let jf
+  let fs
 
-  beforeEach((done) => {
-    TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests-readfile')
-    rimraf.sync(TEST_DIR)
-    fs.mkdir(TEST_DIR, done)
-  })
-
-  afterEach((done) => {
-    rimraf.sync(TEST_DIR)
-    done()
+  beforeEach(() => {
+    fs = createFsFromVolume(new Volume())
+    jf = new JsonFile(fs)
   })
 
   it('should read and parse JSON', (done) => {
-    const file = path.join(TEST_DIR, 'somefile.json')
+    const file = '/somefile.json'
     const obj = { name: 'JP' }
     fs.writeFileSync(file, JSON.stringify(obj))
 
@@ -34,7 +28,7 @@ describe('+ readFile()', () => {
   })
 
   it('should resolve a promise with parsed JSON', (done) => {
-    const file = path.join(TEST_DIR, 'somefile.json')
+    const file = '/somefile.json'
     const obj = { name: 'JP' }
     fs.writeFileSync(file, JSON.stringify(obj))
 
@@ -169,7 +163,7 @@ describe('+ readFile()', () => {
     let file, sillyReviver
 
     beforeEach((done) => {
-      file = path.join(TEST_DIR, 'somefile.json')
+      file = '/somefile.json'
       sillyReviver = function (k, v) {
         if (typeof v !== 'string') return v
         if (v.indexOf('date:') < 0) return v
@@ -208,7 +202,7 @@ describe('+ readFile()', () => {
 
   describe('> when passing null as options and callback', () => {
     it('should not throw an error', (done) => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
 
       const obj = {
         name: 'jp'
@@ -225,7 +219,7 @@ describe('+ readFile()', () => {
 
   describe('> when passing null as options and expecting a promise', () => {
     it('should resolve the promise', (done) => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
 
       const obj = {
         name: 'jp'
@@ -248,7 +242,7 @@ describe('+ readFile()', () => {
     let file, obj
 
     beforeEach((done) => {
-      file = path.join(TEST_DIR, 'somefile.json')
+      file = '/somefile.json'
 
       obj = {
         name: 'jp'
@@ -282,7 +276,7 @@ describe('+ readFile()', () => {
     let file, obj
 
     beforeEach((done) => {
-      file = path.join(TEST_DIR, 'file-bom.json')
+      file = '/file-bom.json'
       obj = { name: 'JP' }
       fs.writeFileSync(file, `\uFEFF${JSON.stringify(obj)}`)
       done()

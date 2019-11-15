@@ -1,28 +1,20 @@
 const assert = require('assert')
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
-const rimraf = require('rimraf')
-const jf = require('../')
+const { Volume, createFsFromVolume } = require('memfs')
+const { JsonFile } = require('../')
 
-/* global describe it beforeEach afterEach */
+/* global describe it beforeEach */
 
 describe('+ writeFileSync()', () => {
-  let TEST_DIR
+  let jf
+  let fs
 
-  beforeEach((done) => {
-    TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests-writefile-sync')
-    rimraf.sync(TEST_DIR)
-    fs.mkdir(TEST_DIR, done)
-  })
-
-  afterEach((done) => {
-    rimraf.sync(TEST_DIR)
-    done()
+  beforeEach(() => {
+    fs = createFsFromVolume(new Volume())
+    jf = new JsonFile(fs)
   })
 
   it('should serialize the JSON and write it to file', () => {
-    const file = path.join(TEST_DIR, 'somefile4.json')
+    const file = '/somefile4.json'
     const obj = { name: 'JP' }
 
     jf.writeFileSync(file, obj)
@@ -36,7 +28,7 @@ describe('+ writeFileSync()', () => {
 
   describe('> when JSON replacer is set', () => {
     it('should replace JSON', () => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
       const sillyReplacer = function (k, v) {
         if (!(v instanceof RegExp)) return v
         return `regex:${v.toString()}`
@@ -57,7 +49,7 @@ describe('+ writeFileSync()', () => {
 
   describe('> when spaces passed as an option', () => {
     it('should write file with spaces', () => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
       const obj = { name: 'JP' }
       jf.writeFileSync(file, obj, { spaces: 8 })
       const data = fs.readFileSync(file, 'utf8')
@@ -65,7 +57,7 @@ describe('+ writeFileSync()', () => {
     })
 
     it('should use EOL override', () => {
-      const file = path.join(TEST_DIR, 'somefile.json')
+      const file = '/somefile.json'
       const obj = { name: 'JP' }
       jf.writeFileSync(file, obj, { spaces: 2, EOL: '***' })
       const data = fs.readFileSync(file, 'utf8')
@@ -75,7 +67,7 @@ describe('+ writeFileSync()', () => {
 
   describe('> when passing encoding string as options', () => {
     it('should not error', () => {
-      const file = path.join(TEST_DIR, 'somefile6.json')
+      const file = '/somefile6.json'
       const obj = { name: 'jp' }
       jf.writeFileSync(file, obj, 'utf8')
       const data = fs.readFileSync(file, 'utf8')
