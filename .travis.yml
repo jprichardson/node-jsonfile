@@ -4,9 +4,10 @@ node_js:
   - "6"
   - "8"
   - "10"
+  - "12"
 matrix:
   include:
-    - node_js: "10"
+    - node_js: "12"
       env: TEST_SUITE=lint
 env:
   - TEST_SUITE=unit
