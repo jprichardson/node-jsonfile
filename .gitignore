@@ -1,5 +1,2 @@
 node_modules/
 /.project
-/.vscode
-package-lock.json
-yarn.lock
