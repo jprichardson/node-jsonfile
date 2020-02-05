@@ -5,9 +5,8 @@ try {
   realFs = require('fs')
 }
 const universalify = require('universalify')
-const memoize = require('memoize-weak')
 
-const jsonFileFactory = memoize(function jsonFileFactory (_fs) {
+function jsonFileFactory (_fs) {
   function readFileWithCallback (file, options, callback) {
     if (callback == null) {
       callback = options
@@ -135,7 +134,7 @@ const jsonFileFactory = memoize(function jsonFileFactory (_fs) {
     writeFile,
     writeFileSync
   }
-})
+}
 
 function JsonFile (fs = realFs) {
   Object.assign(this, jsonFileFactory(fs))

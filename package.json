@@ -20,8 +20,7 @@
     "universalify": "^0.1.2"
   },
   "optionalDependencies": {
-    "graceful-fs": "^4.1.6",
-    "memoize-weak": "^1.0.2"
+    "graceful-fs": "^4.1.6"
   },
   "devDependencies": {
     "memfs": "^2.16.1",
