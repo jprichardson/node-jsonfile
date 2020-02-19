@@ -111,8 +111,7 @@ function writeFileWithCallback (file, obj, options, callback) {
 
 const writeFile = universalify.fromCallback(writeFileWithCallback)
 
-function writeFileSync (file, obj, options) {
-  options = options || {}
+function writeFileSync (file, obj, options = {}) {
   const fs = options.fs || _fs
 
   const str = stringify(obj, options)
