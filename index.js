@@ -47,18 +47,14 @@ function readFileWithCallback (file, options, callback) {
 
 const readFile = universalify.fromCallback(readFileWithCallback)
 
-function readFileSync (file, options) {
-  options = options || {}
+function readFileSync (file, options = {}) {
   if (typeof options === 'string') {
     options = { encoding: options }
   }
 
   const fs = options.fs || _fs
 
-  let shouldThrow = true
-  if ('throws' in options) {
-    shouldThrow = options.throws
-  }
+  const shouldThrow = 'throws' in options ? options.throws : true
 
   try {
     let content = fs.readFileSync(file, options)
