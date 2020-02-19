@@ -5,6 +5,7 @@ try {
   _fs = require('fs')
 }
 const universalify = require('universalify')
+const { stringify, stripBom } = require('./utils')
 
 async function _readFile (file, options = {}) {
   if (typeof options === 'string') {
@@ -59,23 +60,6 @@ function readFileSync (file, options = {}) {
   }
 }
 
-function stringify (obj, options) {
-  let spaces
-  let EOL = '\n'
-  if (typeof options === 'object' && options !== null) {
-    if (options.spaces) {
-      spaces = options.spaces
-    }
-    if (options.EOL) {
-      EOL = options.EOL
-    }
-  }
-
-  const str = JSON.stringify(obj, options ? options.replacer : null, spaces)
-
-  return str.replace(/\n/g, EOL) + EOL
-}
-
 async function _writeFile (file, obj, options = {}) {
   const fs = options.fs || _fs
 
@@ -92,13 +76,6 @@ function writeFileSync (file, obj, options = {}) {
   const str = stringify(obj, options)
   // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
-}
-
-function stripBom (content) {
-  // we do this because JSON.parse would convert it to a utf8 string if encoding wasn't specified
-  if (Buffer.isBuffer(content)) content = content.toString('utf8')
-  content = content.replace(/^\uFEFF/, '')
-  return content
 }
 
 const jsonfile = {

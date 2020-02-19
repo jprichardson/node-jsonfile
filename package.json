@@ -29,7 +29,8 @@
   },
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "utils.js"
   ],
   "scripts": {
     "lint": "standard",
