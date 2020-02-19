@@ -91,25 +91,15 @@ function stringify (obj, options) {
   return str.replace(/\n/g, EOL) + EOL
 }
 
-function writeFileWithCallback (file, obj, options, callback) {
-  if (callback == null) {
-    callback = options
-    options = {}
-  }
-  options = options || {}
+async function _writeFile (file, obj, options = {}) {
   const fs = options.fs || _fs
 
-  let str = ''
-  try {
-    str = stringify(obj, options)
-  } catch (err) {
-    return callback(err, null)
-  }
+  const str = stringify(obj, options)
 
-  fs.writeFile(file, str, options, callback)
+  await universalify.fromCallback(fs.writeFile)(file, str, options)
 }
 
-const writeFile = universalify.fromCallback(writeFileWithCallback)
+const writeFile = universalify.fromPromise(_writeFile)
 
 function writeFileSync (file, obj, options = {}) {
   const fs = options.fs || _fs

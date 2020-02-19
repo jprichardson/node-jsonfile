@@ -107,32 +107,6 @@ describe('+ writeFile()', () => {
     })
   })
 
-  describe('> when passing null as options and callback', () => {
-    it('should not throw an error', (done) => {
-      const file = path.join(TEST_DIR, 'somefile.json')
-      const obj = { name: 'jp' }
-      jf.writeFile(file, obj, null, (err) => {
-        assert.ifError(err)
-        done()
-      })
-    })
-  })
-
-  describe('> when passing null as options and No callback', () => {
-    it('should not throw an error', (done) => {
-      const file = path.join(TEST_DIR, 'somefile.json')
-      const obj = { name: 'jp' }
-      jf.writeFile(file, obj, null)
-        .then(res => {
-          done()
-        })
-        .catch(err => {
-          assert.ifError(err)
-          done()
-        })
-    })
-  })
-
   describe('> when spaces passed as an option', () => {
     let file, obj
     beforeEach((done) => {
