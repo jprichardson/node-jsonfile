@@ -6,46 +6,35 @@ try {
 }
 const universalify = require('universalify')
 
-function readFileWithCallback (file, options, callback) {
-  if (callback == null) {
-    callback = options
-    options = {}
-  }
-
+async function _readFile (file, options = {}) {
   if (typeof options === 'string') {
     options = { encoding: options }
   }
 
-  options = options || {}
   const fs = options.fs || _fs
 
-  let shouldThrow = true
-  if ('throws' in options) {
-    shouldThrow = options.throws
+  const shouldThrow = 'throws' in options ? options.throws : true
+
+  let data = await universalify.fromCallback(fs.readFile)(file, options)
+
+  data = stripBom(data)
+
+  let obj
+  try {
+    obj = JSON.parse(data, options ? options.reviver : null)
+  } catch (err) {
+    if (shouldThrow) {
+      err.message = `${file}: ${err.message}`
+      throw err
+    } else {
+      return null
+    }
   }
 
-  fs.readFile(file, options, (err, data) => {
-    if (err) return callback(err)
-
-    data = stripBom(data)
-
-    let obj
-    try {
-      obj = JSON.parse(data, options ? options.reviver : null)
-    } catch (err2) {
-      if (shouldThrow) {
-        err2.message = `${file}: ${err2.message}`
-        return callback(err2)
-      } else {
-        return callback(null, null)
-      }
-    }
-
-    callback(null, obj)
-  })
+  return obj
 }
 
-const readFile = universalify.fromCallback(readFileWithCallback)
+const readFile = universalify.fromPromise(_readFile)
 
 function readFileSync (file, options = {}) {
   if (typeof options === 'string') {
