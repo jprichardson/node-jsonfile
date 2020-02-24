@@ -1,3 +1,10 @@
+6.0.0 / 2020-02-24
+------------------
+
+- **BREAKING:** Drop support for Node 6 & 8 ([#128](https://github.com/jprichardson/node-jsonfile/pull/128))
+- **BREAKING:** Do not allow passing `null` as options to `readFile()` or `writeFile()` ([#128](https://github.com/jprichardson/node-jsonfile/pull/128))
+- Refactor internals ([#128](https://github.com/jprichardson/node-jsonfile/pull/128))
+
 5.0.0 / 2018-09-08
 ------------------
 
