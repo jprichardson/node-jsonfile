@@ -17,7 +17,7 @@
   "author": "JP Richardson <jprichardson@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "universalify": "^0.1.2"
+    "universalify": "^0.2.0"
   },
   "optionalDependencies": {
     "graceful-fs": "^4.1.6"
@@ -29,7 +29,8 @@
   },
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "utils.js"
   ],
   "scripts": {
     "lint": "standard",

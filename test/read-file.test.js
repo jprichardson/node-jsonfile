@@ -206,44 +206,6 @@ describe('+ readFile()', () => {
     })
   })
 
-  describe('> when passing null as options and callback', () => {
-    it('should not throw an error', (done) => {
-      const file = path.join(TEST_DIR, 'somefile.json')
-
-      const obj = {
-        name: 'jp'
-      }
-      fs.writeFileSync(file, JSON.stringify(obj))
-
-      jf.readFile(file, null, (err) => {
-        assert.ifError(err)
-        assert.strictEqual(obj.name, 'jp')
-        done()
-      })
-    })
-  })
-
-  describe('> when passing null as options and expecting a promise', () => {
-    it('should resolve the promise', (done) => {
-      const file = path.join(TEST_DIR, 'somefile.json')
-
-      const obj = {
-        name: 'jp'
-      }
-      fs.writeFileSync(file, JSON.stringify(obj))
-
-      jf.readFile(file, null)
-        .then(data => {
-          assert.strictEqual(data.name, obj.name)
-          done()
-        })
-        .catch(err => {
-          assert.ifError(err)
-          done()
-        })
-    })
-  })
-
   describe('> when passing encoding string as option', () => {
     let file, obj
 

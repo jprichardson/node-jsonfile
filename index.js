@@ -5,60 +5,46 @@ try {
   _fs = require('fs')
 }
 const universalify = require('universalify')
+const { stringify, stripBom } = require('./utils')
 
-function readFileWithCallback (file, options, callback) {
-  if (callback == null) {
-    callback = options
-    options = {}
-  }
-
+async function _readFile (file, options = {}) {
   if (typeof options === 'string') {
     options = { encoding: options }
   }
 
-  options = options || {}
   const fs = options.fs || _fs
 
-  let shouldThrow = true
-  if ('throws' in options) {
-    shouldThrow = options.throws
+  const shouldThrow = 'throws' in options ? options.throws : true
+
+  let data = await universalify.fromCallback(fs.readFile)(file, options)
+
+  data = stripBom(data)
+
+  let obj
+  try {
+    obj = JSON.parse(data, options ? options.reviver : null)
+  } catch (err) {
+    if (shouldThrow) {
+      err.message = `${file}: ${err.message}`
+      throw err
+    } else {
+      return null
+    }
   }
 
-  fs.readFile(file, options, (err, data) => {
-    if (err) return callback(err)
-
-    data = stripBom(data)
-
-    let obj
-    try {
-      obj = JSON.parse(data, options ? options.reviver : null)
-    } catch (err2) {
-      if (shouldThrow) {
-        err2.message = `${file}: ${err2.message}`
-        return callback(err2)
-      } else {
-        return callback(null, null)
-      }
-    }
-
-    callback(null, obj)
-  })
+  return obj
 }
 
-const readFile = universalify.fromCallback(readFileWithCallback)
+const readFile = universalify.fromPromise(_readFile)
 
-function readFileSync (file, options) {
-  options = options || {}
+function readFileSync (file, options = {}) {
   if (typeof options === 'string') {
     options = { encoding: options }
   }
 
   const fs = options.fs || _fs
 
-  let shouldThrow = true
-  if ('throws' in options) {
-    shouldThrow = options.throws
-  }
+  const shouldThrow = 'throws' in options ? options.throws : true
 
   try {
     let content = fs.readFileSync(file, options)
@@ -74,57 +60,22 @@ function readFileSync (file, options) {
   }
 }
 
-function stringify (obj, options) {
-  let spaces
-  let EOL = '\n'
-  if (typeof options === 'object' && options !== null) {
-    if (options.spaces) {
-      spaces = options.spaces
-    }
-    if (options.EOL) {
-      EOL = options.EOL
-    }
-  }
-
-  const str = JSON.stringify(obj, options ? options.replacer : null, spaces)
-
-  return str.replace(/\n/g, EOL) + EOL
-}
-
-function writeFileWithCallback (file, obj, options, callback) {
-  if (callback == null) {
-    callback = options
-    options = {}
-  }
-  options = options || {}
+async function _writeFile (file, obj, options = {}) {
   const fs = options.fs || _fs
 
-  let str = ''
-  try {
-    str = stringify(obj, options)
-  } catch (err) {
-    return callback(err, null)
-  }
+  const str = stringify(obj, options)
 
-  fs.writeFile(file, str, options, callback)
+  await universalify.fromCallback(fs.writeFile)(file, str, options)
 }
 
-const writeFile = universalify.fromCallback(writeFileWithCallback)
+const writeFile = universalify.fromPromise(_writeFile)
 
-function writeFileSync (file, obj, options) {
-  options = options || {}
+function writeFileSync (file, obj, options = {}) {
   const fs = options.fs || _fs
 
   const str = stringify(obj, options)
   // not sure if fs.writeFileSync returns anything, but just in case
   return fs.writeFileSync(file, str, options)
-}
-
-function stripBom (content) {
-  // we do this because JSON.parse would convert it to a utf8 string if encoding wasn't specified
-  if (Buffer.isBuffer(content)) content = content.toString('utf8')
-  content = content.replace(/^\uFEFF/, '')
-  return content
 }
 
 const jsonfile = {
