@@ -1,5 +1,5 @@
 function stringify (obj, options = {}) {
-  let EOL = options.EOL || '\n'
+  const EOL = options.EOL || '\n'
 
   const str = JSON.stringify(obj, options ? options.replacer : null, options.spaces)
 
