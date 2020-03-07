@@ -1,3 +1,9 @@
+6.0.1 / 2020-03-07
+------------------
+
+- Update dependency ([#130](https://github.com/jprichardson/node-jsonfile/pull/130))
+- Fix code style ([#129](https://github.com/jprichardson/node-jsonfile/pull/129))
+
 6.0.0 / 2020-02-24
 ------------------
 
