@@ -1,9 +1,11 @@
 function stringify (obj, options = {}) {
   const EOL = options.EOL || '\n'
+  // by default if finalEOL is not present in options, it should be considered as true
+  const EOF = (options.hasOwnProperty('finalEOL') && !options.finalEOL) ? '' : EOL
 
   const str = JSON.stringify(obj, options ? options.replacer : null, options.spaces)
 
-  return str.replace(/\n/g, EOL) + EOL
+  return str.replace(/\n/g, EOL) + EOF
 }
 
 function stripBom (content) {
