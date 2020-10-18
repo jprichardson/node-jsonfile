@@ -228,7 +228,7 @@ describe('+ writeFile()', () => {
     it('should have a the EOL symbol at the end of file when finalEOL is a truth value in options', (done) => {
       const file = path.join(TEST_DIR, 'somefile2.json')
       const obj = { name: 'jp' }
-      jf.writeFile(file, obj, { finalEOL: [] }, (err) => {
+      jf.writeFile(file, obj, { finalEOL: true }, (err) => {
         assert.ifError(err)
         fs.readFile(file, 'utf8', (_, rawData) => {
           const data = JSON.parse(rawData)

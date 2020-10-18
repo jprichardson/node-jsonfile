@@ -108,7 +108,7 @@ describe('+ writeFileSync()', () => {
     it('should have a the EOL symbol at the end of file when finalEOL is a truth value in options', (done) => {
       const file = path.join(TEST_DIR, 'somefile2.json')
       const obj = { name: 'jp' }
-      jf.writeFileSync(file, obj, { finalEOL: [] })
+      jf.writeFileSync(file, obj, { finalEOL: true })
       const rawData = fs.readFileSync(file, 'utf8')
       const data = JSON.parse(rawData)
       assert.strictEqual(rawData[rawData.length - 1], '\n')
