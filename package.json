@@ -17,7 +17,7 @@
   "author": "JP Richardson <jprichardson@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "universalify": "^1.0.0"
+    "universalify": "^2.0.0"
   },
   "optionalDependencies": {
     "graceful-fs": "^4.1.6"
