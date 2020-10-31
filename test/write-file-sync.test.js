@@ -82,4 +82,38 @@ describe('+ writeFileSync()', () => {
       assert.strictEqual(data, `${JSON.stringify(obj)}\n`)
     })
   })
+  describe('> when EOF option is set to a falsey value', () => {
+    beforeEach((done) => {
+      TEST_DIR = path.join(os.tmpdir(), 'jsonfile-tests-writefile-sync')
+      rimraf.sync(TEST_DIR)
+      fs.mkdir(TEST_DIR, done)
+    })
+
+    afterEach((done) => {
+      rimraf.sync(TEST_DIR)
+      done()
+    })
+
+    it('should not have a the EOL symbol at the end of file', (done) => {
+      const file = path.join(TEST_DIR, 'somefile2.json')
+      const obj = { name: 'jp' }
+      jf.writeFileSync(file, obj, { finalEOL: false })
+      const rawData = fs.readFileSync(file, 'utf8')
+      const data = JSON.parse(rawData)
+      assert.strictEqual(rawData[rawData.length - 1], '}')
+      assert.strictEqual(data.name, obj.name)
+      done()
+    })
+
+    it('should have a the EOL symbol at the end of file when finalEOL is a truth value in options', (done) => {
+      const file = path.join(TEST_DIR, 'somefile2.json')
+      const obj = { name: 'jp' }
+      jf.writeFileSync(file, obj, { finalEOL: true })
+      const rawData = fs.readFileSync(file, 'utf8')
+      const data = JSON.parse(rawData)
+      assert.strictEqual(rawData[rawData.length - 1], '\n')
+      assert.strictEqual(data.name, obj.name)
+      done()
+    })
+  })
 })
