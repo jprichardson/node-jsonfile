@@ -44,7 +44,7 @@ describe('+ writeFileSync()', () => {
 
       const obj = {
         name: 'jp',
-        reg: new RegExp(/hello/g)
+        reg: /hello/g
       }
 
       jf.writeFileSync(file, obj, { replacer: sillyReplacer })

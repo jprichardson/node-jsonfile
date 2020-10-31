@@ -73,7 +73,7 @@ describe('+ writeFile()', () => {
 
       obj = {
         name: 'jp',
-        reg: new RegExp(/hello/g)
+        reg: /hello/g
       }
 
       done()
