@@ -270,4 +270,20 @@ describe('+ readFile()', () => {
         })
     })
   })
+
+  describe('> exit with error when missing or invalid arguments', () => {
+    it('passing non-string for file should result in error', done => {
+      jf.readFile(3).catch(err => {
+        assert.strictEqual(err.toString(), 'TypeError: [ERR_INVALID_ARG_TYPE] the "file" argument must be of type string')
+        done()
+      })
+    })
+
+    it('passing only a callback argument should result in error', done => {
+      jf.readFile(() => {}).catch(err => {
+        assert.strictEqual(err.toString(), 'TypeError: [ERR_INVALID_ARG_TYPE] the "file" argument must be of type string')
+        done()
+      })
+    })
+  })
 })
