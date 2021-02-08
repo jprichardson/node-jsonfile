@@ -7,7 +7,18 @@ try {
 const universalify = require('universalify')
 const { stringify, stripBom } = require('./utils')
 
-async function _readFile (file, options = {}) {
+async function _readFile (file, options = {}, callback = undefined) {
+  if (typeof file !== 'string') {
+    throw TypeError('[ERR_INVALID_ARG_TYPE] the "file" argument must be of type string')
+  }
+
+  // if the options argument is a function and there is no callback argument
+  // then the options argument specifies the callback
+  if (typeof options === 'function' && !callback) {
+    callback = options
+    options = {}
+  }
+
   if (typeof options === 'string') {
     options = { encoding: options }
   }
@@ -35,7 +46,20 @@ async function _readFile (file, options = {}) {
   return obj
 }
 
-const readFile = universalify.fromPromise(_readFile)
+async function readFile (file, options = {}, callback = undefined) {
+  const readFileRet = _readFile(file, options, callback)
+
+  if (typeof options === 'function' && !callback) {
+    callback = options
+    options = {}
+  }
+
+  if (callback) {
+    readFileRet.then(r => callback(null, r), callback) // this is the fromPromise behaviour
+  } else {
+    return readFileRet
+  }
+}
 
 function readFileSync (file, options = {}) {
   if (typeof options === 'string') {
@@ -60,15 +84,31 @@ function readFileSync (file, options = {}) {
   }
 }
 
-async function _writeFile (file, obj, options = {}) {
+async function writeFile (file, obj, options = {}, callback = undefined) {
+  if (typeof file !== 'string') {
+    throw TypeError('[ERR_INVALID_ARG_TYPE] the "file" argument must be of type string')
+  }
+  if (typeof obj !== 'object') {
+    throw TypeError('[ERR_INVALID_ARG_TYPE] the "obj" argument must be of type object')
+  }
+
+  // if the options argument is a function and there is no callback argument
+  // then the options argument specifies the callback
+  if (typeof options === 'function' && !callback) {
+    callback = options
+    options = {}
+  }
+
   const fs = options.fs || _fs
 
   const str = stringify(obj, options)
 
-  await universalify.fromCallback(fs.writeFile)(file, str, options)
+  const res = universalify.fromCallback(fs.writeFile)(file, str, options)
+  if (callback) {
+    res.then(r => callback(null, r), callback) // this is the fromPromise behaviour
+  }
+  await res
 }
-
-const writeFile = universalify.fromPromise(_writeFile)
 
 function writeFileSync (file, obj, options = {}) {
   const fs = options.fs || _fs
