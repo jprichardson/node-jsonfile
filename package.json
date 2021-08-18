@@ -33,7 +33,7 @@
     "utils.js"
   ],
   "scripts": {
-    "lint": "standard",
+    "lint": "standard --fix",
     "test": "npm run lint && npm run unit",
     "unit": "mocha"
   }

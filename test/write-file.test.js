@@ -3,7 +3,7 @@ const fs = require('fs')
 const os = require('os')
 const path = require('path')
 const rimraf = require('rimraf')
-const jf = require('../')
+const jf = require('../index.js')
 
 /* global describe it beforeEach afterEach */
 
