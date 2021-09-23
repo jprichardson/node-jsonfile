@@ -4,7 +4,7 @@ Node.js - jsonfile
 Easily read/write JSON files in Node.js. _Note: this module cannot be used in the browser._
 
 [![npm Package](https://img.shields.io/npm/v/jsonfile.svg?style=flat-square)](https://www.npmjs.org/package/jsonfile)
-[![build status](https://secure.travis-ci.org/jprichardson/node-jsonfile.svg)](http://travis-ci.org/jprichardson/node-jsonfile)
+[![linux build status](https://img.shields.io/github/workflow/status/jprichardson/node-jsonfile/Node.js%20CI/master)](https://github.com/jprichardson/node-jsonfile/actions?query=branch%3Amaster)
 [![windows Build status](https://img.shields.io/appveyor/ci/jprichardson/node-jsonfile/master.svg?label=windows%20build)](https://ci.appveyor.com/project/jprichardson/node-jsonfile/branch/master)
 
 <a href="https://github.com/feross/standard"><img src="https://cdn.rawgit.com/feross/standard/master/sticker.svg" alt="Standard JavaScript" width="100"></a>
