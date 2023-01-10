@@ -257,4 +257,27 @@ describe('+ writeFile()', () => {
         })
     })
   })
+
+  describe('> exit with error when missing or invalid arguments', () => {
+    it('passing non-string for file should result in error', done => {
+      jf.writeFile(3, {}).catch(err => {
+        assert.strictEqual(err.toString(), 'TypeError: [ERR_INVALID_ARG_TYPE] the "file" argument must be of type string')
+        done()
+      })
+    })
+
+    it('passing non-object for obj should result in error', done => {
+      jf.writeFile('file.json', 'bad arg').catch(err => {
+        assert.strictEqual(err.toString(), 'TypeError: [ERR_INVALID_ARG_TYPE] the "obj" argument must be of type object')
+        done()
+      })
+    })
+
+    it('passing only a callback argument should result in error', done => {
+      jf.writeFile(() => {}).catch(err => {
+        assert.strictEqual(err.toString(), 'TypeError: [ERR_INVALID_ARG_TYPE] the "file" argument must be of type string')
+        done()
+      })
+    })
+  })
 })
