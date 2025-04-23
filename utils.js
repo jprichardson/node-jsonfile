@@ -2,7 +2,7 @@ function stringify (obj, { EOL = '\n', finalEOL = true, replacer = null, spaces 
   const EOF = finalEOL ? EOL : ''
   const str = JSON.stringify(obj, replacer, spaces)
 
-  return str.replace(/\n/g, EOL) + EOF
+  return EOL ? str.replace(/\n/g, EOL) : str + EOF
 }
 
 function stripBom (content) {
