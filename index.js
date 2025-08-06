@@ -78,11 +78,9 @@ function writeFileSync (file, obj, options = {}) {
   return fs.writeFileSync(file, str, options)
 }
 
-const jsonfile = {
+module.exports = {
   readFile,
   readFileSync,
   writeFile,
   writeFileSync
 }
-
-module.exports = jsonfile
