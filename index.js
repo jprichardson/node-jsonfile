@@ -2,7 +2,7 @@ let _fs
 try {
   _fs = require('graceful-fs')
 } catch (_) {
-  _fs = require('fs')
+  _fs = require('node:fs')
 }
 const universalify = require('universalify')
 const { stringify, stripBom } = require('./utils')

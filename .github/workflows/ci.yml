@@ -8,12 +8,19 @@ jobs:
   test:
     strategy:
       matrix:
-        node: [10.x, 12.x, 14.x, 16.x]
-    runs-on: ubuntu-latest
+        node: [14.18.0, 14, 16.0.0, 16]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        exclude:
+          # Node 14 is not available on macos anymore
+          - os: macos-latest
+            node-version: 14
+          - os: macos-latest
+            node-version: 14.18.0
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node }}
     - run: npm install

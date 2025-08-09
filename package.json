@@ -16,6 +16,9 @@
   ],
   "author": "JP Richardson <jprichardson@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=14.18.0 <15 || >=16"
+  },
   "dependencies": {
     "universalify": "^2.0.0"
   },
