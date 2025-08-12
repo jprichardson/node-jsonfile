@@ -221,6 +221,7 @@ const obj = { name: 'JP' }
 
 jsonfile.writeFileSync(file, obj, { flag: 'a' })
 ```
+ Este es un fork para practicar contribuciones open source.
 
 License
 -------
