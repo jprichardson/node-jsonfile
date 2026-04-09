@@ -264,6 +264,7 @@ describe('+ writeFile()', () => {
       jf.writeFile(file, undefined)
         .catch(err => {
           assert(err instanceof TypeError)
+          assert.strictEqual(err.message, 'Converting undefined value to JSON is not supported')
           done()
         })
     })
@@ -272,6 +273,7 @@ describe('+ writeFile()', () => {
       const file = path.join(TEST_DIR, 'somefile.json')
       jf.writeFile(file, undefined, (err) => {
         assert(err instanceof TypeError)
+        assert.strictEqual(err.message, 'Converting undefined value to JSON is not supported')
         done()
       })
     })
@@ -280,6 +282,7 @@ describe('+ writeFile()', () => {
       const file = path.join(TEST_DIR, 'somefile.json')
       jf.writeFile(file, function () {}, (err) => {
         assert(err instanceof TypeError)
+        assert.strictEqual(err.message, 'Converting function value to JSON is not supported')
         done()
       })
     })
@@ -289,6 +292,7 @@ describe('+ writeFile()', () => {
       jf.writeFile(file, Symbol('test'))
         .catch(err => {
           assert(err instanceof TypeError)
+          assert.strictEqual(err.message, 'Converting symbol value to JSON is not supported')
           done()
         })
     })
