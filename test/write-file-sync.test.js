@@ -116,4 +116,21 @@ describe('+ writeFileSync()', () => {
       done()
     })
   })
+
+  describe('> when obj is not serializable', () => {
+    it('should throw a TypeError when obj is undefined', () => {
+      const file = path.join(TEST_DIR, 'somefile.json')
+      assert.throws(() => jf.writeFileSync(file, undefined), TypeError)
+    })
+
+    it('should throw a TypeError when obj is a function', () => {
+      const file = path.join(TEST_DIR, 'somefile.json')
+      assert.throws(() => jf.writeFileSync(file, function () {}), TypeError)
+    })
+
+    it('should throw a TypeError when obj is a Symbol', () => {
+      const file = path.join(TEST_DIR, 'somefile.json')
+      assert.throws(() => jf.writeFileSync(file, Symbol('test')), TypeError)
+    })
+  })
 })
