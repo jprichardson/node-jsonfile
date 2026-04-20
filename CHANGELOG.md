@@ -1,3 +1,7 @@
+6.2.1 / 2026-04-20
+
+- Throw descriptive TypeError when obj is not JSON-serializable ([#168](https://github.com/jprichardson/node-jsonfile/pull/168))
+
 6.2.0 / 2025-08-12
 ------------------
 
