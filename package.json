@@ -4,7 +4,7 @@
   "description": "Easily read/write JSON files.",
   "repository": {
     "type": "git",
-    "url": "git@github.com:jprichardson/node-jsonfile.git"
+    "url": "git+ssh://git@github.com/jprichardson/node-jsonfile.git"
   },
   "keywords": [
     "read",
