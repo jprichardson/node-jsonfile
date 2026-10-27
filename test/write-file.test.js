@@ -61,6 +61,23 @@ describe('+ writeFile()', () => {
       })
   })
 
+  it('should accept null options with a callback', (done) => {
+    const file = path.join(TEST_DIR, 'null-options.json')
+    const obj = { name: 'JP' }
+    jf.writeFile(file, obj, null, (err, data) => {
+      if (err) return done(err)
+      assert.deepStrictEqual(JSON.parse(fs.readFileSync(file, null)), obj)
+      done()
+    })
+  })
+
+  it('should accept null options with a promise', async () => {
+    const file = path.join(TEST_DIR, 'null-options.json')
+    const obj = { name: 'JP' }
+    await jf.writeFile(file, obj, null)
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(file, null)), obj)
+  })
+
   describe('> when JSON replacer is set', () => {
     let file, sillyReplacer, obj
 

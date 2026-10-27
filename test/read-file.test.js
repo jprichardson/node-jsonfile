@@ -49,6 +49,25 @@ describe('+ readFile()', () => {
       })
   })
 
+  it('should accept null options with a callback', (done) => {
+    const file = path.join(TEST_DIR, 'null-options.json')
+    const obj = { name: 'JP' }
+    fs.writeFileSync(file, JSON.stringify(obj), null)
+    jf.readFile(file, null, (err, data) => {
+      if (err) return done(err)
+      assert.deepStrictEqual(data, obj)
+      done()
+    })
+  })
+
+  it('should accept null options with a promise', async () => {
+    const file = path.join(TEST_DIR, 'null-options.json')
+    const obj = { name: 'JP' }
+    fs.writeFileSync(file, JSON.stringify(obj), null)
+    const data = await jf.readFile(file, null)
+    assert.deepStrictEqual(data, obj)
+  })
+
   describe('> when invalid JSON', () => {
     let fn, file
 

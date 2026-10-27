@@ -34,6 +34,13 @@ describe('+ writeFileSync()', () => {
     assert.strictEqual(data, '{"name":"JP"}\n')
   })
 
+  it('should accept null options like fs', () => {
+    const file = path.join(TEST_DIR, 'null-options.json')
+    const obj = { name: 'JP' }
+    jf.writeFileSync(file, obj, null)
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(file, null)), obj)
+  })
+
   describe('> when JSON replacer is set', () => {
     it('should replace JSON', () => {
       const file = path.join(TEST_DIR, 'somefile.json')

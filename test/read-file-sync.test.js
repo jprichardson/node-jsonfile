@@ -34,6 +34,13 @@ describe('+ readFileSync()', () => {
     }
   })
 
+  it('should accept null options like fs', () => {
+    const file = path.join(TEST_DIR, 'null-options.json')
+    const obj = { name: 'JP' }
+    fs.writeFileSync(file, JSON.stringify(obj), null)
+    assert.deepStrictEqual(jf.readFileSync(file, null), obj)
+  })
+
   describe('> when invalid JSON', () => {
     it('should include the filename in the error', () => {
       const fn = 'somefile.json'
